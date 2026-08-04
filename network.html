@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UCSTT | Student Network Hub</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.2/css/all.min.css">
+
+    <style>
+        /* --- Root Brand Variables --- */
+        :root {
+            --primary: #A51C30;       /* Thaton Crimson */
+            --oxford-blue: #002147;   /* Oxford Blue */
+            --accent: #C49619;        /* Ivy League Gold */
+            --light-bg: #f8fafc;      /* Heritage Surface Off-White */
+            --white: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #cbd5e1;
+            --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            --sidebar-width: 280px;
+            --topbar-height: 70px;
+            --success-glow: #10b981;
+        }
+
+        body.sidebar-collapsed {
+            --sidebar-width: 85px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #f1f5f9;
+            color: var(--oxford-blue);
+            line-height: 1.7;
+            display: flex;
+            min-height: 100vh;
+            transition: var(--transition);
+        }
+
+        /* --- 1. SIDEBAR NAVIGATION --- */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: var(--sidebar-width);
+            height: 100vh;
+            background: linear-gradient(180deg, var(--oxford-blue) 0%, #001229 100%);
+            border-right: 4px solid var(--accent);
+            display: flex;
+            flex-direction: column;
+            padding: 30px 20px;
+            z-index: 1000;
+            box-shadow: 4px 0 25px rgba(0,0,0,0.15);
+            transition: var(--transition);
+            overflow-x: hidden;
+        }
+
+        body.sidebar-collapsed nav { padding: 30px 10px; }
+
+        .nav-brand-area {
+            text-align: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .nav-logo {
+            height: 85px;
+            width: auto;
+            transition: var(--transition);
+            filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.2));
+        }
+        .nav-logo:hover { transform: scale(1.05); }
+
+        body.sidebar-collapsed .nav-logo { height: 45px; }
+        body.sidebar-collapsed .nav-brand-area h2 { display: none !important; }
+
+        .nav-links { width: 100%; flex-grow: 1; overflow-y: auto; }
+        .nav-links ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+
+        .nav-links a {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 500;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+            padding: 12px 18px;
+            border-radius: 8px;
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+
+        body.sidebar-collapsed .nav-links a { justify-content: center; padding: 12px 0; }
+        body.sidebar-collapsed .nav-links span { display: none; }
+
+        .nav-links a i {
+            font-size: 1.1rem;
+            width: 24px;
+            text-align: center;
+            color: var(--accent);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover, .nav-links li.active a {
+            color: var(--white);
+            background: rgba(255, 255, 255, 0.08);
+            border-left: 4px solid var(--primary);
+            padding-left: 22px;
+        }
+
+        /* --- 2. TOP TELEMETRY BAR --- */
+        .top-telemetry-bar {
+            position: fixed;
+            top: 0;
+            left: var(--sidebar-width);
+            width: calc(100% - var(--sidebar-width));
+            height: var(--topbar-height);
+            background: var(--white);
+            border-bottom: 1px solid #e2e8f0;
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            align-items: center;
+            padding: 0 30px;
+            z-index: 999;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+            transition: var(--transition);
+        }
+
+        .topbar-left-zone { display: flex; align-items: center; gap: 12px; }
+
+        .sidebar-toggle-btn {
+            background: var(--oxford-blue); color: var(--white); border: 1px solid var(--accent);
+            width: 36px; height: 36px; border-radius: 8px; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; transition: var(--transition);
+        }
+        .sidebar-toggle-btn:hover { background: var(--primary); transform: scale(1.05); }
+
+        .live-clock-widget {
+            display: flex; align-items: center; gap: 8px; background: #f1f5f9;
+            padding: 6px 14px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; border: 1px solid #e2e8f0;
+            color: var(--oxford-blue);
+        }
+        .live-clock-widget i { color: var(--primary); }
+
+        .topbar-center-hub { display: flex; justify-content: center; align-items: center; width: 100%; padding: 0 15px; }
+
+        .announcement-bar-container {
+            width: 100%; max-width: 450px; background: linear-gradient(90deg, #fffcf4 0%, #fffbf0 100%);
+            border: 1px solid rgba(196, 150, 25, 0.3); border-left: 4px solid var(--accent);
+            padding: 8px 16px; border-radius: 8px; display: flex; align-items: center; gap: 12px; overflow: hidden;
+        }
+
+        .announcement-badge {
+            background: var(--primary); color: var(--white); font-size: 0.68rem; font-weight: 700;
+            text-transform: uppercase; padding: 3px 8px; border-radius: 4px; display: flex; align-items: center;
+            gap: 5px; letter-spacing: 0.5px;
+        }
+
+        .announcement-marquee-track { flex-grow: 1; overflow: hidden; white-space: nowrap; position: relative; }
+
+        #class-status-text {
+            display: inline-block; font-size: 0.8rem; font-weight: 600; color: var(--oxford-blue);
+            padding-left: 100%; animation: marqueeScrollText 25s linear infinite;
+        }
+
+        @keyframes marqueeScrollText {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-100%, 0, 0); }
+        }
+
+        .topbar-right-zone { display: flex; align-items: center; justify-content: flex-end; position: relative; }
+
+        /* --- PROFILE CONFIG --- */
+        .user-profile-hub { position: relative; }
+        
+        .profile-trigger {
+            display: flex; align-items: center; gap: 10px; cursor: pointer; padding: 4px 12px;
+            background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 50px; 
+            transition: var(--transition); box-shadow: 0 2px 8px rgba(0,0,0,0.04); height: 44px;
+        }
+        .profile-trigger:hover { background: #f1f5f9; border-color: var(--primary); transform: translateY(-1px); }
+
+        .avatar-frame-container { position: relative; width: 32px; height: 32px; flex-shrink: 0; border-radius: 50%; }
+        
+        .avatar-placeholder {
+            width: 100%; height: 100%; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 0.8rem; color: #fff;
+            border: 2px solid var(--accent); text-transform: uppercase;
+            background: linear-gradient(135deg, #a51c30 0%, #002147 100%);
+        }
+
+        .user-avatar-img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent); background: #f1f5f9; }
+        .status-online-dot { position: absolute; bottom: 0; right: 0; width: 8px; height: 8px; background-color: var(--success-glow); border: 1.5px solid var(--white); border-radius: 50%; z-index: 2; }
+
+        .profile-trigger-info { display: flex; flex-direction: column; text-align: left; }
+        .profile-trigger-info .user-name { font-size: 0.8rem; font-weight: 700; color: var(--oxford-blue); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 110px; }
+        .profile-trigger-info .user-id-badge { font-size: 0.65rem; color: var(--text-muted); font-weight: 500; margin-top: 1px; }
+
+        .profile-dropdown-card {
+            position: absolute; top: calc(100% + 12px); right: 0; width: 320px;
+            background: var(--white); border: 1px solid #e2e8f0; border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 33, 71, 0.1); display: none; flex-direction: column;
+            z-index: 10000; overflow: hidden; opacity: 0; transform: translateY(-10px);
+            transition: opacity 0.25s ease, transform 0.25s ease;
+        }
+        .profile-dropdown-card.show-card { display: flex; opacity: 1; transform: translateY(0); }
+
+        .dropdown-header { background: linear-gradient(135deg, #002147 0%, #001229 100%); padding: 24px; text-align: center; color: var(--white); display: flex; flex-direction: column; align-items: center; }
+        .dropdown-avatar-container { position: relative; width: 85px; height: 85px; margin: 0 auto 12px auto; border-radius: 50%; overflow: hidden; }
+        .dropdown-avatar-container img { width: 100%; height: 100%; object-fit: cover; border: 3px solid var(--accent); }
+        .dropdown-avatar-container .avatar-placeholder { font-size: 1.8rem; width: 85px; height: 85px; }
+        .dropdown-full-name { font-size: 1.05rem; font-weight: 700; color: var(--white); }
+        .dropdown-email { font-size: 0.8rem; color: rgba(255,255,255,0.7); margin-top: 2px; font-weight: 400; }
+
+        .dropdown-body { padding: 20px; display: flex; flex-direction: column; gap: 12px; background: #fafafa; text-align: left; width: 100%; }
+        .db-item { display: flex; align-items: center; gap: 14px; font-size: 0.88rem; color: var(--text-main); padding-bottom: 8px; border-bottom: 1px solid #f1f5f9; }
+        .db-item:last-child { border-bottom: none; }
+        .db-item i { color: var(--primary); font-size: 1rem; width: 20px; text-align: center; }
+        .db-item span { color: var(--text-muted); margin-left: auto; font-weight: 500; }
+
+        .dropdown-footer { display: flex; padding: 15px 20px 20px; gap: 10px; background: var(--white); width: 100%; }
+        .logout-btn, .close-profile-btn { flex: 1; padding: 10px; border: none; font-size: 0.85rem; font-weight: 600; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; transition: var(--transition); }
+        .logout-btn { background: #fff5f5; color: #ef4444; border: 1px solid #fed7d7; }
+        .logout-btn:hover { background: #ef4444; color: var(--white); border-color: #ef4444; }
+        .close-profile-btn { background: #f1f5f9; color: var(--text-main); border: 1px solid #e2e8f0; }
+        .close-profile-btn:hover { background: #e2e8f0; }
+
+        /* --- 3. MAIN WORKSPACE CHAT FRAMEWORK --- */
+        .main-workspace {
+            margin-left: var(--sidebar-width);
+            margin-top: var(--topbar-height);
+            width: calc(100% - var(--sidebar-width));
+            height: calc(100vh - var(--topbar-height));
+            display: grid;
+            grid-template-columns: 340px 1fr;
+            background-color: #f8fafc;
+            transition: var(--transition);
+        }
+
+        /* ROSTER SIDEBAR */
+        .telegram-roster-sidebar {
+            background: var(--white);
+            border-right: 1px solid #e2e8f0;
+            display: flex;
+            flex-direction: column;
+        }
+        .roster-header-search-box { padding: 24px 20px; border-bottom: 1px solid #e2e8f0; }
+        .roster-header-search-box h3 { font-size: 1.1rem; color: var(--oxford-blue); margin-bottom: 4px; font-weight: 700; }
+        .roster-subtext { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 15px; font-weight: 500; }
+        
+        .search-input-wrapper { display: flex; gap: 8px; }
+        .search-input-wrapper input {
+            flex-grow: 1; background: #f1f5f9; border: 1px solid #cbd5e1;
+            padding: 10px 14px; border-radius: 8px; color: var(--text-main); font-size: 0.85rem; outline: none; transition: var(--transition);
+        }
+        .search-input-wrapper input:focus { border-color: var(--primary); background: var(--white); box-shadow: 0 0 0 3px rgba(165,28,48,0.08); }
+        
+        .search-action-btn { background: var(--oxford-blue); color: var(--white); border: none; padding: 0 14px; font-size: 0.8rem; font-weight: 600; border-radius: 8px; cursor: pointer; transition: var(--transition); }
+        .search-action-btn:hover { background: var(--primary); }
+
+        .roster-scroll-stream { flex-grow: 1; overflow-y: auto; padding: 12px 8px; }
+
+        .roster-item { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 12px; margin-bottom: 6px; cursor: pointer; border: 1px solid transparent; transition: var(--transition); background: #f8fafc; }
+        .roster-item:hover { background: #f1f5f9; }
+        .roster-item.active { background: #ffe4e6; border-color: rgba(165,28,48,0.2); }
+        
+        .roster-avatar { position: relative; width: 44px; height: 44px; flex-shrink: 0; }
+        .roster-avatar img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 2px solid #cbd5e1; }
+        .roster-avatar .avatar-placeholder { font-size: 0.95rem; width: 44px; height: 44px; }
+        .roster-avatar .status-indicator { position: absolute; bottom: 1px; right: 1px; width: 10px; height: 10px; border-radius: 50%; border: 2px solid var(--white); }
+        .roster-avatar .status-indicator.online { background-color: var(--success-glow); }
+        .roster-avatar .status-indicator.offline { background-color: #94a3b8; }
+
+        .roster-info { flex-grow: 1; overflow: hidden; text-align: left; }
+        .r-name { font-size: 0.88rem; font-weight: 700; color: var(--oxford-blue); text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
+        .r-meta { font-size: 0.72rem; color: var(--accent); font-weight: 600; margin-top: 1px; }
+
+        /* VIEWPORT FRAME */
+        .network-chat-viewport { display: flex; flex-direction: column; background: #f1f5f9; position: relative; }
+        
+        .chat-view-header {
+            height: 75px; background: var(--white); border-bottom: 1px solid #e2e8f0;
+            padding: 0 30px; display: flex; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.01);
+        }
+        .cv-header-details { text-align: left; }
+        .cv-header-details h4 { font-size: 1.05rem; color: var(--oxford-blue); font-weight: 700; display: flex; align-items: center; gap: 8px; }
+        .cv-header-details p { font-size: 0.75rem; color: var(--text-muted); font-weight: 500; }
+
+        .chat-messages-stream-container { flex-grow: 1; overflow-y: auto; padding: 30px; display: flex; flex-direction: column; gap: 14px; }
+        
+        .msg-row { display: flex; width: 100%; }
+        .msg-row.me { justify-content: flex-end; }
+        .msg-row.them { justify-content: flex-start; }
+
+        .msg-bubble { max-width: 60%; padding: 10px 16px; border-radius: 16px; position: relative; font-size: 0.9rem; line-height: 1.5; text-align: left; box-shadow: 0 2px 5px rgba(0,0,0,0.03); }
+        .msg-row.me .msg-bubble { background: linear-gradient(135deg, var(--primary) 0%, #be2137 100%); color: var(--white); border-bottom-right-radius: 2px; }
+        .msg-row.them .msg-bubble { background: var(--white); color: var(--text-main); border-bottom-left-radius: 2px; border: 1px solid #e2e8f0; }
+        
+        .msg-time { font-size: 0.62rem; margin-top: 4px; text-align: right; opacity: 0.65; font-weight: 500; }
+        .msg-row.them .msg-time { color: var(--text-muted); }
+
+        /* CRITICAL FIXED: CHAT REAL APP INPUT DOCK */
+        .chat-input-dock-footer { 
+            padding: 16px 24px; 
+            border-top: 1px solid #cbd5e1; 
+            background: var(--white); 
+            display: flex; 
+            gap: 12px; 
+            align-items: center; 
+        }
+        .chat-input-wrapper-node { 
+            flex-grow: 1; 
+            background: #f1f5f9;
+            border-radius: 24px;
+            border: 1px solid #cbd5e1;
+            padding: 2px 6px;
+            transition: var(--transition);
+        }
+        .chat-input-wrapper-node:focus-within {
+            background: var(--white);
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(165,28,48,0.08);
+        }
+        
+        /* စာရိုက်သွင်းလိုက်သည့် စာသားများကို ရာနှုန်းပြည့် မြင်သာစေရန် ပြင်ဆင်မှု */
+        #msgInputField { 
+            width: 100%; 
+            background: transparent; 
+            border: none;
+            padding: 10px 16px; 
+            color: var(--text-main) !important; 
+            font-size: 0.95rem; 
+            outline: none; 
+        }
+        #msgInputField::placeholder {
+            color: var(--text-muted);
+        }
+        
+        .chat-send-dispatch-btn { 
+            background: linear-gradient(135deg, var(--oxford-blue) 0%, #003366 100%); 
+            color: var(--white); 
+            border: none; 
+            width: 44px; 
+            height: 44px; 
+            border-radius: 50%; 
+            cursor: pointer; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 1rem; 
+            transition: var(--transition); 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1); 
+            flex-shrink: 0;
+        }
+        .chat-send-dispatch-btn:hover { 
+            background: linear-gradient(135deg, var(--primary) 0%, #be2137 100%); 
+            transform: scale(1.05); 
+        }
+        .chat-send-dispatch-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* EMPTY SPACE SCREEN */
+        .empty-chat-placeholder { text-align: center; margin: auto; max-width: 400px; color: var(--text-muted); padding: 20px; }
+        .empty-chat-placeholder i { font-size: 3.5rem; color: #cbd5e1; margin-bottom: 16px; display: block; }
+        .empty-chat-placeholder h5 { font-size: 1.1rem; color: var(--oxford-blue); margin-bottom: 6px; font-weight: 700; }
+        .empty-chat-placeholder p { font-size: 0.85rem; }
+
+        /* --- RESPONSIVE CHAT SYSTEMS --- */
+        @media (max-width: 1024px) {
+            body { flex-direction: column; }
+            nav { width: 100%; height: auto; position: relative; padding: 15px; border-right: none; border-bottom: 4px solid var(--accent); }
+            .nav-brand-area { display: flex; flex-direction: column; align-items: center; }
+            .nav-links ul { flex-direction: row; justify-content: center; gap: 10px; flex-wrap: wrap; }
+            .top-telemetry-bar { position: relative; left: 0; width: 100%; display: flex; flex-direction: column; padding: 15px; gap: 10px; height: auto; }
+            .main-workspace { margin-left: 0; margin-top: 0; width: 100%; height: auto; grid-template-columns: 1fr; }
+            .telegram-roster-sidebar { height: 320px; border-right: none; border-bottom: 1px solid #e2e8f0; }
+            .profile-dropdown-card { right: auto; left: 50%; transform: translateX(-50%) translateY(-10px); }
+            .profile-dropdown-card.show-card { transform: translateX(-50%) translateY(0); }
+            .topbar-right-zone { width: 100%; justify-content: center; margin-top: 5px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav id="sidebarNode">
+        <div class="nav-brand-area">
+            <a href="homePage.html"><img src="logo.png" alt="UCSTT Logo" class="nav-logo"></a>
+            <h2 style="color: var(--white); font-size: 0.95rem; font-weight: 800; margin-top: 10px; letter-spacing: 1px;">NextGen UCSTT</h2>
+        </div>
+        
+        <div class="nav-links">
+            <ul>
+                <li><a href="homePage.html"><i class="fas fa-home"></i> <span>HOME</span></a></li>
+                <li><a href="about.html"><i class="fas fa-info-circle"></i> <span>ABOUT</span></a></li>
+                <li><a href="gallery.html"><i class="fas fa-images"></i> <span>GALLERY</span></a></li>
+                <li><a href="feedBack.html"><i class="fas fa-comment-alt"></i> <span>FEEDBACK</span></a></li>
+                <li><a href="contact.html"><i class="fas fa-envelope"></i> <span>CONTACT</span></a></li>
+                <li class="active"><a href="network.html"><i class="fas fa-network-wired"></i> <span>COMMUNICATION</span></a></li>
+                <li><a href="learnHtmlCssJs.html"><i class="fas fa-graduation-cap"></i> <span>LEARNING</span></a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="top-telemetry-bar">
+        <div class="topbar-left-zone">
+            <button class="sidebar-toggle-btn" onclick="toggleSidebarSize()">
+                <i class="fas fa-bars" id="toggleIcon"></i>
+            </button>
+            <div class="live-clock-widget">
+                <i class="far fa-clock"></i>
+                <span id="live-time-display">00:00:00 AM</span>
+            </div>
+        </div>
+
+        <div class="topbar-center-hub">
+            <div class="announcement-bar-container">
+                <div class="announcement-badge"><i class="fab fa-telegram-plane"></i> Private Node</div>
+                <div class="announcement-marquee-track">
+                    <span id="class-status-text">🔒 Telegram Core Router Online. Enter a peer's structural roll number to request point-to-point secure sessions.</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="topbar-right-zone">
+            <div class="user-profile-hub" id="userProfileHub">
+                <div class="profile-trigger" onclick="toggleProfileDropdown(event)">
+                    <div class="avatar-frame-container" id="myAvatarFrame"></div>
+                    <div class="profile-trigger-info">
+                        <span class="user-name-badge user-name">Loading...</span>
+                        <span class="user-roll-badge user-id-badge">UCSTT(24-25)-000</span>
+                    </div>
+                    <i class="fas fa-chevron-down" style="font-size: 0.65rem; color: var(--text-muted); margin-left: 4px;"></i>
+                </div>
+                
+                <div class="profile-dropdown-card dropdownCardNode" id="dropdownCardNode" onclick="event.stopPropagation()">
+                    <div class="dropdown-header">
+                        <div class="dropdown-avatar-container" id="myDropdownAvatarFrame"></div>
+                        <h4 class="dropdown-full-name">Name</h4>
+                        <p class="dropdown-email">student@ucstt.edu.mm</p>
+                    </div>
+                    <div class="dropdown-body">
+                        <div class="db-item"><i class="fas fa-graduation-cap"></i> <div><strong>Year & Major:</strong></div> <span class="dropdown-year-major">2nd Year (CS)</span></div>
+                        <div class="db-item"><i class="fas fa-history"></i> <div><strong>Last Login:</strong></div> <span class="dropdown-last-login">Never</span></div>
+                    </div>
+                    <div class="dropdown-footer">
+                        <button class="close-profile-btn" onclick="closeProfileDropdown()">Close</button>
+                        <button class="logout-btn" onclick="handleLogout()"><i class="fas fa-sign-out-alt"></i> Log Out</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-workspace">
+        <aside class="telegram-roster-sidebar">
+            <div class="roster-header-search-box">
+                <h3>Telegram Messaging</h3>
+                <p class="roster-subtext">Connect via University Roll Number</p>
+                <div class="search-input-wrapper">
+                    <input type="text" id="rollSearchInput" placeholder="e.g. UCSTT(24-25)-082">
+                    <button class="search-action-btn" onclick="lookupAndConnectRollNumber()">Connect</button>
+                </div>
+            </div>
+            
+            <div class="roster-scroll-stream" id="connectedChatRoomsList"></div>
+        </aside>
+
+        <section class="network-chat-viewport" id="chatViewportContainer">
+            <div class="empty-chat-placeholder">
+                <i class="fab fa-telegram-plane"></i>
+                <h5>No Active Conversations</h5>
+                <p>Input a student's exact roll identity inside the search terminal or choose a conversation block on the sidebar to establish a secure stream.</p>
+            </div>
+        </section>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getDatabase, ref, push, onValue, get, set, onDisconnect } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAs-YOUR_ACTUAL_KEY_IF_NEEDED", 
+            authDomain: "nextgen-ucstt.firebaseapp.com",
+            projectId: "nextgen-ucstt",
+            storageBucket: "nextgen-ucstt.appspot.com",
+            messagingSenderId: "999999999999",
+            appId: "1:999999999999:web:xxxxxx",
+            databaseURL: "https://nextgen-ucstt-default-rtdb.firebaseio.com/"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app, "https://nextgen-ucstt-default-rtdb.firebaseio.com/");
+
+        let currentLoggedUser = null;
+        let activeRoomId = null;
+        let activeTargetPeer = null;
+        let recentChatPartnersList = {};
+
+        window.toggleSidebarSize = function() {
+            const body = document.body;
+            const icon = document.getElementById('toggleIcon');
+            body.classList.toggle('sidebar-collapsed');
+            icon.className = body.classList.contains('sidebar-collapsed') ? "fas fa-arrow-right" : "fas fa-bars";
+        };
+
+        function renderCustomAvatarHTML(name, photoBase64 = null, customClass = "") {
+            if (photoBase64 && photoBase64.trim() !== "" && photoBase64 !== "null") {
+                return `<img src="${photoBase64}" class="${customClass}">`;
+            } else {
+                const initialLetter = name ? name.trim().charAt(0).toUpperCase() : "?";
+                return `<div class="avatar-placeholder ${customClass}">${initialLetter}</div>`;
+            }
+        }
+
+        function syncUserSessionProfile() {
+            const activeStudentData = sessionStorage.getItem('activeStudent');
+            if (!activeStudentData) {
+                alert("🔒 Unauthorized Access Session! Please Authenticate via index portal first.");
+                window.location.href = "index.html";
+                return;
+            }
+            
+            currentLoggedUser = JSON.parse(activeStudentData);
+
+            document.querySelectorAll('.user-name-badge').forEach(el => el.innerText = currentLoggedUser.name);
+            document.querySelectorAll('.user-roll-badge').forEach(el => el.innerText = currentLoggedUser.roll);
+            document.querySelectorAll('.dropdown-full-name').forEach(el => el.innerHTML = currentLoggedUser.name);
+            document.querySelectorAll('.dropdown-email').forEach(el => el.innerText = currentLoggedUser.email || "student@ucstt.edu.mm");
+            document.querySelectorAll('.dropdown-year-major').forEach(el => el.innerText = `${currentLoggedUser.year || '2nd Year'} (${currentLoggedUser.major || 'CS'})`);
+            document.querySelectorAll('.dropdown-last-login').forEach(el => el.innerText = currentLoggedUser.lastLoginTime || "Just Now");
+
+            const savedPhotoKey = 'profilePhoto_' + currentLoggedUser.roll;
+            const savedPhoto = localStorage.getItem(savedPhotoKey);
+
+            document.getElementById('myAvatarFrame').innerHTML = renderCustomAvatarHTML(currentLoggedUser.name, savedPhoto, "user-avatar-img") + `<div class="status-online-dot"></div>`;
+            document.getElementById('myDropdownAvatarFrame').innerHTML = renderCustomAvatarHTML(currentLoggedUser.name, savedPhoto, "dropdown-avatar-img");
+
+            const myCleanKey = currentLoggedUser.roll.replace(/[^A-Z0-9]/g, "_");
+            const myStatusRef = ref(db, `status/${myCleanKey}`);
+            set(myStatusRef, { online: true, lastSeen: Date.now(), name: currentLoggedUser.name, roll: currentLoggedUser.roll });
+            onDisconnect(myStatusRef).set({ online: false, lastSeen: Date.now(), name: currentLoggedUser.name, roll: currentLoggedUser.roll });
+
+            listenToActivePrivateChannels();
+        }
+
+        function buildBiDirectionalRoomId(rollA, rollB) {
+            const cleanA = rollA.replace(/[^A-Z0-9]/g, "_");
+            const cleanB = rollB.replace(/[^A-Z0-9]/g, "_");
+            return cleanA < cleanB ? `room_${cleanA}_${cleanB}` : `room_${cleanB}_${cleanA}`;
+        }
+
+        window.lookupAndConnectRollNumber = function() {
+            const searchTargetField = document.getElementById('rollSearchInput');
+            const targetedRollNumber = searchTargetField.value.trim();
+
+            if (!targetedRollNumber) {
+                alert("Please enter a valid student roll number identifier.");
+                return;
+            }
+
+            if (targetedRollNumber.toUpperCase() === currentLoggedUser.roll.toUpperCase()) {
+                alert("You cannot establish a private chat route with your own self.");
+                return;
+            }
+
+            const targetCleanKey = targetedRollNumber.replace(/[^A-Z0-9]/g, "_");
+            
+            get(ref(db, `status/${targetCleanKey}`)).then((snapshot) => {
+                if (snapshot.exists()) {
+                    const peerProfile = snapshot.val();
+                    searchTargetField.value = '';
+                    activateChatSessionNode(peerProfile.roll, peerProfile.name);
+                } else {
+                    get(ref(db, `users/${targetCleanKey}`)).then((userSnap) => {
+                        if (userSnap.exists()) {
+                            const peerProfile = userSnap.val();
+                            searchTargetField.value = '';
+                            activateChatSessionNode(peerProfile.roll, peerProfile.name);
+                        } else {
+                            alert(`Could not allocate connection. Roll identifier "${targetedRollNumber}" not registered inside active database array.`);
+                        }
+                    });
+                }
+            }).catch(err => alert("Routing Error: " + err));
+        };
+
+        function listenToActivePrivateChannels() {
+            const myCleanKey = currentLoggedUser.roll.replace(/[^A-Z0-9]/g, "_");
+            
+            onValue(ref(db, 'status'), (statusSnapshot) => {
+                const globalStatuses = statusSnapshot.exists() ? statusSnapshot.val() : {};
+                
+                onValue(ref(db, 'chats'), (chatSnapshot) => {
+                    if (chatSnapshot.exists()) {
+                        const allRooms = chatSnapshot.val();
+                        recentChatPartnersList = {};
+
+                        Object.keys(allRooms).forEach(roomId => {
+                            if (roomId.includes(myCleanKey)) {
+                                const parts = roomId.replace("room_", "").split("_");
+                                const peerCleanKey = parts[0] === myCleanKey ? parts[1] : parts[0];
+                                
+                                if (globalStatuses[peerCleanKey]) {
+                                    recentChatPartnersList[peerCleanKey] = {
+                                        roll: globalStatuses[peerCleanKey].roll,
+                                        name: globalStatuses[peerCleanKey].name,
+                                        isOnline: globalStatuses[peerCleanKey].online || false
+                                    };
+                                } else {
+                                    const messagesArray = Object.values(allRooms[roomId]);
+                                    if(messagesArray.length > 0) {
+                                        const sampleMsg = messagesArray[0];
+                                        const isPeerSender = sampleMsg.senderRoll !== currentLoggedUser.roll;
+                                        const pRoll = isPeerSender ? sampleMsg.senderRoll : sampleMsg.targetRoll;
+                                        const pName = isPeerSender ? sampleMsg.senderName : sampleMsg.targetName;
+                                        
+                                        recentChatPartnersList[peerCleanKey] = {
+                                            roll: pRoll,
+                                            name: pName,
+                                            isOnline: false
+                                        };
+                                    }
+                                }
+                            }
+                        });
+                        rebuildRosterDOM();
+                    }
+                });
+            });
+        }
+
+        function rebuildRosterDOM() {
+            const rosterContainer = document.getElementById('connectedChatRoomsList');
+            if(!rosterContainer) return;
+            rosterContainer.innerHTML = '';
+
+            Object.keys(recentChatPartnersList).forEach(peerKey => {
+                const partner = recentChatPartnersList[peerKey];
+                const savedPhoto = localStorage.getItem('profilePhoto_' + partner.roll);
+                const currentRoom = buildBiDirectionalRoomId(currentLoggedUser.roll, partner.roll);
+                const activeClass = (activeRoomId === currentRoom) ? 'active' : '';
+                const statusClass = partner.isOnline ? 'online' : 'offline';
+
+                const itemHTML = `
+                    <div class="roster-item ${activeClass}" onclick="activateChatSessionNode('${partner.roll}', '${partner.name}')">
+                        <div class="roster-avatar">
+                            ${renderCustomAvatarHTML(partner.name, savedPhoto, 'roster-avatar img')}
+                            <div class="status-indicator ${statusClass}"></div>
+                        </div>
+                        <div class="roster-info">
+                            <div class="r-name">${partner.name}</div>
+                            <div class="r-meta">${partner.roll}</div>
+                        </div>
+                    </div>
+                `;
+                rosterContainer.insertAdjacentHTML('beforeend', itemHTML);
+            });
+        }
+
+        window.activateChatSessionNode = function(peerRoll, peerName) {
+            activeTargetPeer = { roll: peerRoll, name: peerName };
+            activeRoomId = buildBiDirectionalRoomId(currentLoggedUser.roll, peerRoll);
+
+            const viewport = document.getElementById('chatViewportContainer');
+            if(!viewport) return;
+
+            viewport.innerHTML = `
+                <div class="chat-view-header">
+                    <div class="cv-header-details">
+                        <h4><i class="fas fa-user-shield" style="color: var(--primary);"></i> ${peerName}</h4>
+                        <p>${peerRoll} • Secure Peer Channel</p>
+                    </div>
+                </div>
+                <div class="chat-messages-stream-container" id="chatMessageStream"></div>
+                <div class="chat-input-dock-footer">
+                    <div class="chat-input-wrapper-node">
+                        <input type="text" id="msgInputField" placeholder="Write a secure message..." autocomplete="off">
+                    </div>
+                    <button class="chat-send-dispatch-btn" onclick="dispatchMessage()"><i class="fas fa-paper-plane"></i></button>
+                </div>
+            `;
+
+            document.getElementById('msgInputField').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') dispatchMessage();
+            });
+
+            rebuildRosterDOM();
+
+            // Message Stream Listener
+            onValue(ref(db, `chats/${activeRoomId}`), (snapshot) => {
+                const streamContainer = document.getElementById('chatMessageStream');
+                if (!streamContainer) return;
+                streamContainer.innerHTML = '';
+
+                if (snapshot.exists()) {
+                    Object.values(snapshot.val()).forEach(msg => {
+                        const isMe = msg.senderRoll === currentLoggedUser.roll;
+                        const rowClass = isMe ? 'me' : 'them';
+                        const timeStr = new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+                        const bubbleHTML = `
+                            <div class="msg-row ${rowClass}">
+                                <div class="msg-bubble">
+                                    <div class="msg-text">${msg.text}</div>
+                                    <div class="msg-time">${timeStr}</div>
+                                </div>
+                            </div>
+                        `;
+                        streamContainer.insertAdjacentHTML('beforeend', bubbleHTML);
+                    });
+                    streamContainer.scrollTop = streamContainer.scrollHeight;
+                }
+            });
+        };
+
+        window.dispatchMessage = function() {
+            const inputField = document.getElementById('msgInputField');
+            if(!inputField) return;
+            
+            const txt = inputField.value.trim();
+            if (!txt || !activeRoomId) return;
+
+            const payload = {
+                text: txt,
+                senderRoll: currentLoggedUser.roll,
+                senderName: currentLoggedUser.name,
+                targetRoll: activeTargetPeer.roll,
+                targetName: activeTargetPeer.name,
+                timestamp: Date.now()
+            };
+
+            push(ref(db, `chats/${activeRoomId}`), payload).then(() => {
+                inputField.value = '';
+                inputField.focus(); // စာရိုက်ပြီးလျှင် Input Box ထဲတွင် Cursor ဆက်ရှိနေစေရန်
+            });
+        };
+
+        /* --- PROFILE DROPDOWN USER INTERACTION SYSTEM --- */
+        window.toggleProfileDropdown = function(event) {
+            event.stopPropagation();
+            const card = document.getElementById('dropdownCardNode');
+            if(card) card.classList.toggle('show-card');
+        };
+
+        window.closeProfileDropdown = function() {
+            const card = document.getElementById('dropdownCardNode');
+            if(card) card.classList.remove('show-card');
+        };
+
+        window.handleLogout = function() {
+            if(confirm("Terminate structural routing identities and logout?")) {
+                const myCleanKey = currentLoggedUser.roll.replace(/[^A-Z0-9]/g, "_");
+                set(ref(db, `status/${myCleanKey}`), { online: false, lastSeen: Date.now() }).then(() => {
+                    sessionStorage.removeItem('activeStudent');
+                    window.location.href = "index.html";
+                });
+            }
+        };
+
+        function executeScheduleTelemetry() {
+            const now = new Date();
+            let h = now.getHours(), m = now.getMinutes(), s = now.getSeconds();
+            let ampm = h >= 12 ? 'PM' : 'AM'; h = h % 12 || 12;
+            const clockEl = document.getElementById('live-time-display');
+            if(clockEl) clockEl.textContent = `${h}:${m < 10 ? '0'+m : m}:${s < 10 ? '0'+s : s} ${ampm}`;
+        }
+        setInterval(executeScheduleTelemetry, 1000);
+
+        window.addEventListener('click', () => {
+            closeProfileDropdown();
+        });
+
+        window.addEventListener('DOMContentLoaded', () => {
+            syncUserSessionProfile();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BurmaScript Web Studio V5.0</title>
+    <style>
+        :root {
+            --bg-obsidian: #07090f;
+            --bg-indigo: #0b0f19;
+            --glass-bg: rgba(14, 18, 28, 0.7);
+            --glass-panel: rgba(18, 23, 36, 0.6);
+            --glass-border: rgba(255, 255, 255, 0.07);
+            --glass-border-hover: rgba(255, 255, 255, 0.15);
+            
+            /* Custom High-Contrast Syntax Colors */
+            --syntax-keyword: #FFEA00;   /* Electric neon-yellow */
+            --syntax-variable: #00FF66;  /* Glowing toxic-green */
+            --syntax-string: #FFFFFF;    /* Crisp bright-white */
+            --syntax-function: #FFD700;  /* Premium liquid-gold */
+            --syntax-comment: #6A9955;   /* Muted green */
+            --syntax-number: #B5CEA8;
+            
+            --text-main: #f1f5f9;
+            --text-dim: #94a3b8;
+            
+            --font-code: 'Fira Code', 'Consolas', 'JetBrains Mono', monospace;
+            --font-ui: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-obsidian);
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(252, 209, 22, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 85% 85%, rgba(16, 185, 129, 0.06) 0%, transparent 40%);
+            color: var(--text-main);
+            font-family: var(--font-ui);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Top Header */
+        header {
+            z-index: 10;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--glass-border);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .brand-logo {
+            width: 40px;
+            height: 40px;
+            filter: drop-shadow(0 0 10px rgba(252, 209, 22, 0.4));
+        }
+
+        .brand-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-title {
+            font-size: 1.1rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            background: linear-gradient(90deg, #FCD116, #34B233, #EA2839);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .brand-sub {
+            font-size: 0.65rem;
+            color: var(--text-dim);
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            color: var(--text-main);
+            padding: 8px 18px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            border-color: var(--glass-border-hover);
+            transform: translateY(-1px);
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .btn-run {
+            border-color: rgba(0, 255, 102, 0.3);
+            color: #00FF66;
+            box-shadow: 0 0 15px rgba(0, 255, 102, 0.1);
+        }
+
+        .btn-run:hover {
+            background: rgba(0, 255, 102, 0.12);
+            border-color: #00FF66;
+            box-shadow: 0 0 25px rgba(0, 255, 102, 0.25);
+        }
+
+        .btn-save {
+            border-color: rgba(252, 209, 22, 0.3);
+            color: #FCD116;
+            box-shadow: 0 0 15px rgba(252, 209, 22, 0.1);
+        }
+
+        .btn-save:hover {
+            background: rgba(252, 209, 22, 0.12);
+            border-color: #FCD116;
+            box-shadow: 0 0 25px rgba(252, 209, 22, 0.25);
+        }
+
+        /* Workspace Grid Layout */
+        .workspace {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: 260px 1fr 380px;
+            gap: 14px;
+            flex: 1;
+            padding: 14px;
+            overflow: hidden;
+        }
+
+        .glass-panel {
+            background: var(--glass-panel);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.45);
+        }
+
+        .panel-header {
+            padding: 12px 16px;
+            background: rgba(8, 11, 18, 0.5);
+            border-bottom: 1px solid var(--glass-border);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-dim);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .file-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .icon-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-dim);
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .icon-btn:hover {
+            color: #FCD116;
+        }
+
+        /* Left Panel: File Directory */
+        .file-tree {
+            padding: 12px 0;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .tree-folder {
+            font-size: 0.8rem;
+            padding: 6px 16px;
+            color: var(--text-dim);
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .file-item {
+            padding: 9px 16px 9px 30px;
+            font-size: 0.82rem;
+            font-family: var(--font-code);
+            color: var(--text-main);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: background 0.2s;
+        }
+
+        .file-item:hover {
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .file-item.active {
+            background: rgba(252, 209, 22, 0.08);
+            color: #FCD116;
+            border-left: 2px solid #FCD116;
+        }
+
+        .ext-bs { color: #38bdf8; font-weight: bold; }
+        .ext-mama { color: #c084fc; font-weight: bold; }
+
+        /* Center Panel: Code Editor with Tabs */
+        .editor-tabs {
+            display: flex;
+            background: rgba(8, 11, 18, 0.4);
+            border-bottom: 1px solid var(--glass-border);
+            overflow-x: auto;
+        }
+
+        .editor-tab {
+            padding: 10px 18px;
+            font-size: 0.78rem;
+            font-family: var(--font-code);
+            color: var(--text-dim);
+            border-right: 1px solid var(--glass-border);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.01);
+            transition: all 0.2s;
+        }
+
+        .editor-tab.active {
+            background: var(--glass-panel);
+            color: var(--text-main);
+            border-bottom: 2px solid #FCD116;
+        }
+
+        .editor-container {
+            display: flex;
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+            background: rgba(6, 8, 13, 0.7);
+        }
+
+        .line-numbers {
+            width: 50px;
+            padding: 20px 0;
+            background: rgba(0, 0, 0, 0.25);
+            color: #4b5563;
+            font-family: var(--font-code);
+            font-size: 13.5px;
+            line-height: 1.6;
+            text-align: center;
+            user-select: none;
+            border-right: 1px solid rgba(255, 255, 255, 0.03);
+            z-index: 3;
+        }
+
+        .code-wrapper {
+            position: relative;
+            flex: 1;
+            height: 100%;
+        }
+
+        textarea#editor, pre#highlighting {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 20px;
+            font-family: var(--font-code);
+            font-size: 13.5px;
+            line-height: 1.6;
+            white-space: pre;
+            overflow: auto;
+            border: none;
+            outline: none;
+            box-sizing: border-box;
+            tab-size: 4;
+        }
+
+        textarea#editor {
+            z-index: 2;
+            color: transparent;
+            background: transparent;
+            caret-color: #FCD116;
+            resize: none;
+        }
+
+        pre#highlighting {
+            z-index: 1;
+            pointer-events: none;
+            color: var(--text-main);
+        }
+
+        /* Custom High-Contrast Syntax Highlighting Rules */
+        .token-keyword { color: var(--syntax-keyword); font-weight: bold; }
+        .token-variable { color: var(--syntax-variable); font-weight: bold; }
+        .token-string { color: var(--syntax-string); }
+        .token-number { color: var(--syntax-number); }
+        .token-function { color: var(--syntax-function); font-weight: bold; }
+        .token-comment { color: var(--syntax-comment); font-style: italic; }
+
+        /* Right Panel: Terminal Output */
+        .console-output {
+            flex: 1;
+            padding: 16px;
+            font-family: var(--font-code);
+            font-size: 13px;
+            line-height: 1.6;
+            overflow-y: auto;
+            background: rgba(5, 7, 11, 0.85);
+        }
+
+        .log-entry {
+            margin-bottom: 8px;
+            padding: 10px 14px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.02);
+            border-left: 3px solid #00FF66;
+            white-space: pre-wrap;
+            animation: fadeIn 0.25s ease-in-out;
+            color: #00FF66;
+            text-shadow: 0 0 10px rgba(0, 255, 102, 0.35);
+        }
+
+        .log-entry.info {
+            border-left-color: #38bdf8;
+            color: #f1f5f9;
+            text-shadow: 0 0 10px rgba(241, 245, 249, 0.2);
+        }
+
+        .log-entry.error {
+            border-left-color: #EA2839;
+            background: rgba(234, 40, 57, 0.08);
+            color: #fca5a5;
+            text-shadow: none;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 950px) {
+            .workspace {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto 1fr 0.6fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TOP HEADER -->
+    <header>
+        <div class="header-left">
+            <div class="brand">
+                <!-- Minimalist tech logo: Bagan pagoda spire morphing with Myanmar flag colors & glowing white star -->
+                <svg class="brand-logo" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="mgYellow" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#FCD116"/><stop offset="100%" stop-color="#C69214"/></linearGradient>
+                        <linearGradient id="mgGreen" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#34B233"/><stop offset="100%" stop-color="#0E6B0E"/></linearGradient>
+                        <linearGradient id="mgRed" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#EA2839"/><stop offset="100%" stop-color="#8F141F"/></linearGradient>
+                    </defs>
+                    <rect x="8" y="8" width="84" height="84" rx="18" fill="#0E121C" stroke="rgba(255,255,255,0.12)" stroke-width="2"/>
+                    <path d="M10 36 H90 V30 H10 Z" fill="url(#mgYellow)" opacity="0.85"/>
+                    <path d="M10 58 H90 V36 H10 Z" fill="url(#mgGreen)" opacity="0.85"/>
+                    <path d="M10 82 C10 86 14 90 18 90 H82 C86 90 90 86 90 82 V58 H10 Z" fill="url(#mgRed)" opacity="0.85"/>
+                    <!-- Geometric Bagan Pagoda Spire -->
+                    <path d="M50 18 L59 48 H41 Z" fill="url(#mgYellow)"/>
+                    <path d="M44 48 H56 L58 70 H42 Z" fill="url(#mgGreen)"/>
+                    <path d="M36 70 H64 L68 80 H32 Z" fill="url(#mgRed)"/>
+                    <!-- Glowing White Star at Peak -->
+                    <polygon points="50,8 52,13 57,13 53,16 55,21 50,18 45,21 47,16 43,13 48,13" fill="#FFFFFF" filter="drop-shadow(0 0 6px #FFFFFF)"/>
+                </svg>
+                <div class="brand-text">
+                    <span class="brand-title">BurmaScript Web Studio</span>
+                    <span class="brand-sub">V5.0 Cinematic Edition</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="btn btn-save" onclick="saveActiveFile()">
+                <span>💾 သိမ်းဆည်းမည် (.bs / .မမ)</span>
+            </button>
+            <button class="btn" onclick="clearConsole()">
+                <span>ရှင်းလင်းမည်</span>
+            </button>
+            <button class="btn btn-run" onclick="runCode()">
+                <span>▶ မောင်းနှင်မည်</span>
+            </button>
+        </div>
+    </header>
+
+    <div class="workspace">
+        
+        <!-- LEFT PANEL (File Directory) -->
+        <div class="glass-panel">
+            <div class="panel-header">
+                <span>File Directory</span>
+                <div class="file-actions">
+                    <button class="icon-btn" onclick="createNewFile()" title="Create File">➕</button>
+                    <button class="icon-btn" onclick="deleteActiveFile()" title="Delete File">🗑️</button>
+                </div>
+            </div>
+            <div class="file-tree" id="fileTree">
+                <div class="tree-folder">📁 src / scripts</div>
+            </div>
+        </div>
+
+        <!-- CENTER PANEL (Main Editor) -->
+        <div class="glass-panel">
+            <div class="editor-tabs" id="editorTabs">
+                <!-- Browser-style tabs will be dynamically rendered here -->
+            </div>
+            <div class="editor-container">
+                <div class="line-numbers" id="lineNumbers">1</div>
+                <div class="code-wrapper">
+                    <textarea id="editor" spellcheck="false"></textarea>
+                    <pre id="highlighting"><code id="highlightContent"></code></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT PANEL (Terminal Output) -->
+        <div class="glass-panel">
+            <div class="panel-header">
+                <span>Console Output</span>
+                <span style="font-size: 0.7rem; color: var(--text-dim);">TERMINAL</span>
+            </div>
+            <div class="console-output" id="consoleOutput">
+                <div class="log-entry info">BurmaScript Studio အဆင်သင့်ဖြစ်ပါပြီ။</div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        let files = {
+            'main.bs': `// BurmaScript V5.0 Code Sample (.bs)
+ကြိုက်တာရေး နာမည် = "မောင်ကျော်";
+ကိန်း အသက် = ၂၀;
+
+လျှင် (အသက် > ၁၀) {
+    ပြပါ("လူကြီးဖြစ်ပါသည်။ နာမည်မှာ:", နာမည်);
+} သို့မဟုတ် {
+    ပြပါ("ကလေးဖြစ်ပါသည်။");
+}
+
+ခလုတ် "နှိပ်ရန် ခလုတ်";`,
+            'app.မမ': `// Myanmar Unicode Script File (.မမ)
+ကိန်း အောက်ခြေ = ၁၅;
+ကိန်း အမြင့် = ၂၀;
+
+လုပ်ဆောင်ချက် ဧရိယာတွက်မည်(b, h) {
+    ပြန်ပေး ၀.၅ * b * h;
+}
+
+ပြပါ("ဧရိယာရလဒ်မှာ:", ဧရိယာတွက်မည်(အောက်ခြေ, အမြင့်));
+ခလုတ် "တွက်ချက်မည် ခလုတ်";`
+        };
+
+        let activeFile = 'main.bs';
+
+        const editor = document.getElementById('editor');
+        const highlightContent = document.getElementById('highlightContent');
+        const lineNumbers = document.getElementById('lineNumbers');
+        const consoleOutput = document.getElementById('consoleOutput');
+        const fileTree = document.getElementById('fileTree');
+        const editorTabs = document.getElementById('editorTabs');
+
+        function renderUI() {
+            renderFileTree();
+            renderTabs();
+        }
+
+        function renderFileTree() {
+            const folderHeader = `<div class="tree-folder">📁 src / scripts</div>`;
+            const fileItems = Object.keys(files).map(fileName => {
+                const isActive = fileName === activeFile ? 'active' : '';
+                const extClass = fileName.endsWith('.bs') ? 'ext-bs' : 'ext-mama';
+                return `<div class="file-item ${isActive}" onclick="switchFile('${fileName}')">
+                    <span>📄 <span class="${extClass}">${fileName}</span></span>
+                </div>`;
+            }).join('');
+            fileTree.innerHTML = folderHeader + fileItems;
+        }
+
+        function renderTabs() {
+            const tabsHTML = Object.keys(files).map(fileName => {
+                const isActive = fileName === activeFile ? 'active' : '';
+                const extClass = fileName.endsWith('.bs') ? 'ext-bs' : 'ext-mama';
+                return `<div class="editor-tab ${isActive}" onclick="switchFile('${fileName}')">
+                    <span>📄</span>
+                    <span class="${extClass}">${fileName}</span>
+                </div>`;
+            }).join('');
+            editorTabs.innerHTML = tabsHTML;
+        }
+
+        function switchFile(fileName) {
+            files[activeFile] = editor.value;
+            activeFile = fileName;
+            editor.value = files[fileName];
+            renderUI();
+            onEditorInput();
+        }
+
+        function createNewFile() {
+            let name = prompt("ဖိုင်နာမည် ရိုက်ထည့်ပါ (.bs သို့မဟုတ် .မမ သာ ခွင့်ပြုသည်):", "feature.bs");
+            if (!name) return;
+            
+            if (!name.endsWith('.bs') && !name.endsWith('.မမ')) {
+                alert("ခွင့်ပြုထားသော Extension (.bs သို့မဟုတ် .မမ) ကိုသာ အသုံးပြုရပါမည်။");
+                return;
+            }
+
+            if (!files[name]) {
+                files[name] = `// ${name}\nပြပါ("Hello BurmaScript Web Studio!");`;
+                switchFile(name);
+            }
+        }
+
+        function deleteActiveFile() {
+            if (Object.keys(files).length <= 1) {
+                alert("အနည်းဆုံး ဖိုင်တစ်ခု ရှိရပါမည်!");
+                return;
+            }
+            if (confirm(`'${activeFile}' ကို ဖျက်ရန် သေချာပါသလား?`)) {
+                delete files[activeFile];
+                activeFile = Object.keys(files)[0];
+                switchFile(activeFile);
+            }
+        }
+
+        function updateHighlight() {
+            let code = editor.value;
+            code = code.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+            let highlighted = code
+                .replace(/(\/\/.*)/g, '<span class="token-comment">$1</span>')
+                .replace(/(".*?"|'.*?'|`.*?`)/g, '<span class="token-string">$1</span>')
+                .replace(/\b([၀-၉0-9]+(\.[၀-၉0-9]+)?)\b/g, '<span class="token-number">$1</span>')
+                .replace(/\b(ပြပါ|ခလုတ်)\b/g, '<span class="token-function">$1</span>')
+                .replace(/\b(လျှင်|မဟုတ်လျှင်|သို့မဟုတ်|လုပ်ဆောင်ချက်|ပြန်ပေး|ပတ်လမ်း|အကြိမ်)\b/g, '<span class="token-keyword">$1</span>')
+                .replace(/\b(ကြိုက်တာရေး|ကိန်းပြည့်|ကိန်း|ဒသမ|စာသား)\b/g, '<span class="token-variable">$1</span>');
+
+            highlightContent.innerHTML = highlighted + "\n";
+        }
+
+        const myanmarDigitsMap = {'၀':'0','၁':'1','၂':'2','၃':'3','၄':'4','၅':'5','၆':'6','၇':'7','၈':'8','၉':'9'};
+
+        function transpile(myCode) {
+            let jsCode = myCode.replace(/(".*?"|'.*?'|`.*?`|[^"'\`]+)/g, (m, g) => {
+                if (g.startsWith('"') || g.startsWith("'") || g.startsWith('`')) return g;
+                return g.replace(/[၀-၉]/g, c => myanmarDigitsMap[c] || c);
+            });
+
+            jsCode = jsCode.replace(/လုပ်ဆောင်ချက်/g, 'function')
+                           .replace(/ပြန်ပေး/g, 'return')
+                           .replace(/ပြပါ/g, 'customLog')
+                           .replace(/ခလုတ်/g, 'customButton')
+                           .replace(/မဟုတ်လျှင်/g, 'else if')
+                           .replace(/လျှင်/g, 'if')
+                           .replace(/သို့မဟုတ်/g, 'else')
+                           .replace(/ပတ်လမ်း/g, 'while')
+                           .replace(/အကြိမ်/g, 'for');
+
+            const varRegex = /^(\s*)([^\s=(){};,]+)\s+([^\s=(){};,]+)\s*=(?!=)/gm;
+            jsCode = jsCode.replace(varRegex, (m, indent, customType, varName) => {
+                const reserved = ['if','else','while','for','function','return','customLog','customButton','let','var','const'];
+                return reserved.includes(customType) ? m : `${indent}let ${varName} =`;
+            });
+
+            return jsCode;
+        }
+
+        function runCode() {
+            clearConsole();
+            const rawCode = editor.value;
+            if (!rawCode.trim()) return printToConsole("မောင်းနှင်ရန် ကုဒ်မရှိပါ!", "error");
+
+            try {
+                const runner = new Function('customLog', 'customButton', transpile(rawCode));
+                runner(
+                    (...args) => printToConsole(args.map(a => typeof a === 'object' ? JSON.stringify(a, null, 2) : a).join(' ')),
+                    (label) => {
+                        printToConsole(`[UI ခလုတ် ဖန်တီးပြီးပါပြီ - ${label}]`, 'info');
+                    }
+                );
+            } catch (err) {
+                printToConsole(`Error: ${err.message}`, 'error');
+            }
+        }
+
+        function saveActiveFile() {
+            files[activeFile] = editor.value;
+            const blob = new Blob([editor.value], { type: 'text/plain;charset=utf-8' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = activeFile;
+            a.click();
+            printToConsole(`ဖိုင် '${activeFile}' ကို သိမ်းဆည်းလိုက်ပါပြီ။`, 'info');
+        }
+
+        function printToConsole(t, type = 'normal') {
+            const entry = document.createElement('div');
+            entry.className = `log-entry ${type}`;
+            entry.textContent = t;
+            consoleOutput.appendChild(entry);
+            consoleOutput.scrollTop = consoleOutput.scrollHeight;
+        }
+
+        function clearConsole() { consoleOutput.innerHTML = ''; }
+
+        function updateLineNumbers() {
+            const lines = editor.value.split('\n').length;
+            lineNumbers.innerHTML = Array.from({ length: lines }, (_, i) => i + 1).join('<br>');
+        }
+
+        function onEditorInput() {
+            updateLineNumbers();
+            updateHighlight();
+        }
+
+        editor.addEventListener('scroll', () => {
+            document.getElementById('highlighting').scrollTop = editor.scrollTop;
+            document.getElementById('highlighting').scrollLeft = editor.scrollLeft;
+            lineNumbers.scrollTop = editor.scrollTop;
+        });
+
+        editor.addEventListener('input', () => {
+            files[activeFile] = editor.value;
+            onEditorInput();
+        });
+
+        editor.addEventListener('keydown', (e) => {
+            if (e.key === 'Tab') {
+                e.preventDefault();
+                const start = editor.selectionStart;
+                const end = editor.selectionEnd;
+                editor.value = editor.value.substring(0, start) + "    " + editor.value.substring(end);
+                editor.selectionStart = editor.selectionEnd = start + 4;
+                onEditorInput();
+            }
+        });
+
+        window.onload = () => {
+            renderUI();
+            switchFile('main.bs');
+        };
+    </script>
+</body>
+</html>

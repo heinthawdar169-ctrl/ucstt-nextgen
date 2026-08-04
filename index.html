@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UCSTT | Gateway Hybrid Node</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Padauk:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://unpkg.com/html5-qrcode"></script>
+    
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+       (function() {
+          // ⚠️ သင်၏ EmailJS Public Key ကို ဤနေရာတွင် အစားထိုးပါ
+          emailjs.init("1048ipPqABYX2Wa7v"); 
+       })();
+    </script>
+    
+    <style>
+        :root {
+            --primary: #A51C30;
+            --oxford-blue: #002147;
+            --accent: #C49619;
+            --white: #ffffff;
+            --success: #4ade80;
+            --error: #ef4444;
+            --grey-bg: rgba(255, 255, 255, 0.05);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', 'Padauk', sans-serif; }
+        
+        body {
+            background: linear-gradient(135deg, #000c1c 0%, var(--oxford-blue) 100%);
+            min-height: 100vh; display: flex; justify-content: center; align-items: center;
+            padding: 20px; color: var(--white);
+        }
+
+        /* --- Language Switcher Rules --- */
+        .lang-mm { display: none; }
+        body.lang-burmese .lang-en { display: none; }
+        body.lang-burmese .lang-mm { display: inline-block; }
+        body.lang-burmese div.lang-mm, 
+        body.lang-burmese p.lang-mm, 
+        body.lang-burmese span.lang-mm, 
+        body.lang-burmese a.lang-mm,
+        body.lang-burmese h2.lang-mm, 
+        body.lang-burmese h3.lang-mm { display: inline-block; }
+
+        /* Switcher Button Inside Form Container */
+        .form-card-lang-switcher {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 15px;
+        }
+
+        .lang-switch-card-btn {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--accent);
+            color: var(--white);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .lang-switch-card-btn:hover {
+            background: var(--accent);
+            color: #000;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.03);
+            -webkit-backdrop-filter: blur(16px);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08); border-top: 5px solid var(--accent);
+            width: 100%; max-width: 480px; padding: 35px 25px; border-radius: 20px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4); text-align: center;
+            position: relative;
+        }
+
+        .logo-area img { height: 70px; margin-bottom: 10px; }
+        .btn-success-soft { background: rgba(74, 222, 128, 0.15); border-color: var(--success); color: var(--success); margin: 0 0 10px 0; }
+        .btn-secondary { background: var(--oxford-blue); border-color: rgba(255,255,255,0.1); }
+        .two-column-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .mt-15 { margin-top: 15px; }
+        .otp-note { color: #94a3b8; font-size: 0.8rem; margin: 10px 0; }
+        .otp-input-group { margin-top: 15px; }
+        .otp-code-input { text-align: center; letter-spacing: 5px; font-weight: 700; font-size: 1.1rem; padding-left: 15px; }
+        .btn-success { background: var(--success); border-color: #22c55e; }
+        .btn-muted { background: rgba(255,255,255,0.05); border: none; margin-top: 5px; }
+        .popup-title-accent { color: var(--accent); font-size: 1.2rem; }
+        .popup-title-success { color: var(--success); font-size: 1.2rem; }
+        .popup-description { color: #94a3b8; font-size: 0.8rem; margin: 10px 0; }
+        .qr-owner-roll { color: var(--accent); letter-spacing: 1px; font-size: 0.9rem; }
+        .logo-area h2 { font-size: 1.4rem; font-weight: 700; letter-spacing: 0.5px; }
+        .logo-area p { color: #94a3b8; font-size: 0.8rem; margin-bottom: 25px; }
+
+        .tab-control { display: flex; background: rgba(0, 12, 28, 0.4); border-radius: 8px; padding: 5px; margin-bottom: 25px; }
+        .tab-btn { flex: 1; padding: 10px; background: transparent; border: none; color: #94a3b8; font-size: 0.85rem; font-weight: 600; cursor: pointer; border-radius: 6px; }
+        .tab-btn.active { background: var(--primary); color: var(--white); }
+
+        .form-view { display: none; }
+        .form-view.active { display: block; animation: fadeIn 0.4s ease; }
+
+        .input-group { text-align: left; margin-bottom: 15px; }
+        .input-group label { display: block; color: #cbd5e1; font-size: 0.78rem; font-weight: 500; margin-bottom: 5px; }
+        
+        .wrapper { position: relative; display: flex; align-items: center; }
+        .wrapper i.left-icon { position: absolute; left: 15px; color: var(--accent); font-size: 0.9rem; }
+        .wrapper i.toggle-eye { position: absolute; right: 15px; color: #64748b; font-size: 0.95rem; cursor: pointer; transition: 0.2s; z-index: 10; }
+        .wrapper i.toggle-eye:hover { color: var(--accent); }
+        
+        .wrapper input, .wrapper select {
+            width: 100%; padding: 11px 40px 11px 42px; background: var(--grey-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; color: var(--white);
+            font-size: 0.88rem; outline: none; transition: 0.2s;
+        }
+        .wrapper select option { background: #001936; }
+        .wrapper input:focus, .wrapper select:focus { border-color: var(--accent); background: rgba(255,255,255,0.08); }
+
+        /* Profile Photo Upload Styling */
+        .photo-upload-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+
+        .avatar-preview-box {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            border: 3px solid var(--accent);
+            background: #001936;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .avatar-preview-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+        }
+
+        .avatar-preview-box i {
+            font-size: 2rem;
+            color: var(--accent);
+        }
+
+        .photo-upload-btn {
+            background: rgba(196, 150, 25, 0.15);
+            border: 1px dashed var(--accent);
+            color: #f1f5f9;
+            padding: 6px 14px;
+            font-size: 0.75rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .photo-upload-container input[type="file"] {
+            display: none;
+        }
+
+        .photo-upload-btn:hover {
+            background: var(--accent);
+            color: #000;
+        }
+
+        .error-hint { color: var(--error); font-size: 0.72rem; margin-top: 4px; display: none; }
+
+        .action-btn {
+            width: 100%; padding: 12px; background: var(--primary); border: 1px solid var(--accent);
+            color: var(--white); font-size: 0.85rem; font-weight: 700; text-transform: uppercase;
+            border-radius: 8px; cursor: pointer; transition: 0.3s; margin-top: 10px;
+        }
+        .action-btn:hover { background: var(--white); color: var(--primary); transform: translateY(-1px); }
+
+        .camera-box { 
+            position: relative; width: 240px; height: 240px; background: #000; 
+            border-radius: 12px; overflow: hidden; margin: 15px auto; display: none; 
+            border: 2px solid var(--success); 
+        }
+        #qr-reader { width: 100%; height: 100%; background: #000; }
+        .status-tracker { color: var(--accent); font-size: 0.78rem; margin: 8px 0; font-weight: 500; display: none; }
+
+        /* Popups Overlay Styling (QR and OTP) */
+        .popup-overlay { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 12, 28, 0.95); z-index: 1000; justify-content: center; align-items: center; padding: 20px; }
+        .popup-card { background: #001936; border: 2px solid var(--accent); border-radius: 16px; padding: 30px 20px; max-width: 400px; width: 100%; text-align: center; animation: fadeIn 0.3s ease; }
+        .qr-box { background: var(--white); padding: 15px; display: inline-block; border-radius: 8px; margin: 20px 0; }
+
+        .or-divider { margin: 20px 0; display: flex; align-items: center; font-size: 0.75rem; color: #64748b; }
+        .or-divider::before, .or-divider::after { content: ''; flex: 1; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <!-- Language Switcher Button Inside Form Card -->
+        <div class="form-card-lang-switcher">
+            <button class="lang-switch-card-btn" onclick="toggleLanguageChoice()">
+                <i class="fas fa-globe"></i>
+                <span class="lang-en">🇲🇲 မြန်မာ</span>
+                <span class="lang-mm">🇬🇧 English</span>
+            </button>
+        </div>
+
+        <div class="logo-area">
+            <img src="logo.png" alt="UCSTT Logo" onerror="this.src='https://via.placeholder.com/70'">
+            <h2>NextGen UCSTT</h2>
+            <p class="lang-en">Cryptic Security Node</p>
+            <p class="lang-mm">လုံခြုံရေး စနစ်ဂိတ်</p>
+        </div>
+
+        <div class="tab-control">
+            <button class="tab-btn active" onclick="switchTab('quick-login')">
+                <span class="lang-en">Sign In</span><span class="lang-mm">ဝင်ရောက်မည်</span>
+            </button>
+            <button class="tab-btn" onclick="switchTab('register')">
+                <span class="lang-en">Register</span><span class="lang-mm">အကောင့်ဖွင့်မည်</span>
+            </button>
+        </div>
+
+        <div id="quick-login-view" class="form-view active">
+            <button class="action-btn btn-success-soft" id="qr-scan-trigger-btn" onclick="startQRLoginScanner()">
+                <i class="fas fa-qrcode"></i> 
+                <span class="lang-en">Instant Scan Access QR</span>
+                <span class="lang-mm">QR စကင်ဖတ်၍ ဝင်ရောက်မည်</span>
+            </button>
+
+            <div class="camera-box" id="login-cam-box">
+                <div id="qr-reader"></div>
+            </div>
+            <div class="status-tracker" id="login-status">Initializing System Core...</div>
+
+            <div class="or-divider">
+                <span class="lang-en">OR USE CREDENTIAL BACKUP</span>
+                <span class="lang-mm">သို့မဟုတ် စကားဝှက်ဖြင့် ဝင်ရောက်မည်</span>
+            </div>
+
+            <form onsubmit="handlePasswordLogin(event)">
+                <div class="input-group">
+                    <label>
+                        <span class="lang-en">Roll Number</span>
+                        <span class="lang-mm">ခုံနံပါတ်</span>
+                    </label>
+                    <div class="wrapper"><i class="fas fa-id-card left-icon"></i><input type="text" id="logRoll" required placeholder="UCSTT(24-25)-001"></div>
+                </div>
+                <div class="input-group">
+                    <label>
+                        <span class="lang-en">Account Password</span>
+                        <span class="lang-mm">အကောင့် စကားဝှက်</span>
+                    </label>
+                    <div class="wrapper">
+                        <i class="fas fa-lock left-icon"></i>
+                        <input type="password" id="logPass" required placeholder="e.g. yourname$6char#">
+                        <i class="fas fa-eye toggle-eye" onclick="togglePasswordVisibility('logPass', this)"></i>
+                    </div>
+                </div>
+                <button type="submit" class="action-btn btn-secondary">
+                    <i class="fas fa-sign-in-alt"></i> 
+                    <span class="lang-en">Access via Password</span>
+                    <span class="lang-mm">စကားဝှက်ဖြင့် ဝင်ရောက်မည်</span>
+                </button>
+            </form>
+        </div>
+
+        <div id="register-view" class="form-view">
+            <form onsubmit="startOutlookVerification(event)">
+                
+                <!-- Profile Photo Upload Section -->
+                <div class="photo-upload-container">
+                    <div class="avatar-preview-box">
+                        <i class="fas fa-user" id="avatarFallbackIcon"></i>
+                        <img id="avatarImagePreview" alt="Profile Preview">
+                    </div>
+                    <label for="regPhotoInput" class="photo-upload-btn">
+                        <i class="fas fa-camera"></i> 
+                        <span class="lang-en">Upload Student Photo</span>
+                        <span class="lang-mm">ဓာတ်ပုံ တင်ရန်</span>
+                    </label>
+                    <input type="file" id="regPhotoInput" accept="image/*" onchange="previewProfilePhoto(event)">
+                </div>
+
+                <div class="input-group">
+                    <label>
+                        <span class="lang-en">Full Name</span>
+                        <span class="lang-mm">အမည်</span>
+                    </label>
+                    <div class="wrapper"><i class="fas fa-user left-icon"></i><input type="text" id="regName" required placeholder="Mg Mg"></div>
+                </div>
+
+                <div class="input-group">
+                    <label>
+                        <span class="lang-en">Outlook Email</span>
+                        <span class="lang-mm">Outlook အီးမေးလ်</span>
+                    </label>
+                    <div class="wrapper"><i class="fas fa-envelope left-icon"></i><input type="email" id="regEmail" required placeholder="mgmg@ucstt.edu.mm"></div>
+                    <div class="error-hint" id="err-email">
+                        <span class="lang-en">Error: Email must strictly match format (name@ucstt.edu.mm)!</span>
+                        <span class="lang-mm">မှားယွင်းနေပါသည်: အီးမေးလ်သည် (name@ucstt.edu.mm) ပုံစံအတိအကျ ဖြစ်ရပါမည်။</span>
+                    </div>
+                </div>
+
+                <div class="two-column-grid">
+                    <div class="input-group">
+                        <label>
+                            <span class="lang-en">Academic Year</span>
+                            <span class="lang-mm">တက်ရောက်နေသည့်နှစ်</span>
+                        </label>
+                        <div class="wrapper"><i class="fas fa-calendar-alt left-icon"></i>
+                            <select id="regYear" onchange="handleYearChange()">
+                                <option value="First Year">1st Year</option>
+                                <option value="Second Year" selected>2nd Year</option>
+                                <option value="Third Year">3rd Year</option>
+                                <option value="Fourth Year">4th Year</option>
+                                <option value="Fifth Year">5th Year</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>
+                            <span class="lang-en">Major</span>
+                            <span class="lang-mm">မေဂျာ</span>
+                        </label>
+                        <div class="wrapper"><i class="fas fa-laptop-code left-icon"></i>
+                            <select id="regMajor">
+                                <option value="CS">CS</option>
+                                <option value="CT">CT</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>
+                        <span class="lang-en">Roll Number</span>
+                        <span class="lang-mm">ခုံနံပါတ်</span>
+                    </label>
+                    <div class="wrapper"><i class="fas fa-id-card left-icon"></i><input type="text" id="regRoll" required placeholder="UCSTT(24-25)-001"></div>
+                    <div class="error-hint" id="err-roll">
+                        <span class="lang-en">Error: Roll format mismatch!</span>
+                        <span class="lang-mm">မှားယွင်းနေပါသည်: ခုံနံပါတ် ပုံစံ မမှန်ပါ။</span>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>
+                        <span class="lang-en">Create Password</span>
+                        <span class="lang-mm">စကားဝှက်အသစ်</span>
+                    </label>
+                    <div class="wrapper">
+                        <i class="fas fa-key left-icon"></i>
+                        <input type="password" id="regPass" required placeholder="Pattern: Username$6chars#">
+                        <i class="fas fa-eye toggle-eye" onclick="togglePasswordVisibility('regPass', this)"></i>
+                    </div>
+                    <div class="error-hint" id="err-pass">
+                        <span class="lang-en">Error: Password pattern must be (Username + $ + 6 characters + #)</span>
+                        <span class="lang-mm">စကားဝှက် ပုံစံ မှားယွင်းနေပါသည်: (Username + $ + စာလုံး၆လုံး + #) ဖြစ်ရမည်။</span>
+                    </div>
+                </div>
+
+                <button type="submit" class="action-btn mt-15">
+                    <span class="lang-en">Send Verification Code</span>
+                    <span class="lang-mm">အတည်ပြုကုဒ် ပေးပို့မည်</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div id="otp-verify-shield" class="popup-overlay">
+        <div class="popup-card">
+            <h3 class="popup-title-accent"><i class="fas fa-envelope-open-text"></i> Outlook Mail Verification</h3>
+            <p class="popup-description lang-en">A 6-digit security verification code has been sent to your Outlook Email. Enter the code below.</p>
+            <p class="popup-description lang-mm">ကျောင်းသား၏ Outlook Mail (`@ucstt.edu.mm`) ထံသို့ လုံခြုံရေးဂဏန်း ၆ လုံး ပို့ထားပါသည်။ ထိုCodeကိုကြည့်ပြီးအောက်တွင်ရိုက်ထည့်ပေးပါဗျာ။</p>
+            
+            <div class="input-group otp-input-group">
+                <div class="wrapper">
+                    <i class="fas fa-shield-alt left-icon"></i>
+                    <input type="text" id="inputOtpCode" placeholder="Enter 6-Digit Code" class="otp-code-input">
+                </div>
+            </div>
+            
+            <button class="action-btn btn-success" onclick="verifyOtpAndRegister()">
+                <span class="lang-en">Verify & Complete</span>
+                <span class="lang-mm">အတည်ပြု၍ စာရင်းသွင်းမည်</span>
+            </button>
+            <button class="action-btn btn-muted" onclick="closeOtpModal()">
+                <span class="lang-en">Cancel</span>
+                <span class="lang-mm">မလုပ်တော့ပါ</span>
+            </button>
+        </div>
+    </div>
+
+    <div id="qr-display-shield" class="popup-overlay">
+        <div class="popup-card">
+            <h3 class="popup-title-success"><i class="fas fa-shield-alt"></i> Register Complete & QR Generated</h3>
+            <p class="popup-description lang-en">Please screenshot and save this QR Code. You can use it to log in instantly without typing passwords.</p>
+            <p class="popup-description lang-mm">ဤ QR Code အား ဓာတ်ပုံရိုက်သိမ်းထားပါ။ နောက်တစ်ကြိမ် Password မလိုဘဲ အချိန်မရွေး လျင်မြန်စွာ Login ဝင်ရန် သုံးနိုင်ပါသည်။</p>
+            
+            <div class="qr-box" id="qrcode-target"></div>
+            
+            <h4 id="qr-owner-roll" class="qr-owner-roll">ROLL: UCSTT(24-25)-000</h4>
+            <button class="action-btn" onclick="closeQROverlayAndProceed()">
+                <span class="lang-en">Launch Student Portal Hub</span>
+                <span class="lang-mm">ကျောင်းသား စနစ်သို့ ဝင်ရောက်မည်</span>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const FIREBASE_BASE_URL = "https://nextgen-ucstt-default-rtdb.firebaseio.com/students";
+        let html5QrcodeScanner = null;
+        let pendingYearRedirect = "Second Year"; 
+        
+        // 🔒 PASSWORD PATTERN REGEX: Username(First name or user wish) + $ + 6 characters + #
+        const PASSWORD_REGEX = /^.+?\$[\s\S]{6}#$/;
+
+        // OTP Dynamic Variables
+        let generatedOtpCode = "";
+        let temporaryRegisterPayload = null;
+        let uploadedPhotoBase64 = "";
+
+        // --- LANGUAGE SWITCHER LOGIC ---
+        function toggleLanguageChoice() {
+            document.body.classList.toggle('lang-burmese');
+            const isBurmese = document.body.classList.contains('lang-burmese');
+            localStorage.setItem('preferredLang', isBurmese ? 'my' : 'en');
+        }
+
+        function applySavedLanguage() {
+            const savedLang = localStorage.getItem('preferredLang');
+            if (savedLang === 'my') {
+                document.body.classList.add('lang-burmese');
+            }
+        }
+
+        // Profile Photo Processing
+        function previewProfilePhoto(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                uploadedPhotoBase64 = e.target.result;
+                const imgEl = document.getElementById('avatarImagePreview');
+                const iconEl = document.getElementById('avatarFallbackIcon');
+                
+                imgEl.src = uploadedPhotoBase64;
+                imgEl.style.display = 'block';
+                iconEl.style.display = 'none';
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function handleYearChange() {
+            const yearSelect = document.getElementById('regYear');
+            const majorSelect = document.getElementById('regMajor');
+            const rollInput = document.getElementById('regRoll');
+            let expectedFormat = "24-25"; 
+
+            if (yearSelect.value === "First Year") {
+                majorSelect.innerHTML = '<option value="CST" selected>CST</option>';
+                expectedFormat = "25-26";
+            } else {
+                majorSelect.innerHTML = '<option value="CS" selected>CS</option><option value="CT">CT</option>';
+                if (yearSelect.value === "Second Year") expectedFormat = "24-25";
+                else if (yearSelect.value === "Third Year") expectedFormat = "23-24";
+                else if (yearSelect.value === "Fourth Year") expectedFormat = "22-23";
+                else if (yearSelect.value === "Fifth Year") expectedFormat = "21-22";
+            }
+            rollInput.placeholder = `UCSTT(${expectedFormat})-001`;
+        }
+
+        window.addEventListener('DOMContentLoaded', () => { 
+            applySavedLanguage();
+            handleYearChange(); 
+        });
+
+        function togglePasswordVisibility(inputId, eyeIcon) {
+            const passwordInput = document.getElementById(inputId);
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                eyeIcon.classList.replace("fa-eye", "fa-eye-slash");
+            } else {
+                passwordInput.type = "password";
+                eyeIcon.classList.replace("fa-eye-slash", "fa-eye");
+            }
+        }
+
+        function switchTab(tab) {
+            killCamera();
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.form-view').forEach(v => v.classList.remove('active'));
+            document.querySelectorAll('.error-hint').forEach(e => e.style.display = 'none');
+            
+            if(tab === 'quick-login') {
+                document.querySelectorAll('.tab-btn')[0].classList.add('active');
+                document.getElementById('quick-login-view').classList.add('active');
+            } else {
+                document.querySelectorAll('.tab-btn')[1].classList.add('active');
+                document.getElementById('register-view').classList.add('active');
+                handleYearChange();
+            }
+        }
+
+        function killCamera() {
+            if (html5QrcodeScanner) {
+                html5QrcodeScanner.stop().catch(err => console.log(err));
+                html5QrcodeScanner = null;
+            }
+            document.getElementById('login-cam-box').style.display = 'none';
+            document.getElementById('login-status').style.display = 'none';
+            document.getElementById('qr-scan-trigger-btn').style.display = 'block';
+        }
+
+        function executeRoute(year) {
+            if (year === "First Year") window.location.href = "firstYearHomePage.html";
+            else if (year === "Second Year") window.location.href = "homePage.html";
+            else if (year === "Third Year") window.location.href = "thirdYearHomePage.html";
+            else if (year === "Fourth Year") window.location.href = "fourthYearHomePage.html";
+            else if (year === "Fifth Year") window.location.href = "fifthYearHomePage.html";
+            else window.location.href = "homePage.html";
+        }
+
+        // 🚀 PHASE 1: OUTLOOK SYSTEM VALIDATION & EMAIL SENDING
+        function startOutlookVerification(event) {
+            event.preventDefault();
+            
+            // Error စာသားများကို အစတွင် ခဏ ဖျောက်ထားမည်
+            const errEmail = document.getElementById('err-email');
+            const errRoll = document.getElementById('err-roll');
+            const errPass = document.getElementById('err-pass');
+            
+            errEmail.style.display = 'none';
+            errRoll.style.display = 'none';
+            errPass.style.display = 'none';
+
+            const name = document.getElementById('regName').value.trim();
+            const email = document.getElementById('regEmail').value.trim().toLowerCase();
+            const year = document.getElementById('regYear').value;
+            const major = document.getElementById('regMajor').value;
+            const roll = document.getElementById('regRoll').value.toUpperCase().trim();
+            const password = document.getElementById('regPass').value;
+
+            let hasError = false;
+
+            // 🛑 1. Outlook Email Format Validation (name@ucstt.edu.mm)
+            const expectedNameSlug = name.toLowerCase().replace(/\s+/g, '');
+            const expectedEmail = `${expectedNameSlug}@ucstt.edu.mm`;
+
+            if (!email.endsWith("@ucstt.edu.mm") || (expectedNameSlug.length > 0 && email !== expectedEmail)) {
+                errEmail.style.display = 'block';
+                hasError = true;
+            }
+
+            // 🛑 2. Roll Format Validation
+            let expectedFormat = "24-25";
+            if (year === "First Year") expectedFormat = "25-26";
+            else if (year === "Third Year") expectedFormat = "23-24";
+            else if (year === "Fourth Year") expectedFormat = "22-23";
+            else if (year === "Fifth Year") expectedFormat = "21-22";
+
+            const dynamicRollRegex = new RegExp(`^UCSTT\\(${expectedFormat}\\)-.{3}$`);
+            if(!dynamicRollRegex.test(roll)) {
+                errRoll.style.display = 'block';
+                hasError = true;
+            }
+
+            // 🛑 3. Password Structure Validation
+            if(!PASSWORD_REGEX.test(password)) {
+                errPass.style.display = 'block';
+                hasError = true;
+            }
+
+            // အမှားတစ်ခုခုရှိနေပါက တစ်ပြိုင်နက်တည်း Error ပြပြီး ရှေ့ဆက်မသွားစေရန် တားဆီးမည်
+            if (hasError) {
+                return; // STOP EXECUTION IMMEDIATELY
+            }
+
+            // Database Duplicate Filter
+            fetch(`${FIREBASE_BASE_URL}.json`)
+                .then(r => r.json())
+                .then(db => {
+                    if(db) {
+                        const users = Object.values(db);
+                        let isDuplicate = false;
+                        users.forEach(u => { if(u.roll === roll || u.email === email) isDuplicate = true; });
+                        if(isDuplicate) {
+                            alert("Access Denied: Record duplicate found inside database.");
+                            return; // STOP EXECUTION
+                        }
+                    }
+
+                    // Generate Random 6-Digit Code
+                    generatedOtpCode = Math.floor(100000 + Math.random() * 900000).toString();
+
+                    // Temporarily store data until verification is complete
+                    temporaryRegisterPayload = { 
+                        name, email, year, major, roll, password, photo: uploadedPhotoBase64 
+                    };
+
+                    const emailParams = {
+                        to_email: email,
+                        to_name: name,
+                        verification_code: generatedOtpCode
+                    };
+
+                    alert("Sending Security Password to your Outlook Mail... Please wait.");
+
+                    emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", emailParams)
+                        .then(() => {
+                            document.getElementById('otp-verify-shield').style.display = "flex";
+                        })
+                        .catch(err => {
+                            console.error(err);
+                            alert("Email delivery service failure. Default pass for testing Code is: " + generatedOtpCode);
+                            document.getElementById('otp-verify-shield').style.display = "flex";
+                        });
+                });
+        }
+
+        // 🚀 PHASE 2: VERIFY CODE & TRIGGER FINAL REGISTER + QR AUTO-GEN
+        function verifyOtpAndRegister() {
+            const enteredCode = document.getElementById('inputOtpCode').value.trim();
+
+            if (enteredCode !== generatedOtpCode) {
+                alert("Security Breach: Incorrect Verification Password! Check your Outlook mail again.");
+                return;
+            }
+
+            document.getElementById('otp-verify-shield').style.display = "none";
+            const payload = temporaryRegisterPayload;
+            
+            const qrSecureToken = btoa(`UCSTT-NODE-${payload.roll}`); 
+            document.getElementById('qrcode-target').innerHTML = "";
+            
+            const qrGenerator = new QRCode(document.getElementById('qrcode-target'), {
+                text: qrSecureToken, width: 180, height: 180,
+                colorDark : "#000000", colorLight : "#ffffff", correctLevel : QRCode.CorrectLevel.H
+            });
+
+            setTimeout(() => {
+                const qrImgElement = document.querySelector('#qrcode-target img');
+                const qrImageSrcData = qrImgElement ? qrImgElement.src : "";
+
+                const finalPayload = { 
+                    ...payload, 
+                    qrToken: qrSecureToken,
+                    qrCodeImage: qrImageSrcData,
+                    entryCount: 0,
+                    lastLoginTime: "Never logged in"
+                };
+
+                fetch(`${FIREBASE_BASE_URL}.json`, {
+                    method: 'POST',
+                    body: JSON.stringify(finalPayload)
+                })
+                .then(res => res.json())
+                .then(() => {
+                    // Save Session & Local Storage Photo for All Pages Sync
+                    sessionStorage.setItem('activeStudent', JSON.stringify(finalPayload));
+                    if (payload.photo) {
+                        localStorage.setItem('profilePhoto_' + payload.roll, payload.photo);
+                    }
+                    
+                    pendingYearRedirect = payload.year;
+                    
+                    document.getElementById('qr-owner-roll').innerText = `ROLL: ${payload.roll}`;
+                    document.getElementById('qr-display-shield').style.display = "flex"; 
+                })
+                .catch(() => alert("Database sync fault down."));
+            }, 350);
+        }
+
+        function closeOtpModal() {
+            document.getElementById('otp-verify-shield').style.display = "none";
+            temporaryRegisterPayload = null;
+        }
+
+        function closeQROverlayAndProceed() {
+            document.getElementById('qr-display-shield').style.display = "none";
+            executeRoute(pendingYearRedirect);
+        }
+
+        // 📸 REAL-TIME INSTANT QR DECODER ENGINE
+        function startQRLoginScanner() {
+            killCamera();
+            document.getElementById('login-cam-box').style.display = 'block';
+            document.getElementById('login-status').style.display = 'block';
+            document.getElementById('qr-scan-trigger-btn').style.display = 'none';
+            document.getElementById('login-status').innerText = "Starting High-Speed QR Engine...";
+
+            html5QrcodeScanner = new Html5Qrcode("qr-reader");
+            const config = { fps: 30, qrbox: { width: 160, height: 160 }, aspectRatio: 1.0 };
+
+            html5QrcodeScanner.start(
+                { facingMode: "user" }, config,
+                (decodedText) => {
+                    document.getElementById('login-status').innerText = "Token Intercepted! Validating...";
+                    killCamera(); processQRAuthentication(decodedText);
+                },
+                () => { document.getElementById('login-status').innerText = "Place QR Token inside green square frame..."; }
+            ).catch(() => { alert("Camera Access Error."); killCamera(); });
+        }
+
+        function processQRAuthentication(token) {
+            fetch(`${FIREBASE_BASE_URL}.json`)
+                .then(r => r.json())
+                .then(db => {
+                    let foundUserKey = null, foundUserData = null;
+                    if(db) {
+                        Object.keys(db).forEach(key => { if(db[key].qrToken === token) { foundUserKey = key; foundUserData = db[key]; } });
+                    }
+
+                    if(foundUserKey && foundUserData) {
+                        alert(`Welcome back, ${foundUserData.name}`);
+                        const currentCount = foundUserData.entryCount ? parseInt(foundUserData.entryCount) + 1 : 1;
+                        const logPayload = { entryCount: currentCount, lastLoginTime: new Date().toLocaleString() };
+
+                        fetch(`${FIREBASE_BASE_URL}/${foundUserKey}.json`, { method: "PATCH", body: JSON.stringify(logPayload) })
+                        .then(() => {
+                            const updatedUser = { ...foundUserData, ...logPayload };
+                            sessionStorage.setItem('activeStudent', JSON.stringify(updatedUser));
+                            if (updatedUser.photo) {
+                                localStorage.setItem('profilePhoto_' + updatedUser.roll, updatedUser.photo);
+                            }
+                            executeRoute(foundUserData.year);
+                        });
+                    } else { alert("Access Violated: Invalid Token."); }
+                });
+        }
+
+        function handlePasswordLogin(event) {
+            event.preventDefault();
+            const inputRoll = document.getElementById('logRoll').value.toUpperCase().trim();
+            const inputPass = document.getElementById('logPass').value;
+
+            if(!PASSWORD_REGEX.test(inputPass)) { 
+                alert("Invalid Password Format! Format must be (Username + $ + 6 characters + #). E.g. MgMg$123456#"); 
+                return; 
+            }
+
+            fetch(`${FIREBASE_BASE_URL}.json`)
+                .then(r => r.json())
+                .then(db => {
+                    let foundUserKey = null, foundUserData = null;
+                    if(db) {
+                        Object.keys(db).forEach(key => { if(db[key].roll === inputRoll && db[key].password === inputPass) { foundUserKey = key; foundUserData = db[key]; } });
+                    }
+
+                    if(foundUserKey && foundUserData) {
+                        const currentCount = foundUserData.entryCount ? parseInt(foundUserData.entryCount) + 1 : 1;
+                        const logPayload = { entryCount: currentCount, lastLoginTime: new Date().toLocaleString() };
+
+                        fetch(`${FIREBASE_BASE_URL}/${foundUserKey}.json`, { method: "PATCH", body: JSON.stringify(logPayload) })
+                        .then(() => {
+                            const updatedUser = { ...foundUserData, ...logPayload };
+                            sessionStorage.setItem('activeStudent', JSON.stringify(updatedUser));
+                            if (updatedUser.photo) {
+                                localStorage.setItem('profilePhoto_' + updatedUser.roll, updatedUser.photo);
+                            }
+                            executeRoute(foundUserData.year);
+                        });
+                    } else { alert("Access Refused: Credentials mismatched."); }
+                });
+        }
+    </script>
+</body>
+</html>

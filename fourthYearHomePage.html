@@ -1,0 +1,1343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UCSTT | University of Computer Studies (Thaton)</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Padauk:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Tailwind CSS for Job Opportunities Component -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        /* --- Root Brand Variables --- */
+        :root {
+            --primary: #A51C30;       /* Thaton Crimson */
+            --oxford-blue: #002147;   /* Oxford Blue */
+            --deep-navy: #001c3d;      /* Deep Dark Profile Header Navy */
+            --accent: #C49619;        /* Ivy League Gold */
+            --light-bg: #f8fafc;      /* Heritage Surface Off-White */
+            --white: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            --sidebar-width: 280px;
+            --topbar-height: 70px;
+            --success-glow: #10b981;
+        }
+
+        body.sidebar-collapsed {
+            --sidebar-width: 85px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', 'Padauk', sans-serif;
+        }
+
+        body {
+            background-color: var(--white);
+            color: var(--oxford-blue);
+            line-height: 1.7;
+            display: flex;
+            min-height: 100vh;
+            transition: var(--transition);
+        }
+
+        /* --- Language Toggle Utility --- */
+        .lang-mm { display: none; }
+        body.lang-burmese .lang-en { display: none; }
+        body.lang-burmese .lang-mm { display: inline-block; }
+        body.lang-burmese div.lang-mm, 
+        body.lang-burmese p.lang-mm, 
+        body.lang-burmese span.lang-mm, 
+        body.lang-burmese a.lang-mm,
+        body.lang-burmese h1.lang-mm, 
+        body.lang-burmese h2.lang-mm, 
+        body.lang-burmese h3.lang-mm { display: inline-block; }
+
+        /* --- 1. LEFT SIDE NAVIGATION MENU --- */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: var(--sidebar-width);
+            height: 100vh;
+            background: linear-gradient(180deg, var(--oxford-blue) 0%, #001229 100%);
+            border-right: 4px solid var(--accent);
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Centered content vertically */
+            padding: 30px 20px;
+            z-index: 1000;
+            box-shadow: 4px 0 25px rgba(0,0,0,0.15);
+            transition: var(--transition);
+            overflow-x: hidden;
+        }
+
+        body.sidebar-collapsed nav {
+            padding: 30px 10px;
+        }
+
+        .nav-brand-area {
+            text-align: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .nav-logo {
+            height: 85px;
+            width: auto;
+            transition: var(--transition);
+            filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.2));
+            display: block;
+            margin: 0 auto;
+        }
+        .nav-logo:hover { transform: scale(1.05); }
+
+        .nav-brand-area h2,
+        .nav-brand-title {
+            color: var(--white);
+            font-size: 0.95rem;
+            font-weight: 800;
+            margin-top: 10px;
+            letter-spacing: 1px;
+        }
+
+        body.sidebar-collapsed .nav-logo { height: 45px; }
+        body.sidebar-collapsed .nav-brand-area h2 { display: none !important; }
+
+        .nav-links { width: 100%; flex-grow: 0; overflow-y: auto; }
+        .nav-links ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+
+        .nav-links a {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 500;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+            padding: 12px 18px;
+            border-radius: 8px;
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+
+        body.sidebar-collapsed .nav-links a { justify-content: center; padding: 12px 0; }
+        body.sidebar-collapsed .nav-links span { display: none; }
+
+        .nav-links a i {
+            font-size: 1.1rem;
+            width: 32px;
+            height: 32px;
+            line-height: 32px;
+            text-align: center;
+            color: var(--accent);
+            background: rgba(255,255,255,0.05);
+            border-radius: 6px;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover i {
+            color: var(--white);
+            background: var(--primary);
+            transform: scale(1.15) rotate(15deg);
+            box-shadow: 0 4px 10px rgba(165, 28, 48, 0.3);
+        }
+
+        .nav-links a:hover, .nav-links li.active a {
+            color: var(--white);
+            background: rgba(255, 255, 255, 0.08);
+            border-left: 4px solid var(--primary);
+            padding-left: 22px;
+        }
+
+        body.sidebar-collapsed .nav-links a:hover, 
+        body.sidebar-collapsed .nav-links li.active a {
+            padding-left: 0;
+            border-left: none;
+            background: rgba(255, 255, 255, 0.15);
+            color: var(--accent);
+        }
+
+        /* --- Auto Reply System Chat Box styles --- */
+        .autoreply-chat-box {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 350px;
+            height: 450px;
+            background: var(--white);
+            border: 2px solid var(--accent);
+            border-radius: 12px;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+            display: none;
+            flex-direction: column;
+            z-index: 9999;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+        .autoreply-chat-box.active {
+            display: flex;
+        }
+        .chat-box-header {
+            background: var(--oxford-blue);
+            color: var(--white);
+            padding: 15px;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid var(--primary);
+        }
+        .chat-box-header span { font-size: 0.9rem; display: flex; align-items: center; gap: 8px;}
+        .chat-box-header i.close-chat { cursor: pointer; color: #94a3b8; transition: var(--transition); }
+        .chat-box-header i.close-chat:hover { color: var(--white); }
+        .chat-messages {
+            flex-grow: 1;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            background: #f8fafc;
+        }
+        .chat-msg {
+            max-width: 80%;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+        .chat-msg.bot {
+            background: #e2e8f0;
+            color: var(--oxford-blue);
+            align-self: flex-start;
+            border-left: 3px solid var(--accent);
+        }
+        .chat-msg.user {
+            background: var(--primary);
+            color: var(--white);
+            align-self: flex-end;
+        }
+        .chat-input-area {
+            display: flex;
+            border-top: 1px solid #e2e8f0;
+            padding: 10px;
+            background: var(--white);
+        }
+        .chat-input-area input {
+            flex-grow: 1;
+            border: 1px solid #cbd5e1;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            outline: none;
+        }
+        .chat-input-area button {
+            background: var(--oxford-blue);
+            color: var(--white);
+            border: none;
+            padding: 0 15px;
+            margin-left: 8px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .chat-input-area button:hover { background: var(--primary); }
+
+        /* --- 2. UPDATED TOP TELEMETRY BAR --- */
+        .top-telemetry-bar {
+            position: fixed;
+            top: 0;
+            left: var(--sidebar-width);
+            width: calc(100% - var(--sidebar-width));
+            height: var(--topbar-height);
+            background: var(--white);
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            z-index: 999;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+            transition: var(--transition);
+        }
+
+        .topbar-left-zone {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .sidebar-toggle-btn {
+            background: var(--oxford-blue);
+            color: var(--white);
+            border: 2px solid var(--accent);
+            width: 42px;
+            height: 42px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            transition: var(--transition);
+        }
+        .sidebar-toggle-btn:hover { background: var(--primary); }
+
+        .lang-switch-btn {
+            background: #f1f5f9;
+            color: var(--oxford-blue);
+            border: 1px solid #cbd5e1;
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+        }
+        .lang-switch-btn:hover {
+            background: var(--primary);
+            color: var(--white);
+            border-color: var(--primary);
+        }
+
+        .live-clock-widget {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #f1f5f9;
+            padding: 8px 16px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #002147;
+            border: 1px solid #e2e8f0;
+            border-radius: 50px;
+        }
+        .live-clock-widget i { color: #ef4444; }
+
+        .topbar-center-hub {
+            display: flex;
+            align-items: center;
+            background: #fffdf5; 
+            border: 1px solid #e2d199;
+            border-left: 5px solid var(--accent); 
+            border-radius: 8px;
+            padding: 6px;
+            width: 100%;
+            max-width: 480px;
+            height: 52px;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.02);
+            overflow: hidden;
+        }
+
+        .node-badge {
+            background: var(--primary);
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.65rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            line-height: 1.2;
+            text-align: left;
+            height: 100%;
+            z-index: 5;
+            flex-shrink: 0;
+        }
+        .node-badge i { font-size: 0.8rem; }
+
+        .status-scroll-text {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #002147;
+            margin-left: 12px;
+            white-space: nowrap;
+            display: inline-block;
+            animation: trainAnimateAnnouncement 12s linear infinite;
+        }
+        
+        .topbar-center-hub:hover .status-scroll-text {
+            animation-play-state: paused;
+        }
+
+        @keyframes trainAnimateAnnouncement {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        .topbar-right-zone {
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        /* --- FIXED PROFILE TRIGGER SYSTEM --- */
+        .profile-trigger {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            padding: 6px 18px 6px 8px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 50px; 
+            transition: var(--transition);
+            height: 48px;
+        }
+        .profile-trigger:hover { background: #f1f5f9; border-color: #cbd5e1; }
+
+        .avatar-frame-container { 
+            position: relative; 
+            width: 34px; 
+            height: 34px; 
+            flex-shrink: 0;
+        }
+
+        .user-avatar-img { 
+            width: 100%; 
+            height: 100%; 
+            border-radius: 50%; 
+            object-fit: cover; 
+            border: 2px solid var(--accent); 
+            background: #f1f5f9;
+        }
+
+        .status-online-dot { 
+            position: absolute; 
+            bottom: -1px; 
+            right: -1px; 
+            width: 9px; 
+            height: 9px; 
+            background-color: #10b981; 
+            border: 2px solid var(--white); 
+            border-radius: 50%; 
+            z-index: 2;
+        }
+
+        .profile-trigger .icon-chevron {
+            font-size: 0.7rem;
+            color: #64748b;
+            margin-left: 6px;
+        }
+
+        .profile-trigger-info { 
+            display: flex; 
+            flex-direction: column; 
+            text-align: left; 
+            justify-content: center;
+        }
+        .profile-trigger-info .user-name { 
+            font-size: 0.88rem; 
+            font-weight: 700; 
+            color: #002147; 
+            white-space: nowrap; 
+            overflow: hidden; 
+            text-overflow: ellipsis; 
+            max-width: 115px; 
+            line-height: 1.2;
+        }
+        .profile-trigger-info .user-id-badge { 
+            font-size: 0.72rem; 
+            color: #64748b; 
+            font-weight: 500; 
+            margin-top: 1px; 
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 115px;
+            line-height: 1.1;
+        }
+
+        /* PROFILE DROPDOWN CARD */
+        .profile-dropdown-card {
+            position: absolute; top: calc(100% + 12px); right: 0; width: 300px;
+            background: var(--white); border-radius: 4px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15); display: none; flex-direction: column;
+            z-index: 10000; overflow: hidden; opacity: 0; transform: translateY(-10px);
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+        
+        .profile-dropdown-card.show-card { display: flex; opacity: 1; transform: translateY(0); }
+
+        .dropdown-header { background: var(--deep-navy); padding: 24px 16px; text-align: center; color: var(--white); }
+        .dropdown-avatar-container { position: relative; width: 80px; height: 80px; margin: 0 auto 12px auto; cursor: pointer; border-radius: 50%; }
+        .dropdown-avatar-container img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 2px solid var(--white); }
+        
+        .avatar-edit-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 50%;
+            background: rgba(0, 0, 0, 0.5); display: flex; justify-content: center;
+            align-items: center; color: var(--white); font-size: 0.8rem; opacity: 0; transition: var(--transition);
+        }
+        .dropdown-avatar-container:hover .avatar-edit-overlay { opacity: 1; }
+
+        .hidden-avatar-input { display: none; }
+
+        .dropdown-full-name { font-size: 1.15rem; font-weight: 700; color: var(--white); letter-spacing: 0.3px; }
+        .dropdown-email { font-size: 0.82rem; color: #a0aec0; margin-top: 4px; font-weight: 400; }
+
+        .dropdown-body { padding: 18px 20px; display: flex; flex-direction: column; gap: 16px; background: #fdfdfd; }
+        .db-item { display: flex; align-items: center; font-size: 0.88rem; color: #1e293b; padding-bottom: 4px; }
+        .db-item i { color: var(--primary); font-size: 1rem; width: 30px; text-align: left; }
+        .db-item strong { font-weight: 700; margin-right: 6px; color: #1e293b; }
+        .db-item span { color: #64748b; margin-left: auto; font-weight: 500; }
+
+        .dropdown-footer { display: flex; padding: 0 20px 20px 20px; gap: 12px; background: #fdfdfd; }
+        .logout-btn, .close-profile-btn { flex: 1; padding: 10px; border: none; font-size: 0.85rem; font-weight: 700; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; transition: var(--transition); }
+        
+        .close-profile-btn { background: #f1f5f9; color: #1e293b; border: 1px solid #e2e8f0; }
+        .close-profile-btn:hover { background: #e2e8f0; }
+        .logout-btn { background: #fff5f5; color: #ef4444; border: 1px solid #fecaca; }
+        .logout-btn:hover { background: #ef4444; color: var(--white); border-color: #ef4444; }
+
+        /* --- 3. MAIN CONTENT WORKSPACE AREA --- */
+        .main-workspace {
+            margin-left: var(--sidebar-width);
+            margin-top: var(--topbar-height);
+            width: calc(100% - var(--sidebar-width));
+            min-height: calc(100vh - var(--topbar-height));
+            transition: var(--transition);
+        }
+
+        .header {
+            height: 65vh;
+            background: linear-gradient(rgba(0, 33, 71, 0.4), rgba(165, 28, 48, 0.2)), url('ucsttentrancegate.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--white);
+            padding: 0 20px;
+        }
+
+        .text-box h1 { font-size: 2.8rem; font-weight: 800; text-shadow: 2px 2px 10px rgba(0,0,0,0.6); }
+        .text-box p { font-size: 1.05rem; margin-bottom: 2rem; text-shadow: 1px 1px 5px rgba(0,0,0,0.6); }
+
+        /* --- FLEXIBLE HERO BUTTON SYSTEM --- */
+        .hero-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 48px;
+            padding: 10px 30px;
+            background: var(--primary);
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: 1px solid var(--accent);
+            border-radius: 6px;
+            transition: var(--transition);
+            white-space: nowrap;
+            line-height: 1.2;
+        }
+        .hero-btn:hover { background: var(--white); color: var(--primary); }
+
+        section { padding: 60px 5%; text-align: center; }
+        .row { display: flex; justify-content: space-between; gap: 1.5rem; margin-top: 40px; flex-wrap: wrap; }
+
+        .course-col {
+            flex: 1;
+            min-width: 250px;
+            background: var(--light-bg);
+            padding: 30px 20px;
+            border-top: 5px solid var(--oxford-blue);
+            transition: var(--transition);
+        }
+        .course-col:hover { border-top-color: var(--primary); transform: translateY(-8px); box-shadow: 0 15px 30px rgba(0,0,0,0.05); }
+        .course-col h3 { margin-bottom: 15px; color: var(--primary); }
+
+        /* --- JOB OPPORTUNITIES COMPONENT CUSTOM STYLES --- */
+        .job-ticker-container {
+            -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 5%, rgba(0,0,0,1) 95%, rgba(0,0,0,0) 100%);
+            mask-image: linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 5%, rgba(0,0,0,1) 95%, rgba(0,0,0,0) 100%);
+        }
+
+        @keyframes jobTickerInfinite {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .animate-job-ticker {
+            display: flex;
+            width: max-content;
+            animation: jobTickerInfinite 30s linear infinite;
+        }
+
+        .job-ticker-container:hover .animate-job-ticker {
+            animation-play-state: paused;
+        }
+
+        .job-modal-backdrop {
+            background: rgba(0, 28, 61, 0.7);
+            -webkit-backdrop-filter: blur(8px);
+            backdrop-filter: blur(8px);
+        }
+
+        /* --- CREATORS TEAM SECTIONS --- */
+        .creators-section { padding: 80px 6%; background: #fafcff; text-align: center; }
+        .creators-section h1 { font-size: 2.2rem; font-weight: 800; color: var(--oxford-blue); }
+        .creators-title-line { width: 70px; height: 5px; background: linear-gradient(90deg, var(--primary), var(--accent)); margin: 12px auto 20px auto; border-radius: 10px; }
+        .section-subtitle { font-size: 0.95rem; color: var(--text-muted); max-width: 600px; margin: 0 auto 40px auto; }
+        
+        .team-compact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; max-width: 1200px; margin: 0 auto; }
+        .team-glass-card { background: var(--white); border: 1px solid #e2e8f0; border-radius: 14px; display: flex; align-items: center; padding: 16px; gap: 16px; position: relative; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.02); transition: var(--transition); }
+        .team-glass-card:hover { transform: translateY(-4px); border-color: rgba(165, 28, 48, 0.3); box-shadow: 0 12px 25px rgba(165, 28, 48, 0.08); }
+        .team-glass-card::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: var(--oxford-blue); transition: var(--transition); }
+        .team-glass-card:hover::before { background: var(--primary); }
+        .card-avatar-wrapper { width: 80px; height: 80px; border-radius: 10px; overflow: hidden; flex-shrink: 0; border: 2px solid #f1f5f9; position: relative; }
+        .card-avatar-wrapper img { width: 100%; height: 100%; object-fit: cover; transition: var(--transition); }
+        .team-glass-card:hover .card-avatar-wrapper img { transform: scale(1.1); }
+        .card-info-pane { text-align: left; flex-grow: 1; display: flex; flex-direction: column; }
+        .card-id-badge { font-size: 0.68rem; font-weight: 700; color: var(--primary); background: rgba(165, 28, 48, 0.05); padding: 2px 8px; border-radius: 4px; width: max-content; margin-bottom: 5px; border: 1px solid rgba(165, 28, 48, 0.08); }
+        .card-info-pane h3 { font-size: 1.05rem; color: var(--oxford-blue); font-weight: 700; margin-bottom: 2px; }
+        .card-info-pane .role-text { font-size: 0.82rem; color: var(--text-muted); font-weight: 500; margin-bottom: 8px; }
+        .card-social-row { display: flex; gap: 10px; }
+        .card-social-row a { color: #94a3b8; font-size: 0.85rem; transition: var(--transition); text-decoration: none; }
+        .card-social-row a:hover { color: var(--primary); }
+
+        .footer { background: var(--oxford-blue); color: var(--white); padding: 30px 10px; border-top: 5px solid var(--primary); text-align: center; font-size: 0.9rem; }
+
+        /* --- RESPONSIVE ENGINE RECONSTRUCTION --- */
+        @media (max-width: 1024px) {
+            body, body.sidebar-collapsed { flex-direction: column; }
+            nav { width: 100%; height: auto; position: relative; border-right: none; border-bottom: 4px solid var(--accent); padding: 15px; justify-content: flex-start; }
+            .nav-brand-area { display: flex; flex-direction: column; align-items: center; justify-content: center; padding-bottom: 10px; margin-bottom: 10px; }
+            .nav-logo { height: 55px; }
+            .nav-links ul { flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 8px; }
+            .nav-links a { padding: 8px 14px; font-size: 0.8rem; }
+            
+            .top-telemetry-bar { position: relative; left: 0; width: 100%; display: flex; flex-direction: column; padding: 15px; gap: 10px; height: auto; }
+            .topbar-left-zone { width: 100%; justify-content: space-between; }
+            .topbar-center-hub { width: 100%; justify-content: center; padding: 0; flex-wrap: wrap; }
+            .topbar-right-zone { width: 100%; justify-content: center; margin-top: 5px; }
+            .profile-dropdown-card { right: auto; left: 50%; transform: translateX(-50%) translateY(-10px); }
+            .profile-dropdown-card.show-card { transform: translateX(-50%) translateY(0); }
+            
+            .sidebar-toggle-btn { display: none; }
+            .main-workspace { margin-left: 0; margin-top: 0; width: 100%; }
+            .text-box h1 { font-size: 2.2rem; }
+            .text-box p { font-size: 1rem; }
+        }
+
+        @media (max-width: 480px) {
+            .nav-links ul { gap: 4px; }
+            .nav-links a { padding: 6px 10px; font-size: 0.75rem; gap: 6px; }
+            .text-box h1 { font-size: 1.75rem; }
+            section { padding: 40px 4%; }
+            .live-clock-widget { font-size: 0.75rem; padding: 4px 10px; }
+        }
+    </style>
+</head>
+<body>
+    
+    <nav id="sidebarNode">
+        <div class="nav-brand-area">
+            <a href="fourthYearHomePage.html"><img src="logo.png" alt="UCSTT Logo" class="nav-logo"></a>
+            <h2 class="nav-brand-title">NextGen UCSTT</h2>
+        </div>
+        
+        <div class="nav-links">
+            <ul>
+                <li class="active"><a href="fourthYearHomePage.html"><i class="fas fa-home"></i> <span class="lang-en">HOME</span><span class="lang-mm">ပင်မစာမျက်နှာ</span></a></li>
+                <li><a href="fourthYearAbout.html"><i class="fas fa-info-circle"></i> <span class="lang-en">ABOUT</span><span class="lang-mm">ကျောင်းအကြောင်း</span></a></li>
+                <li><a href="fourthYearGallery.html"><i class="fas fa-images"></i> <span class="lang-en">GALLERY</span><span class="lang-mm">ဓာတ်ပုံများ</span></a></li>
+                <li><a href="fourthYearFeedback.html"><i class="fas fa-comment-alt"></i> <span class="lang-en">FEEDBACK</span><span class="lang-mm">အကြံပြုချက်</span></a></li>
+                <li><a href="fourthYearContact.html"><i class="fas fa-envelope"></i> <span class="lang-en">CONTACT</span><span class="lang-mm">ဆက်သွယ်ရန်</span></a></li>
+                <li><a href="fourthYearAskChat.html"><i class="fas fa-headset"></i> <span class="lang-en">ASK CHAT</span><span class="lang-mm">မေးမြန်းရန်</span></a></li>
+                <li><a href="learnForFourth.html"><i class="fas fa-graduation-cap"></i> <span class="lang-en">LEARNING</span><span class="lang-mm">လေ့လာရန်</span></a></li>
+            </ul>
+        </div>
+    </nav>
+
+    
+    <div class="top-telemetry-bar">
+        <div class="topbar-left-zone">
+            <button class="sidebar-toggle-btn" onclick="toggleSidebarSize()" title="Toggle sidebar navigation">
+                <i class="fas fa-bars" id="toggleIcon"></i>
+            </button>
+            <button class="lang-switch-btn" onclick="toggleLanguageChoice()">
+                <i class="fas fa-globe"></i>
+                <span class="lang-en">🇲🇲 မြန်မာ</span>
+                <span class="lang-mm">🇬🇧 English</span>
+            </button>
+            <div class="live-clock-widget">
+                <i class="far fa-clock"></i>
+                <span id="live-time-display">00:00:00 AM</span>
+            </div>
+        </div>
+
+        <div class="topbar-center-hub">
+            <div class="node-badge">
+                <i class="fas fa-university"></i>
+                <div>
+                    <span class="lang-en">Institutional<br>Node</span>
+                    <span class="lang-mm">တက္ကသိုလ်<br>စနစ်</span>
+                </div>
+            </div>
+            <div class="status-scroll-text" id="campus-hours-text">
+                ယနေ့UCSTTတွင်<strong>project show</strong>ကျင်းပနေပါသည်။second yearမှမောင်သော်တာဟိန်းနှင့်သူငယ်ချင်းများမှ
+                <strong>NextGen UCSTT</strong>အမည်ဖြင့်ဝင်ရောက်ယှဉ်ပြိုင်နေပါသည်။
+            </div>
+        </div>
+
+        <div class="topbar-right-zone">
+            <div class="user-profile-hub" id="userProfileHub">
+                <div class="profile-trigger" onclick="toggleProfileDropdown(event)">
+                    <div class="avatar-frame-container">
+                        <img src="imageForProject/As.jpg" alt="Student Pic" class="user-avatar-badge user-avatar-img">
+                        <div class="status-online-dot"></div>
+                    </div>
+                    <div class="profile-trigger-info">
+                        <span class="user-name-badge user-name">Loading...</span>
+                        <span class="user-roll-badge user-id-badge">UCSTT(24-25)-000</span>
+                    </div>
+                    <i class="fas fa-chevron-down icon-chevron" title="Open profile dropdown"></i>
+                </div>
+                
+                <div class="profile-dropdown-card dropdownCardNode" id="dropdownCardNode" onclick="event.stopPropagation()">
+                    <div class="dropdown-header">
+                        <div class="dropdown-avatar-container" onclick="triggerPhotoUpload()">
+                            <img src="imageForProject/As.jpg" alt="Student Pic" class="dropdown-avatar-img">
+                            <div class="avatar-edit-overlay">
+                                <i class="fas fa-camera"></i>
+                            </div>
+                        </div>
+                        <input type="file" id="hiddenAvatarInput" accept="image/*" class="hidden-avatar-input" onchange="handlePhotoUpdate(event)">
+                        
+                        <h4 class="dropdown-full-name">Name</h4>
+                        <p class="dropdown-email">student@ucstt.edu.mm</p>
+                    </div>
+                    <div class="dropdown-body">
+                        <div class="db-item">
+                            <i class="fas fa-graduation-cap"></i> 
+                            <div>
+                                <strong class="lang-en">Year/Major:</strong>
+                                <strong class="lang-mm">သင်တန်းနှစ်/မေဂျာ:</strong>
+                            </div> 
+                            <span class="dropdown-year-major">First Year (CST)</span>
+                        </div>
+                        <div class="db-item">
+                            <i class="fas fa-history"></i> 
+                            <div>
+                                <strong class="lang-en">Last Login:</strong>
+                                <strong class="lang-mm">နောက်ဆုံးဝင်ရောက်ချိန်:</strong>
+                            </div> 
+                            <span class="dropdown-last-login">7/9/2026, 9:27:10 PM</span>
+                        </div>
+                    </div>
+                    <div class="dropdown-footer">
+                        <button class="close-profile-btn" onclick="closeProfileDropdown()">
+                            <span class="lang-en">Cancel</span>
+                            <span class="lang-mm">မလုပ်တော့ပါ</span>
+                        </button>
+                        <button class="logout-btn" onclick="handleLogout()">
+                            <i class="fas fa-sign-out-alt"></i> 
+                            <span class="lang-en">Log Out</span>
+                            <span class="lang-mm">ထွက်မည်</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-workspace">
+        <section class="header">
+            <div class="text-box">
+                <h1 class="lang-en">University of Computer Studies (Thaton)</h1>
+                <h1 class="lang-mm">ကွန်ပျူတာတက္ကသိုလ် (သထုံ)</h1>
+
+                <p class="lang-en"><strong>Welcome Back, Fourth Year Innovators!</strong></p>
+                <p class="lang-mm"><strong>စတုတ္တနှစ် ကျောင်းသား/သူများ မင်္ဂလာပါ!</strong></p>
+
+                <a href="learnForFourth.html" class="hero-btn">
+                    <span class="lang-en">More</span>
+                    <span class="lang-mm">ပိုမိုသိရှိရန်</span>
+                </a>
+            </div>
+        </section>
+
+        <section class="course">
+            <h1 class="lang-en"><strong>Academic Excellence</strong></h1>
+            <h1 class="lang-mm"><strong>ပညာရေးဆိုင်ရာ ထူးချွန်ထက်မြက်မှု</strong></h1>
+
+            <p class="lang-en">Helping students build strong skills to become future tech leaders.</p>
+            <p class="lang-mm">အနာဂတ် နည်းပညာခေါင်းဆောင်များ ဖြစ်လာစေရန် ကျောင်းသားများ၏ ကျွမ်းကျင်မှုများကို မြှင့်တင်ပေးလျက်ရှိပါသည်။</p>
+
+            <div class="row">
+                <div class="course-col">
+                    <h3 class="lang-en">Skill Mastery</h3>
+                    <h3 class="lang-mm">ကျွမ်းကျင်မှု ပျိုးထောင်ခြင်း</h3>
+                    <p class="lang-en">Develop critical expertise in programming, cybersecurity, AI, and professional teamwork.</p>
+                    <p class="lang-mm">ပရိုဂရမ်းမင်း၊ ဆိုက်ဘာလုံခြုံရေး၊ AI နှင့် အသင်းအဖွဲ့လိုက် လုပ်ဆောင်နိုင်မှု စွမ်းရည်များကို စနစ်တကျ သင်ကြားပေးပါသည်။</p>
+                </div>
+                <div class="course-col">
+                    <h3 class="lang-en">Degrees</h3>
+                    <h3 class="lang-mm">အပ်နှင်းသည့် ဘွဲ့များ</h3>
+                    <p class="lang-en">Bachelor of Computer Science (B.C.Sc.) <br>Bachelor of Computer Technology (B.C.Tech.)</p>
+                    <p class="lang-mm">ကွန်ပျူတာသိပ္ပံဘွဲ့ (B.C.Sc.) <br>ကွန်ပျူတာနည်းပညာဘွဲ့ (B.C.Tech.)</p>
+                </div>
+                <div class="course-col">
+                    <h3 class="lang-en">Global Careers</h3>
+                    <h3 class="lang-mm">နိုင်ငံတကာ အလုပ်အကိုင်များ</h3>
+                    <p class="lang-en">Join the ranks of top Software Engineers, Data Scientists, and Cloud Architects worldwide.</p>
+                    <p class="lang-mm">ကမ္ဘာ့အဆင့်မီ ဆော့ဖ်ဝဲလ်အင်ဂျင်နီယာများ၊ ဒေတာသိပ္ပံပညာရှင်များနှင့် Cloud နည်းပညာရှင်များ ဖြစ်လာစေရန်။</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= JOB OPPORTUNITIES COMPONENT ================= -->
+        <section id="job-opportunities" class="py-16 bg-slate-50 relative border-t border-b border-slate-200">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                
+                <!-- Section Header -->
+                <div class="mb-10">
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-[#002147]">
+                        <span class="lang-en">IT Career & Internship Hub</span>
+                        <span class="lang-mm">IT အလုပ်အကိုင် နှင့် အလုပ်သင် အခွင့်အလမ်းများ</span>
+                    </h2>
+                    <div class="w-20 h-1.5 bg-gradient-to-r from-[#A51C30] to-[#C49619] mx-auto my-3 rounded-full"></div>
+                    <p class="text-slate-600 max-w-2xl mx-auto text-sm md:text-base">
+                        <span class="lang-en">Connect directly with top Local and International IT enterprises actively hiring UCSTT graduates and students.</span>
+                        <span class="lang-mm">UCSTT ကျောင်းသား/သူများအတွက် ပြည်တွင်း/ပြည်ပ ထိပ်တန်း IT ကုမ္ပဏီကြီးများ၏ အလုပ်အကိုင်များကို လေ့လာလျှောက်ထားနိုင်ပါသည်။</span>
+                    </p>
+                </div>
+
+                <!-- CONTINUOUS AUTO-SCROLLING TICKER (MARQUEE) -->
+                <div class="job-ticker-container overflow-hidden py-4 mb-12 bg-white rounded-2xl shadow-sm border border-slate-200">
+                    <div id="companyTickerRail" class="animate-job-ticker flex items-center gap-6">
+                        <!-- Injected Dynamically by JS -->
+                    </div>
+                </div>
+
+                <!-- CATEGORY GRID SELECTION HEADER -->
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-xl font-bold text-[#002147] flex items-center gap-2">
+                        <i class="fas fa-building text-[#A51C30]"></i>
+                        <span class="lang-en">Featured Tech Partners</span>
+                        <span class="lang-mm">မိတ်ဖက် IT ကုမ္ပဏီများ</span>
+                    </h3>
+                    <span class="text-xs font-semibold uppercase tracking-wider bg-red-100 text-[#A51C30] px-3 py-1 rounded-full border border-red-200">
+                        <i class="fas fa-dot-circle animate-pulse text-xs mr-1"></i> Live Hiring
+                    </span>
+                </div>
+
+                <!-- COMPANY CARDS GRID -->
+                <div id="companyGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    <!-- Cards Injected Dynamically by JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= JOB OPENINGS SLIDE-OUT / MODAL PANEL ================= -->
+        <div id="jobModal" class="fixed inset-0 z-[10000] hidden items-center justify-center p-4 job-modal-backdrop opacity-0 transition-opacity duration-300">
+            <div id="jobModalCard" class="bg-white w-full max-w-2xl rounded-2xl shadow-2xl border-2 border-[#C49619] overflow-hidden transform scale-95 transition-transform duration-300 relative flex flex-col max-h-[90vh]">
+                
+                <!-- Modal Header -->
+                <div class="bg-[#002147] text-white p-6 relative border-b-4 border-[#A51C30]">
+                    <button onclick="closeJobModal()" class="absolute top-5 right-5 text-slate-300 hover:text-white text-2xl transition-colors">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    <div class="flex items-center gap-4">
+                        <div id="modalCompanyLogo" class="w-14 h-14 bg-white rounded-xl flex items-center justify-center text-[#002147] text-2xl font-bold shadow-md">
+                            <!-- Icon Injected JS -->
+                        </div>
+                        <div class="text-left">
+                            <h3 id="modalCompanyName" class="text-xl md:text-2xl font-bold text-white">Company Name</h3>
+                            <p id="modalCompanyCategory" class="text-xs text-[#C49619] font-medium tracking-wide">Category</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal Body (Jobs List) -->
+                <div class="p-6 overflow-y-auto flex-1 bg-slate-50">
+                    <h4 class="text-sm font-bold text-slate-500 uppercase tracking-wider mb-4 text-left">
+                        <span class="lang-en">Active Job Openings</span>
+                        <span class="lang-mm">ဖွင့်လှစ်ထားသော ရာထူးများ</span>
+                    </h4>
+                    
+                    <div id="modalJobsList" class="space-y-4">
+                        <!-- Job Items Injected Dynamically -->
+                    </div>
+                </div>
+
+                <!-- Modal Footer -->
+                <div class="p-4 bg-white border-t border-slate-200 flex justify-between items-center">
+                    <span class="text-xs text-slate-500">
+                        <i class="fas fa-shield-alt text-emerald-500 mr-1"></i> UCSTT Verified Partner
+                    </span>
+                    <button onclick="closeJobModal()" class="px-5 py-2 bg-slate-200 hover:bg-slate-300 text-slate-800 rounded-lg text-sm font-semibold transition-colors">
+                        <span class="lang-en">Close</span>
+                        <span class="lang-mm">ပိတ်မည်</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <section class="creators-section">
+            <h1 class="lang-en">Meet Our Creative Team</h1>
+            <h1 class="lang-mm">ဝဘ်ဆိုက်ဖန်တီးသူများ အဖွဲ့</h1>
+            <div class="creators-title-line"></div>
+            
+            <p class="section-subtitle lang-en">This is the student team that built this website.</p>
+            <p class="section-subtitle lang-mm">ဤဝဘ်ဆိုက်အား ပူးပေါင်းဖန်တီးခဲ့ကြသော ကျောင်းသား/သူများ အဖွဲ့ဖြစ်ပါသည်။</p>
+            
+                <div class="team-compact-grid">
+                <div class="team-glass-card">
+                    <div class="card-avatar-wrapper"><img src="thawdarhein.jpg" alt="Thawdar Hein"></div>
+                    <div class="card-info-pane">
+                        <span class="card-id-badge">UCSTT(24-25)-081</span>
+                        <h3>Thawdar Hein(LYC)</h3>
+                        <span class="role-text"><span class="lang-en">Leader</span><span class="lang-mm">အဖွဲ့ခေါင်းဆောင်(လူရည်ချွန်)</span></span>
+                        <div class="card-social-row">
+                            <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" title="GitHub"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="team-glass-card">
+                    <div class="card-avatar-wrapper"><img src="pwint.jpg" alt="Pwint Yamone Zaw"></div>
+                    <div class="card-info-pane">
+                        <span class="card-id-badge">UCSTT(24-25)-054</span>
+                        <h3>Pwint Yamone Zaw</h3>
+                        <span class="role-text"><span class="lang-en">member</span>
+                        <span class="lang-mm">အဖွဲ့ဝင်</span>
+                        <div class="card-social-row">
+                            <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="team-glass-card">
+                    <div class="card-avatar-wrapper"><img src="eieiphyo.jpg" alt="Ei Ei Phyo"></div>
+                    <div class="card-info-pane">
+                        <span class="card-id-badge">UCSTT(24-25)-083</span>
+                        <h3>Ei Ei Phyo</h3>
+                        <span class="role-text"><span class="lang-en">member</span>
+                        <span class="lang-mm">အဖွဲ့ဝင်</span>
+                        <div class="card-social-row">
+                            <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" title="GitHub"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="team-glass-card">
+                    <div class="card-avatar-wrapper"><img src="shwe.jpg" alt="Shwe Yi Tun"></div>
+                    <div class="card-info-pane">
+                        <span class="card-id-badge">UCSTT(24-25)-080</span>
+                        <h3>Shwe Yi Tun</h3>
+                       <span class="role-text"><span class="lang-en">member</span>
+                        <span class="lang-mm">အဖွဲ့ဝင်</span>
+                        <div class="card-social-row">
+                            <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="team-glass-card">
+                    <div class="card-avatar-wrapper"><img src="shoon.jpg" alt="Shoon Lae Thawdar"></div>
+                    <div class="card-info-pane">
+                        <span class="card-id-badge">UCSTT(24-25)-082</span>
+                        <h3>Shoon Lae Thawdar</h3>
+                        <span class="role-text"><span class="lang-en">member</span>
+                        <span class="lang-mm">အဖွဲ့ဝင်</span>
+                        <div class="card-social-row">
+                            <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" title="GitHub"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="team-glass-card">
+                    <div class="card-avatar-wrapper"><img src="thet.jpg" alt="Thet Mon Oo"></div>
+                    <div class="card-info-pane">
+                        <span class="card-id-badge">UCSTT(24-25)-078</span>
+                        <h3>Thet Mon Oo</h3>
+                        <span class="role-text"><span class="lang-en">member</span>
+                        <span class="lang-mm">အဖွဲ့ဝင်</span>
+                        <div class="card-social-row">
+                            <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <p class="lang-en">&copy; 2026 NextGen UCSTT. All Rights Reserved.</p>
+            <p class="lang-mm">&copy; 2026 NextGen UCSTT. All Rights Reserved.</p>
+
+    
+        </footer>
+    </div>
+
+    <script>
+        // --- LANGUAGE SWITCHER ENGINE ---
+        function toggleLanguageChoice() {
+            document.body.classList.toggle('lang-burmese');
+            const isBurmese = document.body.classList.contains('lang-burmese');
+            localStorage.setItem('preferredLang', isBurmese ? 'my' : 'en');
+        }
+
+        function applySavedLanguage() {
+            const savedLang = localStorage.getItem('preferredLang');
+            if (savedLang === 'my') {
+                document.body.classList.add('lang-burmese');
+            }
+        }
+
+        // --- 1. SIDEBAR CONFIGURATOR ---
+        function toggleSidebarSize() {
+            const body = document.body;
+            const icon = document.getElementById('toggleIcon');
+            body.classList.toggle('sidebar-collapsed');
+            icon.className = body.classList.contains('sidebar-collapsed') ? "fas fa-arrow-right" : "fas fa-bars";
+        }
+
+        // --- Auto Reply Chat Mechanics ---
+        function openAutoReplyChat(e) {
+            e.preventDefault();
+            document.getElementById('autoChatBox').classList.add('active');
+        }
+
+        function closeAutoReplyChat() {
+            document.getElementById('autoChatBox').classList.remove('active');
+        }
+
+        function handleChatEnter(e) {
+            if (e.key === 'Enter') sendChatMessage();
+        }
+
+        function sendChatMessage() {
+            const inputField = document.getElementById('chatUserInput');
+            const userText = inputField.value.trim();
+            if (!userText) return;
+
+            const msgBox = document.getElementById('chatMessagesBox');
+            
+            // Append User message
+            const userMsgDiv = document.createElement('div');
+            userMsgDiv.className = 'chat-msg user';
+            userMsgDiv.innerText = userText;
+            msgBox.appendChild(userMsgDiv);
+            
+            inputField.value = '';
+            msgBox.scrollTop = msgBox.scrollHeight;
+
+            // Trigger simulated Auto Reply
+            setTimeout(() => {
+                const botMsgDiv = document.createElement('div');
+                botMsgDiv.className = 'chat-msg bot';
+                botMsgDiv.innerText = getAutoResponse(userText);
+                msgBox.appendChild(botMsgDiv);
+                msgBox.scrollTop = msgBox.scrollHeight;
+            }, 800);
+        }
+
+
+        // --- 2. AUTHENTICATION STORAGE INTERACTION ---
+        let currentLoggedUser = null;
+
+        function syncUserSessionProfile() {
+            const activeStudentData = sessionStorage.getItem('activeStudent');
+            if (!activeStudentData) {
+                alert("Unauthorized Access! Please Sign In from index page first.");
+                window.location.href = "index.html";
+                return;
+            }
+            
+            currentLoggedUser = JSON.parse(activeStudentData);
+
+            document.querySelectorAll('.user-name-badge').forEach(el => el.innerText = currentLoggedUser.name);
+            document.querySelectorAll('.user-roll-badge').forEach(el => el.innerText = currentLoggedUser.roll);
+            document.querySelectorAll('.dropdown-full-name').forEach(el => el.innerText = currentLoggedUser.name);
+            document.querySelectorAll('.dropdown-email').forEach(el => el.innerText = currentLoggedUser.email);
+            document.querySelectorAll('.dropdown-year-major').forEach(el => el.innerText = `${currentLoggedUser.year} (${currentLoggedUser.major})`);
+            document.querySelectorAll('.dropdown-last-login').forEach(el => el.innerText = currentLoggedUser.lastLoginTime || "Just Now");
+
+            const savedPhotoKey = 'profilePhoto_' + currentLoggedUser.roll;
+            const savedPhoto = localStorage.getItem(savedPhotoKey);
+            if (savedPhoto) {
+                document.querySelectorAll('.user-avatar-badge').forEach(el => el.src = savedPhoto);
+                document.querySelectorAll('.dropdown-avatar-img').forEach(el => el.src = savedPhoto);
+            }
+        }
+
+        function toggleProfileDropdown(event) {
+            event.stopPropagation();
+            const card = document.getElementById('dropdownCardNode');
+            if (card.classList.contains('show-card')) {
+                closeProfileDropdown();
+            } else {
+                card.style.display = 'flex';
+                setTimeout(() => card.classList.add('show-card'), 10);
+            }
+        }
+
+        function closeProfileDropdown() {
+            const card = document.getElementById('dropdownCardNode');
+            if(card) {
+                card.classList.remove('show-card');
+                setTimeout(() => { card.style.display = 'none'; }, 200);
+            }
+        }
+
+        function triggerPhotoUpload() {
+            document.getElementById('hiddenAvatarInput').click();
+        }
+
+        function handlePhotoUpdate(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const base64Image = e.target.result;
+                    document.querySelectorAll('.user-avatar-badge').forEach(el => el.src = base64Image);
+                    document.querySelectorAll('.dropdown-avatar-img').forEach(el => el.src = base64Image);
+                    
+                    if (currentLoggedUser) {
+                        const savedPhotoKey = 'profilePhoto_' + currentLoggedUser.roll;
+                        localStorage.setItem(savedPhotoKey, base64Image);
+                    }
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function handleLogout() {
+            const isBurmese = document.body.classList.contains('lang-burmese');
+            const confirmMsg = isBurmese ? "အကောင့်မှ ထွက်ခွာရန် သေချာပါသလား။" : "Are you sure you want to log out from NextGen UCSTT Node?";
+            if (confirm(confirmMsg)) {
+                sessionStorage.removeItem('activeStudent');
+                window.location.href = "index.html";
+            }
+        }
+
+        // --- 3. JOB OPPORTUNITIES COMPONENT ENGINE ---
+        const companyData = [
+            {
+                id: 'mit',
+                name: 'Myanmar Information Technology (MIT)',
+                type: 'Local IT Enterprise',
+                icon: 'fa-laptop-code',
+                badge: '5 Positions Open',
+                jobs: [
+                    { title: 'Junior Web Developer', type: 'Full-time', location: 'Yangon / Remote', req: 'HTML, CSS, JS, PHP/Laravel Basics' },
+                    { title: 'System Administrator', type: 'Full-time', location: 'Yangon', req: 'Linux Server, Networking, Cloud Infrastructure' },
+                    { title: 'QA Intern', type: 'Internship', location: 'Yangon', req: 'Testing concepts, Bug Tracking, Manual QA' }
+                ]
+            },
+            {
+                id: 'huawei',
+                name: 'Huawei Technologies',
+                type: 'International Tech Giant',
+                icon: 'fa-network-wired',
+                badge: 'Hiring Now',
+                jobs: [
+                    { title: 'Network Engineer Trainee', type: 'Graduate Program', location: 'Yangon', req: 'CCNA certified or CST Degree' },
+                    { title: 'Cloud Solutions Associate', type: 'Full-time', location: 'Yangon', req: 'Python, AWS/Huawei Cloud basics' }
+                ]
+            },
+            {
+                id: 'aceplus',
+                name: 'AcePlus Solutions',
+                type: 'Local Software House',
+                icon: 'fa-mobile-alt',
+                badge: '3 Positions Open',
+                jobs: [
+                    { title: 'Flutter App Developer', type: 'Full-time', location: 'Yangon / Hybrid', req: 'Dart, REST API Integration, Git' },
+                    { title: 'UI/UX Designer', type: 'Full-time', location: 'Yangon', req: 'Figma, Prototyping, Design Systems' }
+                ]
+            },
+            {
+                id: 'frontiir',
+                name: 'Frontiir (MyanmarNet)',
+                type: 'Local ISP & Software Firm',
+                icon: 'fa-wifi',
+                badge: '4 Positions Open',
+                jobs: [
+                    { title: 'DevOps Junior Engineer', type: 'Full-time', location: 'Yangon', req: 'Docker, CI/CD, Shell Scripting' },
+                    { title: 'Frontend Developer (React)', type: 'Full-time', location: 'Yangon', req: 'React.js, Tailwind CSS, JavaScript' }
+                ]
+            },
+            {
+                id: 'agoda',
+                name: 'Agoda (Regional Hub)',
+                type: 'International Tech Partner',
+                icon: 'fa-globe-asia',
+                badge: 'High Demand',
+                jobs: [
+                    { title: 'Full Stack Engineer Intern', type: 'Internship', location: 'Bangkok / Remote', req: 'Data Structures, React, Node.js' },
+                    { title: 'Data Analytics Associate', type: 'Full-time', location: 'Remote', req: 'SQL, Python, PowerBI' }
+                ]
+            },
+            {
+                id: 'kbank',
+                name: 'KBZ Bank IT Division',
+                type: 'Local FinTech',
+                icon: 'fa-university',
+                badge: '6 Positions Open',
+                jobs: [
+                    { title: 'Cybersecurity Analyst', type: 'Full-time', location: 'Yangon', req: 'Network Security, SIEM, SOC Operations' },
+                    { title: 'Backend Developer (Java)', type: 'Full-time', location: 'Yangon', req: 'Spring Boot, PostgreSQL, Microservices' }
+                ]
+            }
+        ];
+
+        function initJobComponent() {
+            const gridContainer = document.getElementById('companyGrid');
+            const tickerRail = document.getElementById('companyTickerRail');
+            
+            if (!gridContainer || !tickerRail) return;
+
+            gridContainer.innerHTML = '';
+            tickerRail.innerHTML = '';
+
+            const tickerList = [...companyData, ...companyData];
+
+            tickerList.forEach(company => {
+                const tickerCard = document.createElement('div');
+                tickerCard.className = "flex items-center gap-3 px-5 py-2.5 bg-slate-50 border border-slate-200 rounded-full shrink-0 cursor-pointer hover:border-[#A51C30] hover:bg-red-50 transition-all";
+                tickerCard.onclick = () => openJobModal(company.id);
+                tickerCard.innerHTML = `
+                    <i class="fas ${company.icon} text-[#A51C30] text-lg"></i>
+                    <span class="text-sm font-semibold text-slate-800 whitespace-nowrap">${company.name}</span>
+                    <span class="text-[10px] bg-red-100 text-[#A51C30] px-2 py-0.5 rounded-full font-bold">${company.badge}</span>
+                `;
+                tickerRail.appendChild(tickerCard);
+            });
+
+            companyData.forEach(company => {
+                const card = document.createElement('div');
+                card.className = "bg-white border border-slate-200 rounded-xl p-6 text-left shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between group cursor-pointer border-t-4 border-t-[#002147] hover:border-t-[#A51C30]";
+                card.onclick = () => openJobModal(company.id);
+
+                card.innerHTML = `
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="w-12 h-12 rounded-xl bg-slate-100 border border-slate-200 flex items-center justify-center text-[#002147] text-xl group-hover:bg-[#A51C30] group-hover:text-white transition-colors">
+                                <i class="fas ${company.icon}"></i>
+                            </div>
+                            <span class="text-xs font-bold text-[#A51C30] bg-red-50 border border-red-100 px-2.5 py-1 rounded-full">
+                                ${company.badge}
+                            </span>
+                        </div>
+                        <h4 class="font-bold text-slate-900 text-lg group-hover:text-[#A51C30] transition-colors leading-snug">${company.name}</h4>
+                        <p class="text-xs text-slate-500 font-medium mb-4">${company.type}</p>
+                    </div>
+                    <div class="pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-semibold text-[#002147]">
+                        <span>${company.jobs.length} Active Positions</span>
+                        <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform text-[#A51C30]"></i>
+                    </div>
+                `;
+                gridContainer.appendChild(card);
+            });
+        }
+
+        function openJobModal(companyId) {
+            const company = companyData.find(c => c.id === companyId);
+            if (!company) return;
+
+            document.getElementById('modalCompanyName').innerText = company.name;
+            document.getElementById('modalCompanyCategory').innerText = company.type;
+            document.getElementById('modalCompanyLogo').innerHTML = `<i class="fas ${company.icon}"></i>`;
+
+            const jobsContainer = document.getElementById('modalJobsList');
+            jobsContainer.innerHTML = '';
+
+            company.jobs.forEach(job => {
+                const jobCard = document.createElement('div');
+                jobCard.className = "bg-white p-4 rounded-xl border border-slate-200 shadow-sm hover:border-[#C49619] transition-all text-left flex flex-col sm:flex-row sm:items-center justify-between gap-4";
+                jobCard.innerHTML = `
+                    <div>
+                        <div class="flex items-center gap-2 mb-1">
+                            <h5 class="font-bold text-slate-900 text-base">${job.title}</h5>
+                            <span class="text-[10px] bg-slate-100 text-slate-700 px-2 py-0.5 rounded font-semibold border border-slate-200">${job.type}</span>
+                        </div>
+                        <p class="text-xs text-slate-500 mb-2"><i class="fas fa-map-marker-alt text-red-500 mr-1"></i> ${job.location}</p>
+                        <p class="text-xs text-slate-600"><strong>Skills:</strong> ${job.req}</p>
+                    </div>
+                    <button onclick="applyJob('${company.name}', '${job.title}')" class="shrink-0 px-4 py-2 bg-[#002147] hover:bg-[#A51C30] text-white text-xs font-bold rounded-lg transition-colors">
+                        <span class="lang-en">View Details</span>
+                        <span class="lang-mm">အသေးစိတ်</span>
+                    </button>
+                `;
+                jobsContainer.appendChild(jobCard);
+            });
+
+            const modal = document.getElementById('jobModal');
+            const modalCard = document.getElementById('jobModalCard');
+            
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                modalCard.classList.remove('scale-95');
+                modalCard.classList.add('scale-100');
+            }, 10);
+        }
+
+        function closeJobModal() {
+            const modal = document.getElementById('jobModal');
+            const modalCard = document.getElementById('jobModalCard');
+            
+            modal.classList.add('opacity-0');
+            modalCard.classList.remove('scale-100');
+            modalCard.classList.add('scale-95');
+            
+            setTimeout(() => {
+                modal.classList.remove('flex');
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        function applyJob(company, title) {
+            alert(`Redirecting to UCSTT Career Portal details for ${title} at ${company}.`);
+        }
+
+        // --- 4. REALTIME TELEMETRY SYSTEM CLOCK ---
+        function executeScheduleTelemetry() {
+            const now = new Date();
+            let hours = now.getHours(), minutes = now.getMinutes(), seconds = now.getSeconds();
+            let ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12 || 12;
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            seconds = seconds < 10 ? '0' + seconds : seconds;
+            document.getElementById('live-time-display').textContent = `${hours}:${minutes}:${seconds} ${ampm}`;
+        }
+        setInterval(executeScheduleTelemetry, 1000);
+
+        window.addEventListener('DOMContentLoaded', () => {
+            applySavedLanguage();
+            syncUserSessionProfile();
+            executeScheduleTelemetry();
+            initJobComponent();
+        });
+        window.onclick = function() { closeProfileDropdown(); }
+    </script>
+</body>
+</html>

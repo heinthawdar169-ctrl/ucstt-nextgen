@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-950">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Global Polyglot 15-Lesson Master Hub</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts & FontAwesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['Fira Code', 'monospace'],
+          },
+          colors: {
+            brand: {
+              dark: '#0B1120',
+              panel: '#151F32',
+              border: '#23324D',
+              teal: '#0D9488',
+              cyan: '#06B6D4',
+              accent: '#22D3EE',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom Scrollbars */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0B1120;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #23324D;
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #06B6D4;
+    }
+  </style>
+</head>
+<body class="h-full flex flex-col font-sans text-slate-100 bg-brand-dark antialiased overflow-x-hidden selection:bg-cyan-500 selection:text-slate-950">
+
+  <!-- TOP HEADER -->
+  <header class="h-16 border-b border-brand-border bg-brand-panel/90 backdrop-blur px-4 md:px-6 flex items-center justify-between shrink-0 sticky top-0 z-50">
+    <div class="flex items-center space-x-3">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-400 to-teal-600 flex items-center justify-center text-slate-950 shadow-lg shadow-cyan-500/20">
+        <i class="fa-solid fa-[#000] fa-code text-lg font-black"></i>
+      </div>
+      <div>
+        <h1 class="text-lg md:text-xl font-extrabold tracking-tight bg-gradient-to-r from-white via-cyan-200 to-cyan-400 bg-clip-text text-transparent">
+          Global Polyglot 15-Lesson Master Hub
+        </h1>
+        <p class="text-[10px] text-cyan-400/80 font-mono font-medium -mt-1 hidden sm:block">MULTILINGUAL CODE PLATFORM</p>
+      </div>
+    </div>
+
+    <div class="flex items-center space-x-3 md:space-x-4">
+      <button onclick="resetHome()" class="flex items-center space-x-2 px-3.5 py-1.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-brand-border text-xs md:text-sm font-semibold text-slate-200 transition-all hover:text-cyan-400">
+        <i class="fa-solid fa-house"></i>
+        <span class="hidden sm:inline">Home</span>
+      </button>
+
+      <!-- Search Bar -->
+      <div class="relative w-40 sm:w-60">
+        <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+        <input 
+          type="text" 
+          id="search-input"
+          oninput="handleSearch(this.value)"
+          placeholder="Search topics or languages..." 
+          class="w-full bg-brand-dark/80 border border-brand-border rounded-lg pl-8 pr-3 py-1.5 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all"
+        />
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER LAYOUT -->
+  <div class="flex-1 flex flex-col md:flex-row overflow-hidden">
+    
+    <!-- LEFT SIDEBAR: LANGUAGES -->
+    <aside class="w-full md:w-64 lg:w-72 border-r border-brand-border bg-brand-panel/40 flex flex-col shrink-0">
+      <div class="p-4 border-b border-brand-border/60 flex justify-between items-center bg-brand-panel/30">
+        <span class="text-xs font-bold uppercase tracking-wider text-cyan-400 flex items-center gap-2">
+          <i class="fa-solid fa-layer-group text-teal-400"></i> Popular Languages
+        </span>
+        <span class="text-[10px] font-mono text-slate-400 bg-slate-800 px-2 py-0.5 rounded border border-slate-700/50">11 TRACKS</span>
+      </div>
+      
+      <nav id="language-sidebar" class="flex-1 overflow-y-auto p-2 space-y-1 max-h-[30vh] md:max-h-none">
+        <!-- Sidebar languages dynamically injected here -->
+      </nav>
+    </aside>
+
+    <!-- CENTRAL PANEL: LESSON LIST -->
+    <main class="flex-1 flex flex-col border-r border-brand-border bg-brand-dark/50 overflow-hidden">
+      <!-- Burmese Instruction Banner -->
+      <div class="bg-gradient-to-r from-teal-950/60 via-cyan-950/40 to-slate-900 border-b border-teal-500/30 px-4 py-3 flex items-center gap-3">
+        <span class="flex h-2 w-2 relative shrink-0">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
+        </span>
+        <p class="text-xs md:text-sm text-cyan-200/90 font-medium leading-relaxed">
+          💡 သင်ခန်းစာတစ်ခုချင်းစီကို နှိပ်၍ အောက်ပါ Console တွင် တိုက်ရိုက် စမ်းသပ်လေ့လာနိုင်ပါသည်။
+        </p>
+      </div>
+
+      <!-- Header Section -->
+      <div class="p-4 md:p-6 border-b border-brand-border/80 flex flex-col sm:flex-row sm:items-center justify-between gap-2 bg-brand-panel/20">
+        <div>
+          <h2 id="active-lang-header" class="text-xl md:text-2xl font-extrabold text-white flex items-center gap-2">
+            <!-- Active Header Title -->
+          </h2>
+          <p class="text-xs text-slate-400 mt-1">Structured 15-lesson progressive mastery path</p>
+        </div>
+        <div class="flex items-center gap-2 self-start sm:self-auto">
+          <span class="text-xs font-mono text-cyan-400 bg-cyan-950/60 border border-cyan-800/60 px-2.5 py-1 rounded-md">
+            Progress: <span id="completed-counter">0</span> / 15
+          </span>
+        </div>
+      </div>
+
+      <!-- Lesson Scrollable Cards List -->
+      <div id="lesson-container" class="flex-1 overflow-y-auto p-4 space-y-2.5">
+        <!-- Lessons injected dynamically -->
+      </div>
+    </main>
+
+    <!-- RIGHT PANEL: INTERACTIVE CONSOLE -->
+    <section class="w-full md:w-[420px] lg:w-[480px] flex flex-col bg-slate-950/80 shrink-0">
+      <!-- Console Header -->
+      <div class="px-4 py-3 border-b border-brand-border bg-brand-panel/80 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-terminal text-cyan-400 text-sm"></i>
+          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-200">Interactive Console</h3>
+        </div>
+        <button 
+          onclick="runCode()" 
+          class="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold px-3.5 py-1.5 rounded-md shadow-md shadow-emerald-900/30 transition-all hover:scale-105 active:scale-95">
+          <i class="fa-solid fa-play text-[10px]"></i>
+          <span>Run Code</span>
+        </button>
+      </div>
+
+      <!-- Mock Editor Panel -->
+      <div class="flex-1 flex flex-col min-h-[220px] bg-[#0d1526] relative">
+        <div class="px-4 py-1.5 bg-slate-900/90 border-b border-brand-border/40 flex items-center justify-between text-[11px] font-mono text-slate-400">
+          <span id="editor-filename">script.py</span>
+          <span>UTF-8</span>
+        </div>
+        <textarea 
+          id="code-editor"
+          spellcheck="false"
+          class="w-full flex-1 p-4 bg-transparent font-mono text-xs md:text-sm text-cyan-200 focus:outline-none resize-none leading-relaxed"
+        ></textarea>
+      </div>
+
+      <!-- Output Terminal -->
+      <div class="h-44 md:h-52 border-t border-brand-border bg-black/90 flex flex-col">
+        <div class="px-4 py-1.5 bg-slate-900/80 border-b border-brand-border/40 flex items-center justify-between">
+          <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+            <i class="fa-solid fa-square-poll-horizontal text-teal-400"></i> Output Terminal
+          </span>
+          <button onclick="clearTerminal()" class="text-[10px] font-mono text-slate-500 hover:text-slate-300">Clear</button>
+        </div>
+        <pre id="console-output" class="flex-1 p-3 font-mono text-xs text-emerald-400 overflow-y-auto whitespace-pre-wrap leading-relaxed">
+System initialized. Select a lesson and click "Run Code" to view terminal execution.
+        </pre>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- JAVASCRIPT DATABASE & ENGINE -->
+  <script>
+    // 100% COMPLETE HARDCODED DATABASE FOR ALL 11 LANGUAGES (15 Progressive Detailed Topics Each)
+    const polyglotDatabase = {
+      python: {
+        name: "Python",
+        icon: "fa-brands fa-python",
+        color: "#38BDF8",
+        ext: "main.py",
+        lessons: [
+          { title: "1. Setup & Environment Configuration", code: `# Lesson 1: Python Setup\nimport sys\nprint(f"Python Version: {sys.version}")\nprint("Environment successfully initialized!")` },
+          { title: "2. Syntax & Basic Statements", code: `# Lesson 2: Syntax\n# Indentation and standard print usage\nname = "Global Polyglot"\nprint("Welcome to " + name)` },
+          { title: "3. Variables & Data Types", code: `# Lesson 3: Variables\nage = 25\npi = 3.14159\nis_active = True\nprint(f"Types: {type(age)}, {type(pi)}, {type(is_active)}")` },
+          { title: "4. Arithmetic & Logical Operators", code: `# Lesson 4: Operators\na, b = 15, 4\nprint(f"Add: {a+b}, Modulo: {a%b}, Power: {a**b}")` },
+          { title: "5. Conditionals (if, elif, else)", code: `# Lesson 5: Conditionals\nscore = 88\nif score >= 90:\n    print("Grade: A")\nelif score >= 80:\n    print("Grade: B")\nelse:\n    print("Grade: C")` },
+          { title: "6. Loops (for, while)", code: `# Lesson 6: Loops\nprint("For loop counter:")\nfor i in range(1, 4):\n    print(f"Iteration {i}")` },
+          { title: "7. Functions & Scope", code: `# Lesson 7: Functions\ndef greet(user):\n    return f"Hello, {user}!"\n\nprint(greet("Developer"))` },
+          { title: "8. Lists & Dictionaries", code: `# Lesson 8: Data Structures\nframeworks = ["Django", "FastAPI", "Flask"]\ninfo = {"lang": "Python", "version": 3.12}\nprint(f"List item: {frameworks[0]}\nDict value: {info['lang']}")` },
+          { title: "9. Regular Expressions (RegEx)", code: `# Lesson 9: RegEx\nimport re\ntext = "Contact: test@example.com"\nmatch = re.search(r"[\\w.]+@[\\w.]+", text)\nprint(f"Found email: {match.group(0) if match else 'None'}")` },
+          { title: "10. File I/O Operations", code: `# Lesson 10: File I/O\nwith open("demo.txt", "w") as f:\n    f.write("Polyglot Engine Active")\nprint("File write completed successfully.")` },
+          { title: "11. Exception Handling (try-except)", code: `# Lesson 11: Exceptions\ntry:\n    res = 10 / 0\nexcept ZeroDivisionError as e:\n    print(f"Handled Error: {e}")` },
+          { title: "12. OOP Basics (Classes & Objects)", code: `# Lesson 12: OOP Basics\nclass Language:\n    def __init__(self, name):\n        self.name = name\n\npy = Language("Python")\nprint(f"Language: {py.name}")` },
+          { title: "13. OOP Advanced (Inheritance & Dunder)", code: `# Lesson 13: OOP Advanced\nclass Parent:\n    def speak(self): return "Base"\nclass Child(Parent):\n    def speak(self): return "Extended " + super().speak()\n\nprint(Child().speak())` },
+          { title: "14. Modules & Package Imports", code: `# Lesson 14: Modules\nimport math\nprint(f"Sqrt of 144: {math.sqrt(144)}")` },
+          { title: "15. Advanced Decorators", code: `# Lesson 15: Decorators\ndef log_decorator(func):\n    def wrapper():\n        print("Executing function...")\n        return func()\n    return wrapper\n\n@log_decorator\ndef run():\n    print("Core logic running.")\nrun()` }
+        ]
+      },
+
+      javascript: {
+        name: "JavaScript",
+        icon: "fa-brands fa-js",
+        color: "#F7DF1E",
+        ext: "app.js",
+        lessons: [
+          { title: "1. V8 Engine Basics & Execution", code: `// Lesson 1: JS Engine\nconsole.log("V8 Call stack testing...");\nconsole.log("Event Loop Ready.");` },
+          { title: "2. Variables (var, let, const)", code: `// Lesson 2: Variables\nconst platform = "Polyglot";\nlet counter = 100;\nconsole.log(platform, counter);` },
+          { title: "3. Primitive & Reference Data Types", code: `// Lesson 3: Types\nconst num = 42;\nconst obj = { type: "Dynamic" };\nconsole.log(typeof num, typeof obj);` },
+          { title: "4. Control Flow & Operators", code: `// Lesson 4: Control Flow\nconst score = 85;\nconst result = score > 50 ? "Pass" : "Fail";\nconsole.log("Result:", result);` },
+          { title: "5. Iteration & Loops (for-of, for-in)", code: `// Lesson 5: Loops\nconst items = ["JS", "TS", "Node"];\nfor (const item of items) {\n  console.log("Item:", item);\n}` },
+          { title: "6. Arrow Functions & Lexical 'this'", code: `// Lesson 6: Arrow Functions\nconst multiply = (a, b) => a * b;\nconsole.log("Product:", multiply(6, 7));` },
+          { title: "7. Arrays & Array Methods", code: `// Lesson 7: Array Methods\nconst nums = [1, 2, 3, 4];\nconst squared = nums.map(n => n * n);\nconsole.log("Squared:", squared);` },
+          { title: "8. Objects & Destructuring", code: `// Lesson 8: Objects\nconst user = { id: 101, role: "Admin" };\nconst { role } = user;\nconsole.log("User Role:", role);` },
+          { title: "9. DOM Manipulation Concepts", code: `// Lesson 9: DOM Concepts\n// Simulated DOM interaction\nconst el = { innerText: "Hello Web" };\nconsole.log("DOM Node Text:", el.innerText);` },
+          { title: "10. Event Listeners & Delegation", code: `// Lesson 10: Event Handling\nconsole.log("Event listener attached to container.");` },
+          { title: "11. Promises & Async Operations", code: `// Lesson 11: Promises\nconst fetchData = () => Promise.resolve("Data received");\nfetchData().then(res => console.log(res));` },
+          { title: "12. Async/Await Pattern", code: `// Lesson 12: Async/Await\nasync function main() {\n  const msg = await Promise.resolve("Async Execution Complete");\n  console.log(msg);\n}\nmain();` },
+          { title: "13. ES6+ Modern Syntax Features", code: `// Lesson 13: ES6+\nconst spreadTest = [...[1,2], ...[3,4]];\nconsole.log("Spread array:", spreadTest);` },
+          { title: "14. Error Handling (try/catch/finally)", code: `// Lesson 14: Error Handling\ntry {\n  throw new Error("Custom JS Exception");\n} catch (err) {\n  console.log("Caught:", err.message);\n}` },
+          { title: "15. LocalStorage & Persistence Concepts", code: `// Lesson 15: Storage\nconsole.log("Simulating storage setItem('token', 'xyz123')");` }
+        ]
+      },
+
+      cpp: {
+        name: "C++",
+        icon: "fa-solid fa-code",
+        color: "#00599C",
+        ext: "main.cpp",
+        lessons: [
+          { title: "1. Compilers & Toolchains", code: `// Lesson 1: Compilers\n#include <iostream>\nint main() {\n    std::cout << "GCC/Clang target active." << std::endl;\n    return 0;\n}` },
+          { title: "2. Basic Syntax & Structure", code: `// Lesson 2: Structure\n#include <iostream>\nusing namespace std;\nint main() {\n    cout << "Standard C++ Structure" << endl;\n    return 0;\n}` },
+          { title: "3. Variables & Data Types", code: `// Lesson 3: Types\n#include <iostream>\nint main() {\n    int val = 100;\n    double ratio = 1.618;\n    std::cout << val << " | " << ratio << std::endl;\n    return 0;\n}` },
+          { title: "4. Input/Output (cin & cout)", code: `// Lesson 4: I/O\n#include <iostream>\nint main() {\n    std::cout << "Simulating Console IO Input: [42]" << std::endl;\n    return 0;\n}` },
+          { title: "5. Operators & Expressions", code: `// Lesson 5: Operators\n#include <iostream>\nint main() {\n    int x = (10 + 5) * 2;\n    std::cout << "Computed x: " << x << std::endl;\n    return 0;\n}` },
+          { title: "6. Conditionals (if, switch)", code: `// Lesson 6: Conditionals\n#include <iostream>\nint main() {\n    int code = 200;\n    if(code == 200) std::cout << "Status: OK" << std::endl;\n    return 0;\n}` },
+          { title: "7. Loops (for, while, do-while)", code: `// Lesson 7: Loops\n#include <iostream>\nint main() {\n    for(int i=0; i<3; i++) std::cout << "Loop: " << i << std::endl;\n    return 0;\n}` },
+          { title: "8. Functions & Signatures", code: `// Lesson 8: Functions\n#include <iostream>\nint add(int a, int b) { return a + b; }\nint main() {\n    std::cout << "Sum: " << add(12, 8) << std::endl;\n    return 0;\n}` },
+          { title: "9. Arrays & std::vector", code: `// Lesson 9: Vectors\n#include <iostream>\n#include <vector>\nint main() {\n    std::vector<int> nums = {10, 20, 30};\n    std::cout << "Vector size: " << nums.size() << std::endl;\n    return 0;\n}` },
+          { title: "10. Pointers & Memory Addresses", code: `// Lesson 10: Pointers\n#include <iostream>\nint main() {\n    int val = 50;\n    int* ptr = &val;\n    std::cout << "Value: " << *ptr << " at Address: " << ptr << std::endl;\n    return 0;\n}` },
+          { title: "11. References & Pass-by-Reference", code: `// Lesson 11: References\n#include <iostream>\nvoid modify(int &ref) { ref = 99; }\nint main() {\n    int num = 10;\n    modify(num);\n    std::cout << "Modified num: " << num << std::endl;\n    return 0;\n}` },
+          { title: "12. Structs & Data Abstraction", code: `// Lesson 12: Structs\n#include <iostream>\nstruct Player { std::string name; int level; };\nint main() {\n    Player p1 = {"Hero", 5};\n    std::cout << p1.name << " Lvl: " << p1.level << std::endl;\n    return 0;\n}` },
+          { title: "13. OOP Classes & Objects", code: `// Lesson 13: Classes\n#include <iostream>\nclass Engine {\npublic:\n    void start() { std::cout << "V8 Engine Started" << std::endl; }\n};\nint main() { Engine e; e.start(); return 0; }` },
+          { title: "14. Constructors & Destructors", code: `// Lesson 14: Constructors\n#include <iostream>\nclass Bot {\npublic:\n    Bot() { std::cout << "Bot Initialized" << std::endl; }\n};\nint main() { Bot b; return 0; }` },
+          { title: "15. Standard Template Library (STL)", code: `#include <iostream>\n#include <algorithm>\n#include <vector>\nint main() {\n    std::vector<int> v = {3, 1, 4};\n    std::sort(v.begin(), v.end());\n    std::cout << "Sorted first item: " << v[0] << std::endl;\n    return 0;\n}` }
+        ]
+      },
+
+      java: {
+        name: "Java",
+        icon: "fa-brands fa-java",
+        color: "#EA2D2E",
+        ext: "Main.java",
+        lessons: [
+          { title: "1. JVM, JDK & JRE Overview", code: `// Lesson 1: JVM\npublic class Main {\n    public static void main(String[] args) {\n        System.out.println("Java Virtual Machine Ready");\n    }\n}` },
+          { title: "2. Basic Syntax & Main Method", code: `// Lesson 2: Syntax\npublic class Main {\n    public static void main(String[] args) {\n        System.out.println("Standard Entry Point Executed");\n    }\n}` },
+          { title: "3. Primitive & Reference Types", code: `// Lesson 3: Data Types\npublic class Main {\n    public static void main(String[] args) {\n        int count = 50;\n        String text = "Java Hub";\n        System.out.println(text + ": " + count);\n    }\n}` },
+          { title: "4. Arithmetic & Comparison Operators", code: `// Lesson 4: Operators\npublic class Main {\n    public static void main(String[] args) {\n        int a = 20, b = 6;\n        System.out.println("Quotient: " + (a / b));\n    }\n}` },
+          { title: "5. Conditionals (if, switch)", code: `// Lesson 5: Conditionals\npublic class Main {\n    public static void main(String[] args) {\n        int mode = 2;\n        switch(mode) {\n            case 2 -> System.out.println("Active Mode 2");\n        }\n    }\n}` },
+          { title: "6. Loops (for, while, do-while)", code: `// Lesson 6: Loops\npublic class Main {\n    public static void main(String[] args) {\n        for(int i=1; i<=3; i++) System.out.println("Step " + i);\n    }\n}` },
+          { title: "7. Arrays & ArrayLists", code: `// Lesson 7: Arrays\nimport java.util.ArrayList;\npublic class Main {\n    public static void main(String[] args) {\n        ArrayList<String> list = new ArrayList<>();\n        list.add("Spring");\n        System.out.println("Framework: " + list.get(0));\n    }\n}` },
+          { title: "8. Methods & Overloading", code: `// Lesson 8: Methods\npublic class Main {\n    static int compute(int x) { return x * 2; }\n    public static void main(String[] args) {\n        System.out.println("Result: " + compute(10));\n    }\n}` },
+          { title: "9. Encapsulation & Access Modifiers", code: `// Lesson 9: Encapsulation\nclass Account {\n    private double balance = 500.0;\n    public double getBalance() { return balance; }\n}\npublic class Main {\n    public static void main(String[] args) {\n        System.out.println("Balance: " + new Account().getBalance());\n    }\n}` },
+          { title: "10. Constructors & 'this' Keyword", code: `// Lesson 10: Constructors\nclass User {\n    String name;\n    User(String name) { this.name = name; }\n}\npublic class Main {\n    public static void main(String[] args) {\n        System.out.println(new User("Alice").name);\n    }\n}` },
+          { title: "11. Inheritance & Overriding", code: `// Lesson 11: Inheritance\nclass Animal { void sound() { System.out.println("Sound"); } }\nclass Dog extends Animal {}\npublic class Main {\n    public static void main(String[] args) { new Dog().sound(); }\n}` },
+          { title: "12. Polymorphism & Interfaces", code: `// Lesson 12: Interfaces\ninterface Printable { void print(); }\npublic class Main implements Printable {\n    public void print() { System.out.println("Interface Contract Met"); }\n    public static void main(String[] args) { new Main().print(); }\n}` },
+          { title: "13. Exception Handling (try-catch)", code: `// Lesson 13: Exceptions\npublic class Main {\n    public static void main(String[] args) {\n        try {\n            int x = 5 / 0;\n        } catch(ArithmeticException e) {\n            System.out.println("Caught: " + e.getMessage());\n        }\n    }\n}` },
+          { title: "14. Collections Framework", code: `// Lesson 14: Collections\nimport java.util.HashMap;\npublic class Main {\n    public static void main(String[] args) {\n        HashMap<String, String> map = new HashMap<>();\n        map.put("lang", "Java");\n        System.out.println("Map Item: " + map.get("lang"));\n    }\n}` },
+          { title: "15. Streams API & Lambda Expressions", code: `// Lesson 15: Streams\nimport java.util.List;\npublic class Main {\n    public static void main(String[] args) {\n        List.of(1, 2, 3).stream().filter(n -> n > 1).forEach(System.out::println);\n    }\n}` }
+        ]
+      },
+
+      csharp: {
+        name: "C#",
+        icon: "fa-solid fa-hashtag",
+        color: "#9B4F96",
+        ext: "Program.cs",
+        lessons: [
+          { title: "1. .NET Core Architecture", code: `// Lesson 1: .NET Core\nusing System;\nclass Program {\n    static void Main() {\n        Console.WriteLine(".NET Runtime Active");\n    }\n}` },
+          { title: "2. Console I/O & Formatting", code: `// Lesson 2: Console I/O\nusing System;\nclass Program {\n    static void Main() {\n        string user = "Dev";\n        Console.WriteLine($"Formatted Output for: {user}");\n    }\n}` },
+          { title: "3. Type System & Value/Ref Types", code: `// Lesson 3: Types\nusing System;\nclass Program {\n    static void Main() {\n        int val = 10;\n        string str = "Ref Type";\n        Console.WriteLine($"{val} | {str}");\n    }\n}` },
+          { title: "4. Control Flow Statements", code: `// Lesson 4: Control Flow\nusing System;\nclass Program {\n    static void Main() {\n        bool isValid = true;\n        if(isValid) Console.WriteLine("Validation Success");\n    }\n}` },
+          { title: "5. Loops & Iterations", code: `// Lesson 5: Loops\nusing System;\nclass Program {\n    static void Main() {\n        foreach(var x in new int[]{1, 2, 3}) {\n            Console.WriteLine($"Num: {x}");\n        }\n    }\n}` },
+          { title: "6. Arrays & Generic Lists", code: `// Lesson 6: Lists\nusing System;\nusing System.Collections.Generic;\nclass Program {\n    static void Main() {\n        var list = new List<string> { "C#", ".NET" };\n        Console.WriteLine(list[0]);\n    }\n}` },
+          { title: "7. Methods & Parameters (ref, out)", code: `// Lesson 7: Methods\nusing System;\nclass Program {\n    static void Square(int input, out int result) {\n        result = input * input;\n    }\n    static void Main() {\n        Square(5, out int res);\n        Console.WriteLine($"Square: {res}");\n    }\n}` },
+          { title: "8. Classes, Objects & Properties", code: `// Lesson 8: Properties\nusing System;\nclass Person {\n    public string Name { get; set; } = "Default";\n}\nclass Program {\n    static void Main() { Console.WriteLine(new Person().Name); }\n}` },
+          { title: "9. Encapsulation & Access Modifiers", code: `// Lesson 9: Encapsulation\nusing System;\nclass Vault {\n    private int secret = 42;\n    public int GetSecret() => secret;\n}\nclass Program {\n    static void Main() { Console.WriteLine(new Vault().GetSecret()); }\n}` },
+          { title: "10. Inheritance & Base Keyword", code: `// Lesson 10: Inheritance\nusing System;\nclass Base { public void Action() => Console.WriteLine("Base Action"); }\nclass Derived : Base {}\nclass Program {\n    static void Main() { new Derived().Action(); }\n}` },
+          { title: "11. Interfaces & Polymorphism", code: `// Lesson 11: Interfaces\nusing System;\ninterface IService { void Execute(); }\nclass Service : IService {\n    public void Execute() => Console.WriteLine("Service Executed");\n}\nclass Program {\n    static void Main() { IService s = new Service(); s.Execute(); }\n}` },
+          { title: "12. Exception Handling", code: `// Lesson 12: Exceptions\nusing System;\nclass Program {\n    static void Main() {\n        try { throw new Exception("C# Error"); }\n        catch(Exception e) { Console.WriteLine(e.Message); }\n    }\n}` },
+          { title: "13. LINQ Query Syntax", code: `// Lesson 13: LINQ\nusing System;\nusing System.Linq;\nclass Program {\n    static void Main() {\n        int[] nums = { 1, 2, 3, 4, 5 };\n        var evens = nums.Where(n => n % 2 == 0);\n        Console.WriteLine($"Evens count: {evens.Count()}");\n    }\n}` },
+          { title: "14. Generics (Classes & Methods)", code: `// Lesson 14: Generics\nusing System;\nclass Container<T> {\n    public T Value { get; set; }\n}\nclass Program {\n    static void Main() {\n        var c = new Container<int> { Value = 100 };\n        Console.WriteLine(c.Value);\n    }\n}` },
+          { title: "15. Async/Await & Task Pattern", code: `// Lesson 15: Async/Await\nusing System;\nusing System.Threading.Tasks;\nclass Program {\n    static async Task Main() {\n        await Task.Delay(10);\n        Console.WriteLine("Async Task Completed");\n    }\n}` }
+        ]
+      },
+
+      rust: {
+        name: "Rust",
+        icon: "fa-brands fa-rust",
+        color: "#DEA584",
+        ext: "main.rs",
+        lessons: [
+          { title: "1. Cargo Toolchain & System", code: `// Lesson 1: Cargo\nfn main() {\n    println!("Cargo system build target active!");\n}` },
+          { title: "2. Mutability & Variables", code: `// Lesson 2: Mutability\nfn main() {\n    let mut x = 5;\n    x += 5;\n    println!("Value of x: {}", x);\n}` },
+          { title: "3. Functions & Expressions", code: `// Lesson 3: Functions\nfn add(a: i32, b: i32) -> i32 { a + b }\nfn main() {\n    println!("Sum: {}", add(15, 25));\n}` },
+          { title: "4. Ownership Core Concepts", code: `// Lesson 4: Ownership\nfn main() {\n    let s1 = String::from("Rust");\n    let s2 = s1; // Ownership moved\n    println!("Moved ownership to s2: {}", s2);\n}` },
+          { title: "5. References & Borrowing", code: `// Lesson 5: Borrowing\nfn calculate_length(s: &String) -> usize { s.len() }\nfn main() {\n    let s = String::from("Polyglot");\n    println!("Length: {}", calculate_length(&s));\n}` },
+          { title: "6. Slice Type & Memory Layout", code: `// Lesson 6: Slices\nfn main() {\n    let arr = [10, 20, 30, 40];\n    let slice = &arr[1..3];\n    println!("Slice item 0: {}", slice[0]);\n}` },
+          { title: "7. Structs & Implementation (impl)", code: `// Lesson 7: Structs\nstruct User { username: String }\nfn main() {\n    let u = User { username: String::from("Ferris") };\n    println!("User: {}", u.username);\n}` },
+          { title: "8. Enums & Match Control Flow", code: `// Lesson 8: Enums & Match\nenum Status { Active, Inactive }\nfn main() {\n    let st = Status::Active;\n    match st {\n        Status::Active => println!("Status is Active"),\n        _ => println!("Other"),\n    }\n}` },
+          { title: "9. Modules & Scope Management", code: `// Lesson 9: Modules\nmod network {\n    pub fn connect() { println!("Connected"); }\n}\nfn main() { network::connect(); }` },
+          { title: "10. Vectors & Dynamic Storage", code: `// Lesson 10: Vectors\nfn main() {\n    let mut v = vec![1, 2, 3];\n    v.push(4);\n    println!("Vector len: {}", v.len());\n}` },
+          { title: "11. Result & Option Handling", code: `// Lesson 11: Option\nfn main() {\n    let some_num: Option<i32> = Some(5);\n    if let Some(val) = some_num {\n        println!("Val: {}", val);\n    }\n}` },
+          { title: "12. Traits & Shared Behavior", code: `// Lesson 12: Traits\ntrait Speak { fn speak(&self); }\nstruct Dog;\nimpl Speak for Dog {\n    fn speak(&self) { println!("Woof!"); }\n}\nfn main() { Dog.speak(); }` },
+          { title: "13. Lifetimes Syntax", code: `// Lesson 13: Lifetimes\nfn longest<'a>(x: &'a str, y: &'a str) -> &'a str {\n    if x.len() > y.len() { x } else { y }\n}\nfn main() {\n    println!("Longest: {}", longest("rust", "c"));\n}` },
+          { title: "14. Automated Unit Testing", code: `// Lesson 14: Testing\n#[test]\nfn test_add() {\n    assert_eq!(2 + 2, 4);\n}\nfn main() { println!("Unit tests configured."); }` },
+          { title: "15. Concurrency & Threads", code: `// Lesson 15: Concurrency\nuse std::thread;\nfn main() {\n    let handle = thread::spawn(|| {\n        println!("Thread execution");\n    });\n    handle.join().unwrap();\n}` }
+        ]
+      },
+
+      go: {
+        name: "Go",
+        icon: "fa-brands fa-golang",
+        color: "#00ADD8",
+        ext: "main.go",
+        lessons: [
+          { title: "1. Go Workspace & Tooling", code: `// Lesson 1: Workspace\npackage main\nimport "fmt"\nfunc main() {\n    fmt.Println("Go Workspace Ready")\n}` },
+          { title: "2. Variables, Constants & Inferred Types", code: `// Lesson 2: Variables\npackage main\nimport "fmt"\nfunc main() {\n    var x int = 100\n    y := "Short declaration"\n    fmt.Println(x, y)\n}` },
+          { title: "3. Conditionals & Switch", code: `// Lesson 3: Conditionals\npackage main\nimport "fmt"\nfunc main() {\n    if score := 85; score > 80 {\n        fmt.Println("Passed with distinction")\n    }\n}` },
+          { title: "4. For Loops (The Only Loop)", code: `// Lesson 4: For Loop\npackage main\nimport "fmt"\nfunc main() {\n    for i := 0; i < 3; i++ {\n        fmt.Println("Iter:", i)\n    }\n}` },
+          { title: "5. Functions, Multiple Returns & Defer", code: `// Lesson 5: Functions\npackage main\nimport "fmt"\nfunc swap(a, b string) (string, string) {\n    return b, a\n}\nfunc main() {\n    defer fmt.Println("Deferred cleanup")\n    x, y := swap("hello", "world")\n    fmt.Println(x, y)\n}` },
+          { title: "6. Arrays & Slices", code: `// Lesson 6: Slices\npackage main\nimport "fmt"\nfunc main() {\n    slice := []int{10, 20, 30}\n    slice = append(slice, 40)\n    fmt.Println("Slice:", slice)\n}` },
+          { title: "7. Maps (Key-Value Pairs)", code: `// Lesson 7: Maps\npackage main\nimport "fmt"\nfunc main() {\n    m := map[string]int{"Go": 2009, "Rust": 2010}\n    fmt.Println("Go release:", m["Go"])\n}` },
+          { title: "8. Pointers & Memory Allocation", code: `// Lesson 8: Pointers\npackage main\nimport "fmt"\nfunc update(val *int) {\n    *val = 42\n}\nfunc main() {\n    x := 10\n    update(&x)\n    fmt.Println("Updated x:", x)\n}` },
+          { title: "9. Structs & Composition", code: `// Lesson 9: Structs\npackage main\nimport "fmt"\ntype Server struct { host string; port int }\nfunc main() {\n    s := Server{"localhost", 8080}\n    fmt.Printf("Server running at %s:%d\\n", s.host, s.port)\n}` },
+          { title: "10. Interfaces & Duck Typing", code: `// Lesson 10: Interfaces\npackage main\nimport "fmt"\ntype Reader interface { Read() string }\ntype Doc struct{}\nfunc (d Doc) Read() string { return "Reading document..." }\nfunc main() {\n    var r Reader = Doc{}\n    fmt.Println(r.Read())\n}` },
+          { title: "11. Goroutines (Lightweight Threads)", code: `// Lesson 11: Goroutines\npackage main\nimport ("fmt"; "time")\nfunc sayHello() { fmt.Println("Hello from Goroutine") }\nfunc main() {\n    go sayHello()\n    time.Sleep(10 * time.Millisecond)\n}` },
+          { title: "12. Channels & Synchronization", code: `// Lesson 12: Channels\npackage main\nimport "fmt"\nfunc main() {\n    ch := make(chan string)\n    go func() { ch <- "Data sent through channel" }()\n    fmt.Println(<-ch)\n}` },
+          { title: "13. Explicit Error Handling Pattern", code: `// Lesson 13: Error Handling\npackage main\nimport ("errors"; "fmt")\nfunc check(n int) (int, error) {\n    if n < 0 { return 0, errors.New("Negative value") }\n    return n * 2, nil\n}\nfunc main() {\n    res, err := check(-1)\n    if err != nil { fmt.println("Error:", err) }\n}` },
+          { title: "14. Go Modules & Dependencies", code: `// Lesson 14: Go Modules\npackage main\nimport "fmt"\nfunc main() { fmt.Println("go.mod project initialized") }` },
+          { title: "15. Standard Library Essentials", code: `// Lesson 15: Standard Library\npackage main\nimport ("fmt"; "strings")\nfunc main() {\n    fmt.Println(strings.ToUpper("polyglot go"))\n}` }
+        ]
+      },
+
+      php: {
+        name: "PHP",
+        icon: "fa-brands fa-php",
+        color: "#777BB4",
+        ext: "index.php",
+        lessons: [
+          { title: "1. XAMPP/Environment Setup", code: `<?php\n// Lesson 1: Setup\necho "PHP Engine Version: " . phpversion();\n?>` },
+          { title: "2. Basic Syntax & Tags", code: `<?php\n// Lesson 2: Syntax\necho "Standard PHP script block active.";\n?>` },
+          { title: "3. Variables & Data Types", code: `<?php\n// Lesson 3: Variables\n$txt = "PHP Master";\n$num = 8.2;\necho "Title: $txt, Version: $num";\n?>` },
+          { title: "4. Operators & String Concatenation", code: `<?php\n// Lesson 4: Operators\n$a = "Global ";\n$b = "Polyglot";\necho $a . $b;\n?>` },
+          { title: "5. Conditionals (if, switch)", code: `<?php\n// Lesson 5: Conditionals\n$role = "admin";\nif($role === "admin") {\n    echo "Access granted";\n}\n?>` },
+          { title: "6. Loops (for, foreach, while)", code: `<?php\n// Lesson 6: Loops\n$colors = ["Red", "Green", "Blue"];\nforeach($colors as $c) {\n    echo "Color: $c\\n";\n}\n?>` },
+          { title: "7. Arrays (Indexed & Associative)", code: `<?php\n// Lesson 7: Arrays\n$user = ["name" => "Alex", "role" => "Dev"];\necho $user["name"];\n?>` },
+          { title: "8. Functions & Type Declarations", code: `<?php\n// Lesson 8: Functions\nfunction sum(int $a, int $b): int {\n    return $a + $b;\n}\necho "Sum: " . sum(10, 20);\n?>` },
+          { title: "9. Superglobals ($_GET, $_POST, $_SERVER)", code: `<?php\n// Lesson 9: Superglobals\necho "Script Name: " . $_SERVER['SCRIPT_NAME'] ?? 'cli';\n?>` },
+          { title: "10. Form Validation & Sanitization", code: `<?php\n// Lesson 10: Validation\n$email = "test@example.com";\n$clean = filter_var($email, FILTER_SANITIZE_EMAIL);\necho "Sanitized: $clean";\n?>` },
+          { title: "11. Sessions & Cookies", code: `<?php\n// Lesson 11: Sessions\nsession_start();\n$_SESSION["user_id"] = 1001;\necho "Session User ID: " . $_SESSION["user_id"];\n?>` },
+          { title: "12. File System Operations", code: `<?php\n// Lesson 12: File System\nfile_put_contents("log.txt", "Log entry\\n");\necho "Written to log.txt";\n?>` },
+          { title: "13. Object-Oriented PHP", code: `<?php\n// Lesson 13: OOP PHP\nclass Controller {\n    public function render() { echo "Rendering View..."; }\n}\n(new Controller())->render();\n?>` },
+          { title: "14. MySQL Connection Concepts", code: `<?php\n// Lesson 14: MySQL\necho "Simulating MySQLi connection string check...";\n?>` },
+          { title: "15. PDO & CRUD Operations", code: `<?php\n// Lesson 15: PDO CRUD\n// Prepared statement simulation\necho "PDO Prepared Statement Executed Successfully.";\n?>` }
+        ]
+      },
+
+      ruby: {
+        name: "Ruby",
+        icon: "fa-solid fa-[#000] fa-gem",
+        color: "#CC342D",
+        ext: "script.rb",
+        lessons: [
+          { title: "1. IRB Setup & Dynamic Environment", code: `# Lesson 1: IRB\nputs "Ruby #{RUBY_VERSION} initialized!"` },
+          { title: "2. Objects & Variable Assignment", code: `# Lesson 2: Everything is an Object\nx = -10\nputs x.abs` },
+          { title: "3. Strings & Interpolation", code: `# Lesson 3: Strings\nlanguage = "Ruby"\nputs "Welcome to #{language} Hub"` },
+          { title: "4. Numbers & Methods", code: `# Lesson 4: Numbers\nputs 5.times.map { |i| i * 2 }` },
+          { title: "5. Conditionals (if, unless)", code: `# Lesson 5: Conditionals\nlogged_in = false\nputs "Please log in" unless logged_in` },
+          { title: "6. Iterators (.each, .times)", code: `# Lesson 6: Iterators\n["Ruby", "Rails", "Gem"].each do |item|\n  puts "Item: #{item}"\nend` },
+          { title: "7. Arrays & Methods", code: `# Lesson 7: Arrays\nnums = [3, 1, 2].sort\nputs "Sorted: #{nums.inspect}"` },
+          { title: "8. Hashes (Key-Value)", code: `# Lesson 8: Hashes\noptions = { theme: "Dark", font: "Fira" }\nputs "Theme: #{options[:theme]}"` },
+          { title: "9. Methods & Default Arguments", code: `# Lesson 9: Methods\ndef greet(name = "Developer")\n  "Hello, #{name}"\nend\nputs greet` },
+          { title: "10. Blocks, Procs & Lambdas", code: `# Lesson 10: Blocks\nmy_proc = Proc.new { |x| puts "Proc output: #{x}" }\nmy_proc.call(42)` },
+          { title: "11. Classes & Instance Variables", code: `# Lesson 11: Classes\nclass Robot\n  def initialize(name)\n    @name = name\n  end\n  def name; @name; end\nend\nputs Robot.new("Alpha").name` },
+          { title: "12. Modules & Mixins", code: `# Lesson 12: Modules\nmodule Walkable\n  def walk; "Walking..."; end\nend\nclass Person; include Walkable; end\nputs Person.new.walk` },
+          { title: "13. Exception Handling (begin/rescue)", code: `# Lesson 13: Exception Handling\nbegin\n  1 / 0\nrescue ZeroDivisionError => e\n  puts "Rescued: #{e.message}"\nend` },
+          { title: "14. Regular Expressions", code: `# Lesson 14: RegEx\nstring = "Ruby 2026"\nputs "Matched year" if string =~ /\\d{4}/` },
+          { title: "15. File Handling & I/O", code: `# Lesson 15: File Handling\nFile.open("test.txt", "w") { |f| f.write("Ruby File IO") }\nputs "File operation complete."` }
+        ]
+      },
+
+      swift: {
+        name: "Swift",
+        icon: "fa-brands fa-swift",
+        color: "#F05138",
+        ext: "main.swift",
+        lessons: [
+          { title: "1. Xcode & Playgrounds Setup", code: `// Lesson 1: Xcode\nimport Foundation\nprint("Swift Playgrounds Ready")` },
+          { title: "2. Constants (let) & Variables (var)", code: `// Lesson 2: Constants & Variables\nlet maxScore = 100\nvar currentScore = 0\ncurrentScore += 10\nprint("Score: \(currentScore)/\(maxScore)")` },
+          { title: "3. Type Inference & Explicit Types", code: `// Lesson 3: Types\nlet title: String = "iOS Developer"\nlet year: Int = 2026\nprint("\(title) - \(year)")` },
+          { title: "4. Operators & Range Expressions", code: `// Lesson 4: Ranges\nfor i in 1...3 {\n    print("Range item: \(i)")\n}` },
+          { title: "5. Conditionals & Guard Statements", code: `// Lesson 5: Guard\nfunc checkAge(age: Int) {\n    guard age >= 18 else {\n        print("Access Denied")\n        return\n    }\n    print("Access Granted")\n}\ncheckAge(age: 20)` },
+          { title: "6. Loops & Control Transfer", code: `// Lesson 6: Loops\nvar count = 3\nwhile count > 0 {\n    print("Countdown: \(count)")\n    count -= 1\n}` },
+          { title: "7. Functions & Argument Labels", code: `// Lesson 7: Functions\nfunc greet(to person: String) -> String {\n    return "Hello, \(person)"\n}\nprint(greet(to: "Swift Engineer"))` },
+          { title: "8. Closures & First-Class Functions", code: `// Lesson 8: Closures\nlet numbers = [5, 2, 8, 1]\nlet sorted = numbers.sorted(by: { $0 < $1 })\nprint("Sorted: \(sorted)")` },
+          { title: "9. Enumerations & Pattern Matching", code: `// Lesson 9: Enums\nenum Direction { case north, south }\nlet dir = Direction.north\nif case .north = dir { print("Heading North") }` },
+          { title: "10. Structs vs Classes", code: `// Lesson 10: Structs vs Classes\nstruct Resolution {\n    var width = 1920\n    var height = 1080\n}\nprint("Res: \(Resolution().width)x\(Resolution().height)")` },
+          { title: "11. Properties & Stored/Computed", code: `// Lesson 11: Properties\nstruct Square {\n    var side: Double\n    var area: Double { side * side }\n}\nprint("Area: \(Square(side: 4).area)")` },
+          { title: "12. Initializers & Deinitializers", code: `// Lesson 12: Initializers\nclass Vehicle {\n    var wheels: Int\n    init(wheels: Int) { self.wheels = wheels }\n}\nprint("Wheels: \(Vehicle(wheels: 4).wheels)")` },
+          { title: "13. Optionals & Optional Unwrapping", code: `// Lesson 13: Optionals\nvar name: String? = "SwiftUI"\nif let unwrapped = name {\n    print("Unwrapped: \(unwrapped)")\n}` },
+          { title: "14. Error Handling (do-catch, throw)", code: `// Lesson 14: Error Handling\nenum FileError: Error { case notFound }\nfunc readFile() throws { throw FileError.notFound }\ndo {\n    try readFile()\n} catch {\n    print("Caught Error: \(error)")\n}` },
+          { title: "15. Protocols & Generics", code: `// Lesson 15: Protocols & Generics\nprotocol Identifiable {\n    var id: String { get }\n}\nstruct Item: Identifiable { var id: String }\nprint("Item ID: \(Item(id: "A101").id)")` }
+        ]
+      },
+
+      kotlin: {
+        name: "Kotlin",
+        icon: "fa-solid fa-code",
+        color: "#7F52FF",
+        ext: "Main.kt",
+        lessons: [
+          { title: "1. IntelliJ & JVM Setup", code: `// Lesson 1: Setup\nfun main() {\n    println("Kotlin Runtime Ready!")\n}` },
+          { title: "2. Variable Declarations (val vs var)", code: `// Lesson 2: Val vs Var\nfun main() {\n    val immutable = "Cannot change"\n    var mutable = 10\n    mutable += 5\n    println("$immutable | $mutable")\n}` },
+          { title: "3. Basic Types & String Templates", code: `// Lesson 3: Types\nfun main() {\n    val lang = "Kotlin"\n    val ver = 2.0\n    println("Language: $lang Version: $ver")\n}` },
+          { title: "4. Control Flow (when & if Expressions)", code: `// Lesson 4: When Expression\nfun main() {\n    val x = 2\n    when (x) {\n        1 -> println("One")\n        2 -> println("Two")\n        else -> println("Unknown")\n    }\n}` },
+          { title: "5. Loops & Ranges", code: `// Lesson 5: Ranges\nfun main() {\n    for (i in 1..3) {\n        println("Step: $i")\n    }\n}` },
+          { title: "6. Functions & Default Arguments", code: `// Lesson 6: Functions\nfun logMessage(msg: String, prefix: String = "INFO") {\n    println("[$prefix] $msg")\n}\nfun main() { logMessage("App Started") }` },
+          { title: "7. Null Safety Core System", code: `// Lesson 7: Null Safety\nfun main() {\n    var name: String? = null\n    println("Length: \${name?.length ?: 0}")\n}` },
+          { title: "8. Classes, Properties & Primary Constructors", code: `// Lesson 8: Classes\nclass Person(val name: String, var age: Int)\nfun main() {\n    val p = Person("Sarah", 28)\n    println("\${p.name} is \${p.age}")\n}` },
+          { title: "9. Data Classes & Destructuring", code: `// Lesson 9: Data Classes\ndata class User(id: Int, name: String)\nfun main() {\n    val u = User(1, "Alex")\n    val (id, name) = u\n    println("User #$id: $name")\n}` },
+          { title: "10. Inheritance & Open Keyword", code: `// Lesson 10: Inheritance\nopen class Base\nclass Derived : Base()\nfun main() { println("Inheritance initialized") }` },
+          { title: "11. Higher-Order Functions & Lambdas", code: `// Lesson 11: Lambdas\nfun main() {\n    val square: (Int) -> Int = { it * it }\n    println("Square: \${square(6)}")\n}` },
+          { title: "12. Collections & Transformation Operations", code: `// Lesson 12: Collections\nfun main() {\n    val list = listOf("Android", "JVM", "Native")\n    val filtered = list.filter { it.startsWith("A") }\n    println(filtered)\n}` },
+          { title: "13. Scope Functions (let, run, apply, also)", code: `// Lesson 13: Scope Functions\nfun main() {\n    val str = "Kotlin".apply { println("Applying transformations...") }\n    println(str)\n}` },
+          { title: "14. Exception Handling", code: `// Lesson 14: Exceptions\nfun main() {\n    try {\n        val res = 10 / 0\n    } catch (e: Exception) {\n        println("Handled: \${e.message}")\n    }\n}` },
+          { title: "15. Coroutines & Asynchronous Programming", code: `// Lesson 15: Coroutines\nfun main() {\n    println("Simulating Coroutines launch { delay(1000) }")\n}` }
+        ]
+      }
+    };
+
+    // APP STATE
+    let currentLangKey = 'python';
+    let activeLessonIndex = 0;
+    let completedLessons = new Set();
+
+    // INITIALIZATION
+    window.addEventListener('DOMContentLoaded', () => {
+      renderSidebar();
+      loadLanguage(currentLangKey);
+    });
+
+    // SIDEBAR RENDERER
+    function renderSidebar(filterQuery = '') {
+      const sidebarNav = document.getElementById('language-sidebar');
+      sidebarNav.innerHTML = '';
+
+      Object.keys(polyglotDatabase).forEach(key => {
+        const lang = polyglotDatabase[key];
+        
+        // Filter logic
+        if (filterQuery && !lang.name.toLowerCase().includes(filterQuery.toLowerCase())) {
+          return;
+        }
+
+        const isActive = key === currentLangKey;
+        const btn = document.createElement('button');
+        btn.onclick = () => loadLanguage(key);
+        btn.className = `w-full flex items-center justify-between px-3.5 py-2.5 rounded-lg text-xs font-semibold transition-all group ${
+          isActive 
+            ? 'bg-gradient-to-r from-cyan-950/80 to-slate-900 border border-cyan-500/50 text-cyan-300 shadow-md shadow-cyan-950/50' 
+            : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 border border-transparent'
+        }`;
+
+        btn.innerHTML = `
+          <div class="flex items-center gap-3">
+            <i class="${lang.icon} text-sm" style="color: ${lang.color}"></i>
+            <span>${lang.name}</span>
+          </div>
+          <i class="fa-solid fa-chevron-right text-[10px] opacity-0 group-hover:opacity-100 transition-opacity ${isActive ? 'opacity-100 text-cyan-400' : ''}"></i>
+        `;
+
+        sidebarNav.appendChild(btn);
+      });
+    }
+
+    // LOAD LANGUAGE
+    function loadLanguage(langKey) {
+      currentLangKey = langKey;
+      activeLessonIndex = 0;
+      renderSidebar(document.getElementById('search-input').value);
+
+      const langData = polyglotDatabase[langKey];
+      
+      // Update Central Panel Header
+      const activeHeader = document.getElementById('active-lang-header');
+      activeHeader.innerHTML = `
+        <i class="${langData.icon}" style="color: ${langData.color}"></i>
+        <span>${langData.name} 15-Lesson Master Hub</span>
+      `;
+
+      // Update Filename on Editor
+      document.getElementById('editor-filename').innerText = langData.ext;
+
+      // Render Lessons Cards
+      renderLessonsList();
+      
+      // Load First Lesson into Editor
+      selectLesson(0);
+    }
+
+    // RENDER LESSON CARDS
+    function renderLessonsList() {
+      const container = document.getElementById('lesson-container');
+      container.innerHTML = '';
+      
+      const lessons = polyglotDatabase[currentLangKey].lessons;
+
+      lessons.forEach((lesson, idx) => {
+        const isSelected = idx === activeLessonIndex;
+        const cardKey = `${currentLangKey}-${idx}`;
+        const isCompleted = completedLessons.has(cardKey);
+
+        const card = document.createElement('div');
+        card.onclick = () => selectLesson(idx);
+        card.className = `p-3.5 rounded-xl border transition-all cursor-pointer flex items-center justify-between ${
+          isSelected 
+            ? 'bg-gradient-to-r from-brand-panel to-slate-900 border-cyan-400 ring-1 ring-cyan-400/50 shadow-lg shadow-cyan-950/50' 
+            : 'bg-brand-panel/40 border-brand-border/60 hover:border-slate-600 hover:bg-brand-panel/80'
+        }`;
+
+        card.innerHTML = `
+          <div class="flex items-center gap-3">
+            <div class="w-7 h-7 rounded-lg flex items-center justify-center font-mono text-xs font-bold ${
+              isSelected ? 'bg-cyan-500 text-slate-950' : 'bg-slate-800 text-slate-400'
+            }">
+              ${idx + 1}
+            </div>
+            <div>
+              <h4 class="text-xs md:text-sm font-semibold ${isSelected ? 'text-cyan-200' : 'text-slate-200'}">
+                ${lesson.title}
+              </h4>
+              <span class="text-[10px] font-mono text-slate-500">Topic Module ${idx + 1}</span>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            ${isCompleted ? '<span class="text-[10px] bg-emerald-950/80 text-emerald-400 border border-emerald-800 px-2 py-0.5 rounded-full font-mono">Completed</span>' : ''}
+            <i class="fa-solid fa-chevron-right text-xs ${isSelected ? 'text-cyan-400' : 'text-slate-600'}"></i>
+          </div>
+        `;
+
+        container.appendChild(card);
+      });
+
+      // Update counter
+      updateProgressCounter();
+    }
+
+    // SELECT LESSON
+    function selectLesson(index) {
+      activeLessonIndex = index;
+      renderLessonsList();
+
+      const lesson = polyglotDatabase[currentLangKey].lessons[index];
+      const editor = document.getElementById('code-editor');
+      editor.value = lesson.code;
+
+      const output = document.getElementById('console-output');
+      output.innerText = `[${polyglotDatabase[currentLangKey].name}] Loaded Topic #${index + 1}: ${lesson.title}\nClick "Run Code" to execute interactive code.`;
+      output.className = "flex-1 p-3 font-mono text-xs text-slate-400 overflow-y-auto whitespace-pre-wrap leading-relaxed";
+    }
+
+    // RUN CODE SIMULATOR
+    function runCode() {
+      const output = document.getElementById('console-output');
+      const langName = polyglotDatabase[currentLangKey].name;
+      const currentLesson = polyglotDatabase[currentLangKey].lessons[activeLessonIndex];
+
+      output.className = "flex-1 p-3 font-mono text-xs text-cyan-300 overflow-y-auto whitespace-pre-wrap leading-relaxed";
+      output.innerText = `Compiling & Executing ${langName} script...\nPlease wait...\n`;
+
+      setTimeout(() => {
+        output.className = "flex-1 p-3 font-mono text-xs text-emerald-400 overflow-y-auto whitespace-pre-wrap leading-relaxed";
+        
+        let simulatedTerminalLogs = `[SYSTEM]: Build Successful. Standard Output:\n`;
+        simulatedTerminalLogs += `--------------------------------------------------\n`;
+        
+        // Extract output simulation based on print statements in code
+        const codeText = document.getElementById('code-editor').value;
+        const printMatches = codeText.match(/(?:print|println|Console\.WriteLine|cout <<|echo)\s*\(?["']?([^"'\n\);]+)["']?\)?/g);
+
+        if (printMatches && printMatches.length > 0) {
+          printMatches.forEach(match => {
+            let clean = match
+              .replace(/System\.out\.println|Console\.WriteLine|std::cout <<|print|println|echo/g, '')
+              .replace(/[\(\)";<]/g, '')
+              .trim();
+            simulatedTerminalLogs += `${clean}\n`;
+          });
+        } else {
+          simulatedTerminalLogs += `Program executed with return code 0 (0x0).\nProcess finished successfully.`;
+        }
+
+        output.innerText = simulatedTerminalLogs;
+
+        // Mark completed
+        completedLessons.add(`${currentLangKey}-${activeLessonIndex}`);
+        updateProgressCounter();
+        renderLessonsList();
+      }, 600);
+    }
+
+    // SEARCH FILTER
+    function handleSearch(query) {
+      renderSidebar(query);
+      
+      if (!query) return;
+
+      // Also filter central lessons
+      const container = document.getElementById('lesson-container');
+      const cards = container.children;
+      const lessons = polyglotDatabase[currentLangKey].lessons;
+
+      lessons.forEach((lesson, idx) => {
+        if (cards[idx]) {
+          const match = lesson.title.toLowerCase().includes(query.toLowerCase());
+          cards[idx].style.display = match ? 'flex' : 'none';
+        }
+      });
+    }
+
+    // RESET TO HOME STATE
+    function resetHome() {
+      document.getElementById('search-input').value = '';
+      loadLanguage('python');
+    }
+
+    // CLEAR TERMINAL
+    function clearTerminal() {
+      document.getElementById('console-output').innerText = 'Terminal cleared. Waiting for execution...';
+    }
+
+    // UPDATE COUNTER
+    function updateProgressCounter() {
+      let count = 0;
+      for (let i = 0; i < 15; i++) {
+        if (completedLessons.has(`${currentLangKey}-${i}`)) count++;
+      }
+      document.getElementById('completed-counter').innerText = count;
+    }
+  </script>
+</body>
+</html>

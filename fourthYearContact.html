@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UCSTT | Contact Hub</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Padauk:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        /* --- Root Brand Variables --- */
+        :root {
+            --primary: #A51C30;       /* Thaton Crimson */
+            --oxford-blue: #002147;   /* Oxford Blue */
+            --deep-navy: #001c3d;      /* Deep Dark Profile Header Navy */
+            --accent: #C49619;        /* Ivy League Gold */
+            --light-bg: #f8fafc;      /* Heritage Surface Off-White */
+            --white: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            --sidebar-width: 280px;
+            --topbar-height: 70px;
+        }
+
+        body.sidebar-collapsed {
+            --sidebar-width: 85px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', 'Padauk', sans-serif;
+        }
+
+        body {
+            background-color: #f1f5f9;
+            color: var(--oxford-blue);
+            line-height: 1.7;
+            display: flex;
+            min-height: 100vh;
+            transition: var(--transition);
+        }
+
+        /* --- Language Toggle Utility --- */
+        .lang-mm { display: none; }
+        body.lang-burmese .lang-en { display: none; }
+        body.lang-burmese .lang-mm { display: inline-block; }
+        body.lang-burmese div.lang-mm, 
+        body.lang-burmese p.lang-mm, 
+        body.lang-burmese span.lang-mm, 
+        body.lang-burmese h1.lang-mm, 
+        body.lang-burmese h2.lang-mm, 
+        body.lang-burmese h3.lang-mm { display: block; }
+
+        /* --- 1. LEFT SIDE NAVIGATION MENU --- */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: var(--sidebar-width);
+            height: 100vh;
+            background: linear-gradient(180deg, var(--oxford-blue) 0%, #001229 100%);
+            border-right: 4px solid var(--accent);
+            display: flex;
+            flex-direction: column;
+            padding: 30px 20px;
+            z-index: 1000;
+            box-shadow: 4px 0 25px rgba(0,0,0,0.15);
+            transition: var(--transition);
+            overflow-x: hidden;
+        }
+
+        body.sidebar-collapsed nav {
+            padding: 30px 10px;
+        }
+
+        .nav-brand-area {
+            text-align: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .nav-logo {
+            height: 85px;
+            width: auto;
+            transition: var(--transition);
+            filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.2));
+        }
+
+        body.sidebar-collapsed .nav-logo { height: 45px; }
+        body.sidebar-collapsed .nav-brand-area h2 { display: none !important; }
+
+        .nav-links { width: 100%; flex-grow: 1; overflow-y: auto; }
+        .nav-links ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+
+        .nav-links a {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 500;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+            padding: 12px 18px;
+            border-radius: 8px;
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+
+        body.sidebar-collapsed .nav-links a { justify-content: center; padding: 12px 0; }
+        body.sidebar-collapsed .nav-links span { display: none; }
+
+        .nav-links a i {
+            font-size: 1.1rem;
+            width: 32px;
+            height: 32px;
+            line-height: 32px;
+            text-align: center;
+            color: var(--accent);
+            background: rgba(255,255,255,0.05);
+            border-radius: 6px;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover i, .nav-links li.active a i {
+            color: var(--white);
+            background: var(--primary);
+            transform: scale(1.15) rotate(15deg);
+            box-shadow: 0 4px 10px rgba(165, 28, 48, 0.3);
+        }
+
+        .nav-links a:hover, .nav-links li.active a {
+            color: var(--white);
+            background: rgba(255, 255, 255, 0.08);
+            border-left: 4px solid var(--primary);
+            padding-left: 22px;
+        }
+
+        /* --- 2. TOP TELEMETRY BAR --- */
+        .top-telemetry-bar {
+            position: fixed;
+            top: 0;
+            left: var(--sidebar-width);
+            width: calc(100% - var(--sidebar-width));
+            height: var(--topbar-height);
+            background: var(--white);
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            z-index: 999;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+            transition: var(--transition);
+        }
+
+        .topbar-left-zone { display: flex; align-items: center; gap: 16px; }
+
+        .sidebar-toggle-btn {
+            background: var(--oxford-blue);
+            color: var(--white);
+            border: 2px solid var(--accent);
+            width: 42px; height: 42px;
+            border-radius: 8px; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.1rem; transition: var(--transition);
+        }
+        .sidebar-toggle-btn:hover { background: var(--primary); }
+
+        .lang-switch-btn {
+            background: #f1f5f9; color: var(--oxford-blue);
+            border: 1px solid #cbd5e1; padding: 6px 14px;
+            border-radius: 50px; font-size: 0.8rem; font-weight: 700;
+            cursor: pointer; display: flex; align-items: center; gap: 8px;
+            transition: var(--transition);
+        }
+        .lang-switch-btn:hover { background: var(--primary); color: var(--white); border-color: var(--primary); }
+
+        .live-clock-widget {
+            display: flex; align-items: center; gap: 10px;
+            background: #f1f5f9; padding: 8px 16px; font-size: 0.8rem;
+            font-weight: 700; color: #002147; border: 1px solid #e2e8f0; border-radius: 50px;
+        }
+        .live-clock-widget i { color: #ef4444; }
+
+        .topbar-center-hub {
+            display: flex; align-items: center;
+            background: #fffdf5; border: 1px solid #e2d199;
+            border-left: 5px solid var(--accent); border-radius: 8px;
+            padding: 6px; width: 100%; max-width: 480px; height: 52px;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.02); overflow: hidden;
+        }
+
+        .node-badge {
+            background: var(--primary); color: var(--white);
+            display: flex; align-items: center; gap: 8px;
+            padding: 4px 10px; border-radius: 6px; font-size: 0.65rem;
+            font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase;
+            line-height: 1.2; text-align: left; height: 100%; z-index: 5; flex-shrink: 0;
+        }
+
+        .status-scroll-text {
+            font-size: 0.8rem; font-weight: 600; color: #002147;
+            margin-left: 12px; white-space: nowrap; display: inline-block;
+            animation: trainAnimateAnnouncement 12s linear infinite;
+        }
+        
+        @keyframes trainAnimateAnnouncement {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        .topbar-right-zone { display: flex; align-items: center; position: relative; }
+
+        /* FIXED PROFILE TRIGGER SYSTEM & STRICT ICON SIZES */
+        .profile-trigger {
+            display: flex; align-items: center; gap: 12px; cursor: pointer;
+            padding: 6px 18px 6px 8px; background: #f8fafc;
+            border: 1px solid #e2e8f0; border-radius: 50px; transition: var(--transition); height: 48px;
+        }
+        .profile-trigger:hover { background: #f1f5f9; border-color: #cbd5e1; }
+
+        .avatar-frame-container { 
+            position: relative; 
+            width: 34px !important; 
+            height: 34px !important; 
+            max-width: 34px !important;
+            max-height: 34px !important;
+            flex-shrink: 0 !important; 
+            overflow: hidden;
+            border-radius: 50%;
+            background: #cbd5e1;
+        }
+        
+        .user-avatar-img { 
+            width: 100% !important; 
+            height: 100% !important; 
+            border-radius: 50%; 
+            object-fit: cover; 
+            border: 2px solid var(--accent); 
+            background: #f1f5f9;
+            display: block;
+        }
+        
+        .status-online-dot { 
+            position: absolute; 
+            bottom: 0px; 
+            right: 0px; 
+            width: 8px; 
+            height: 8px; 
+            background-color: #10b981; 
+            border: 1.5px solid var(--white); 
+            border-radius: 50%; 
+            z-index: 2;
+        }
+
+        .profile-trigger-info { display: flex; flex-direction: column; text-align: left; justify-content: center; }
+        .profile-trigger-info .user-name { font-size: 0.88rem; font-weight: 700; color: #002147; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 115px; line-height: 1.2; }
+        .profile-trigger-info .user-id-badge { font-size: 0.72rem; color: #64748b; font-weight: 500; margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 115px; line-height: 1.1; }
+
+        /* PROFILE DROPDOWN CARD WITH FIXED AVATAR SIZE */
+        .profile-dropdown-card {
+            position: absolute; top: calc(100% + 12px); right: 0; width: 300px;
+            background: var(--white); border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15); display: none; flex-direction: column;
+            z-index: 10000; overflow: hidden; opacity: 0; transform: translateY(-10px);
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+        .profile-dropdown-card.show-card { display: flex; opacity: 1; transform: translateY(0); }
+        .dropdown-header { background: var(--deep-navy); padding: 24px 16px; text-align: center; color: var(--white); }
+        
+        .dropdown-avatar-container { 
+            position: relative; 
+            width: 80px !important; 
+            height: 80px !important; 
+            max-width: 80px !important;
+            max-height: 80px !important;
+            margin: 0 auto 12px auto; 
+            border-radius: 50%; 
+            flex-shrink: 0 !important;
+            background: #cbd5e1;
+        }
+        .dropdown-avatar-container img { 
+            width: 100% !important; 
+            height: 100% !important; 
+            border-radius: 50%; 
+            object-fit: cover; 
+            border: 2px solid var(--white); 
+            display: block;
+        }
+        
+        .avatar-upload-btn {
+            position: absolute;
+            bottom: 0; right: 0;
+            width: 28px; height: 28px;
+            background: var(--accent);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer;
+            border: 2px solid var(--white);
+            font-size: 0.75rem;
+            transition: var(--transition);
+            z-index: 5;
+        }
+        .avatar-upload-btn:hover { background: var(--primary); transform: scale(1.1); }
+
+        .dropdown-full-name { font-size: 1.15rem; font-weight: 700; color: var(--white); }
+        .dropdown-email { font-size: 0.82rem; color: #a0aec0; }
+        .dropdown-body { padding: 18px 20px; display: flex; flex-direction: column; gap: 16px; }
+        .db-item { display: flex; align-items: center; font-size: 0.88rem; }
+        .db-item i { color: var(--primary); width: 30px; }
+        .dropdown-footer { display: flex; padding: 0 20px 20px 20px; gap: 12px; }
+        .logout-btn, .close-profile-btn { flex: 1; padding: 10px; border: none; font-size: 0.85rem; font-weight: 700; border-radius: 6px; cursor: pointer; }
+        .close-profile-btn { background: #f1f5f9; color: #1e293b; border: 1px solid #e2e8f0; }
+        .logout-btn { background: #fff5f5; color: #ef4444; border: 1px solid #fecaca; }
+
+        /* --- 3. EXCLUSIVE MAIN WORKSPACE --- */
+        .main-workspace {
+            margin-left: var(--sidebar-width);
+            margin-top: var(--topbar-height);
+            width: calc(100% - var(--sidebar-width));
+            min-height: calc(100vh - var(--topbar-height));
+            display: flex; justify-content: center; align-items: center;
+            padding: 30px; transition: var(--transition);
+        }
+
+        .page-contact-container {
+            width: 100%; max-width: 1000px; background: var(--white);
+            border-radius: 16px; border: 2px solid var(--accent);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+            display: flex; flex-direction: column; overflow: hidden;
+        }
+
+        .page-contact-header {
+            background: linear-gradient(135deg, var(--oxford-blue) 0%, #001c3d 100%);
+            border-bottom: 4px solid var(--primary);
+            padding: 20px 25px; color: var(--white);
+            display: flex; align-items: center; justify-content: space-between;
+        }
+
+        .contact-system-profile { display: flex; align-items: center; gap: 15px; }
+
+        .contact-icon-glow {
+            width: 50px; height: 50px; background: rgba(196, 150, 25, 0.15);
+            border: 2px solid var(--accent); border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem; color: var(--accent);
+        }
+
+        .contact-system-title h2 { font-size: 1.2rem; font-weight: 700; letter-spacing: 0.5px; }
+        .contact-system-title p { font-size: 0.78rem; color: #94a3b8; display: flex; align-items: center; gap: 6px; }
+        .contact-system-title p::before { content: ''; width: 8px; height: 8px; background: #10b981; border-radius: 50%; display: inline-block; }
+
+        .contact-portal-content { display: flex; background: #f8fafc; min-height: 480px; }
+
+        .info-directory-panel {
+            width: 45%; background: var(--white); border-right: 1px solid #e2e8f0;
+            padding: 40px 30px; display: flex; flex-direction: column; gap: 24px;
+        }
+
+        .directory-section-title {
+            font-size: 1.1rem; font-weight: 800; color: var(--oxford-blue);
+            border-bottom: 2px solid var(--accent); padding-bottom: 8px; margin-bottom: 10px;
+            text-transform: uppercase; letter-spacing: 0.5px;
+        }
+
+        .info-contact-card {
+            display: flex; align-items: flex-start; gap: 16px;
+            padding: 15px; border-radius: 10px; background: #f8fafc;
+            border: 1px solid #e2e8f0; transition: var(--transition);
+        }
+
+        .card-icon-holder {
+            width: 40px; height: 40px; background: rgba(165, 28, 48, 0.08);
+            color: var(--primary); border-radius: 8px;
+            display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0;
+        }
+
+        .card-details h4 { font-size: 0.88rem; font-weight: 700; color: var(--oxford-blue); }
+        .card-details p, .card-details a { font-size: 0.82rem; color: var(--text-muted); text-decoration: none; word-break: break-word; }
+
+        .transmission-form-console { width: 55%; padding: 40px 30px; display: flex; flex-direction: column; justify-content: space-between; }
+        .transmission-instructions { margin-bottom: 24px; }
+        .transmission-instructions h3 { font-size: 1.2rem; font-weight: 700; color: var(--oxford-blue); }
+        .transmission-instructions p { font-size: 0.85rem; color: var(--text-muted); }
+
+        .input-group-premium { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+        .input-group-premium label { font-size: 0.8rem; font-weight: 700; color: var(--oxford-blue); text-transform: uppercase; }
+        .input-group-premium textarea { width: 100%; border: 2px solid #e2e8f0; border-radius: 10px; padding: 14px 18px; font-size: 0.9rem; outline: none; transition: var(--transition); background: var(--white); resize: none; min-height: 160px; }
+        .input-group-premium textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(165, 28, 48, 0.1); }
+
+        .transmission-send-btn {
+            height: 50px; padding: 0 35px; background: var(--oxford-blue);
+            color: var(--white); border: none; border-radius: 10px;
+            font-weight: 600; font-size: 0.95rem; cursor: pointer;
+            display: flex; align-items: center; gap: 10px; transition: var(--transition);
+        }
+        .transmission-send-btn:hover { background: var(--primary); }
+
+        @media (max-width: 1024px) {
+            body { flex-direction: column; }
+            nav { width: 100%; height: auto; position: relative; border-right: none; border-bottom: 4px solid var(--accent); padding: 15px; }
+            .nav-brand-area { display: flex; flex-direction: column; align-items: center; padding-bottom: 10px; margin-bottom: 10px; }
+            .nav-logo { height: 55px; }
+            .nav-links ul { flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 8px; }
+            .top-telemetry-bar { position: relative; left: 0; width: 100%; display: flex; flex-direction: column; padding: 15px; gap: 10px; height: auto; }
+            .sidebar-toggle-btn { display: none; }
+            .main-workspace { margin-left: 0; width: 100%; padding: 15px; }
+            .contact-portal-content { flex-direction: column; }
+            .info-directory-panel, .transmission-form-console { width: 100%; border-right: none; }
+        }
+    </style>
+</head>
+<body>
+    
+    <nav id="sidebarNode">
+        <div class="nav-brand-area">
+            <a href="fourthYearHomePage.html"><img src="logo.png" alt="UCSTT Logo" class="nav-logo"></a>
+            <h2 style="color: var(--white); font-size: 0.95rem; font-weight: 800; margin-top: 10px;">NextGen UCSTT</h2>
+        </div>
+        
+        <div class="nav-links">
+            <ul>
+                <li><a href="fourthYearHomePage.html"><i class="fas fa-home"></i> <span class="lang-en">HOME</span><span class="lang-mm">ပင်မစာမျက်နှာ</span></a></li>
+                <li><a href="fourthYearAbout.html"><i class="fas fa-info-circle"></i> <span class="lang-en">ABOUT</span><span class="lang-mm">ကျောင်းအကြောင်း</span></a></li>
+                <li><a href="fourthYearGallery.html"><i class="fas fa-images"></i> <span class="lang-en">GALLERY</span><span class="lang-mm">ဓာတ်ပုံများ</span></a></li>
+                <li><a href="fourthYearFeedback.html"><i class="fas fa-comment-alt"></i> <span class="lang-en">FEEDBACK</span><span class="lang-mm">အကြံပြုချက်</span></a></li>
+                <li class="active"><a href="fourthYearContact.html"><i class="fas fa-envelope"></i> <span class="lang-en">CONTACT</span><span class="lang-mm">ဆက်သွယ်ရန်</span></a></li>
+                <li><a href="fourthYearAskChat.html"><i class="fas fa-headset"></i> <span class="lang-en">ASK CHAT</span><span class="lang-mm">မေးမြန်းရန်</span></a></li>
+                <li><a href="learnForFourth.html"><i class="fas fa-graduation-cap"></i> <span class="lang-en">LEARNING</span><span class="lang-mm">လေ့လာရန်</span></a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="top-telemetry-bar">
+        <div class="topbar-left-zone">
+            <button class="sidebar-toggle-btn" onclick="toggleSidebarSize()">
+                <i class="fas fa-bars" id="toggleIcon"></i>
+            </button>
+            <button class="lang-switch-btn" onclick="toggleLanguageChoice()">
+                <i class="fas fa-globe"></i>
+                <span class="lang-en">🇲🇲 မြန်မာ</span>
+                <span class="lang-mm">🇬🇧 English</span>
+            </button>
+            <div class="live-clock-widget">
+                <i class="far fa-clock"></i>
+                <span id="live-time-display">00:00:00 AM</span>
+            </div>
+        </div>
+
+        <div class="topbar-center-hub">
+            <div class="node-badge">
+                <i class="fas fa-university"></i>
+                <div>
+                    <span class="lang-en">Institutional<br>Node</span>
+                    <span class="lang-mm">ကျောင်းတော်<br>ကွန်ရက်</span>
+                </div>
+            </div>
+            <div class="status-scroll-text" id="campus-hours-text">
+                ယနေ့UCSTTတွင်<strong>project show</strong>ကျင်းပနေပါသည်။second yearမှမောင်သော်တာဟိန်းနှင့်သူငယ်ချင်းများမှ
+                <strong>NextGen UCSTT</strong>အမည်ဖြင့်ဝင်ရောက်ယှဉ်ပြိုင်နေပါသည်။
+            </div>
+        </div>
+
+        <div class="topbar-right-zone">
+            <div class="user-profile-hub" id="userProfileHub">
+                <div class="profile-trigger" onclick="toggleProfileDropdown(event)">
+                    <div class="avatar-frame-container">
+                        <img src="photo_2025-11-08_11-17-04.jpg" alt="Student Pic" class="user-avatar-badge user-avatar-img" onerror="setDefaultAvatar(this)">
+                        <div class="status-online-dot"></div>
+                    </div>
+                    <div class="profile-trigger-info">
+                        <span class="user-name-badge user-name">Loading...</span>
+                        <span class="user-roll-badge user-id-badge">UCSTT(24-25)-000</span>
+                    </div>
+                    <i class="fas fa-chevron-down" style="font-size: 0.7rem; color: #64748b; margin-left: 6px;"></i>
+                </div>
+                
+                <div class="profile-dropdown-card dropdownCardNode" id="dropdownCardNode" onclick="event.stopPropagation()">
+                    <div class="dropdown-header">
+                        <div class="dropdown-avatar-container">
+                            <img src="photo_2025-11-08_11-17-04.jpg" alt="Student Pic" class="dropdown-avatar-img" onerror="setDefaultAvatar(this)">
+                            <label for="profilePhotoInput" class="avatar-upload-btn" title="Upload New Photo">
+                                <i class="fas fa-camera"></i>
+                            </label>
+                            <input type="file" id="profilePhotoInput" accept="image/*" style="display: none;" onchange="uploadProfilePhoto(event)">
+                        </div>
+                        <h4 class="dropdown-full-name">Name</h4>
+                        <p class="dropdown-email">student@ucstt.edu.mm</p>
+                    </div>
+                    <div class="dropdown-body">
+                        <div class="db-item">
+                            <i class="fas fa-graduation-cap"></i> 
+                            <div>
+                                <strong class="lang-en">Year/Major:</strong>
+                                <strong class="lang-mm">သင်တန်းနှစ်/မေဂျာ:</strong>
+                            </div> 
+                            <span class="dropdown-year-major" style="margin-left: auto; color:#64748b;">First Year (CST)</span>
+                        </div>
+                    </div>
+                    <div class="dropdown-footer">
+                        <button class="close-profile-btn" onclick="closeProfileDropdown()">
+                            <span class="lang-en">Cancel</span>
+                            <span class="lang-mm">မလုပ်တော့ပါ</span>
+                        </button>
+                        <button class="logout-btn" onclick="handleLogout()">
+                            <span class="lang-en">Log Out</span>
+                            <span class="lang-mm">ထွက်မည်</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-workspace">
+        <div class="page-contact-container">
+            <div class="page-contact-header">
+                <div class="contact-system-profile">
+                    <div class="contact-icon-glow">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="contact-system-title">
+                        <h2 class="lang-en">NextGen UCSTT CONTACT</h2>
+                        <h2 class="lang-mm">UCSTT အားဆက်သွယ်ရန်</h2>
+                        <p class="lang-en">Direct Portal Core Node</p>
+                        <p class="lang-mm">တိုက်ရိုက်ဆက်သွယ်ရန် ကွန်ရက်</p>
+                    </div>
+                </div>
+                <div style="font-size: 1.2rem; color: var(--accent);"><i class="fas fa-shield-alt"></i></div>
+            </div>
+
+            <div class="contact-portal-content">
+                <div class="info-directory-panel">
+                    <h3 class="directory-section-title lang-en">Campus Directory</h3>
+                    <h3 class="directory-section-title lang-mm">ကျောင်းလိပ်စာ လမ်းညွှန်</h3>
+                    
+                    <div class="info-contact-card">
+                        <div class="card-icon-holder"><i class="fas fa-map-marker-alt"></i></div>
+                        <div class="card-details">
+                            <h4 class="lang-en">Campus Address</h4>
+                            <h4 class="lang-mm">ကျောင်းလိပ်စာ</h4>
+                            <p class="lang-en">University of Computer Studies (Thaton)<br>Thaton, Mon State, Myanmar</p>
+                            <p class="lang-mm">ကွန်ပျူတာတက္ကသိုလ် (သထုံ)<br>သထုံမြို့၊ မွန်ပြည်နယ်၊ မြန်မာနိုင်ငံ</p>
+                        </div>
+                    </div>
+
+                    <div class="info-contact-card">
+                        <div class="card-icon-holder"><i class="fas fa-envelope-open-text"></i></div>
+                        <div class="card-details">
+                            <h4 class="lang-en">Email Node</h4>
+                            <h4 class="lang-mm">အီးမေးလ်</h4>
+                            <a href="mailto:info@ucstt.edu.mm">info@ucstt.edu.mm</a>
+                        </div>
+                    </div>
+
+                    <div class="info-contact-card">
+                        <div class="card-icon-holder"><i class="fas fa-phone-alt"></i></div>
+                        <div class="card-details">
+                            <h4 class="lang-en">Hotline Channel</h4>
+                            <h4 class="lang-mm">ဖုန်းနံပါတ်</h4>
+                            <p>+95 9 XXXXXXXXX</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="transmission-form-console">
+                    <div class="transmission-instructions">
+                        <h3 class="lang-en">Transmit a Signal</h3>
+                        <h3 class="lang-mm">သတင်းအချက်အလက် ပေးပို့ရန်</h3>
+                        <p class="lang-en">Establish direct communication with the UCSTT Academic Administration Node below.</p>
+                        <p class="lang-mm">UCSTT ပညာရေးဆိုင်ရာ စီမံခန့်ခွဲမှုအဖွဲ့သို့ တိုက်ရိုက် သတင်းအချက်အလက် ပေးပို့နိုင်ပါသည်။</p>
+                    </div>
+
+                    <form onsubmit="event.preventDefault(); sendSignal();">
+                        <div class="input-group-premium">
+                            <label for="formMessage">
+                                <span class="lang-en">Transmission Notes / Message</span>
+                                <span class="lang-mm">ပေးပို့လိုသော စာလွှာ / အကြောင်းအရာ</span>
+                            </label>
+                            <textarea id="formMessage" placeholder="Write down your transmission notes before submitting..." required></textarea>
+                        </div>
+
+                        <div style="display: flex; justify-content: flex-end;">
+                            <button type="submit" class="transmission-send-btn">
+                                <span class="lang-en">Send Signal</span>
+                                <span class="lang-mm">ပေးပို့မည်</span>
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- FALLBACK FOR MISSING OR BROKEN AVATARS ---
+        function setDefaultAvatar(element) {
+            // Generates a clean SVG user silhouette avatar if image file is missing
+            element.onerror = null;
+            element.src = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2364748b'><path d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/></svg>";
+        }
+
+        // --- LANGUAGE SWITCHER ENGINE ---
+        function toggleLanguageChoice() {
+            document.body.classList.toggle('lang-burmese');
+            const isBurmese = document.body.classList.contains('lang-burmese');
+            localStorage.setItem('preferredLang', isBurmese ? 'my' : 'en');
+            updatePlaceholderText();
+        }
+
+        function applySavedLanguage() {
+            const savedLang = localStorage.getItem('preferredLang');
+            if (savedLang === 'my') {
+                document.body.classList.add('lang-burmese');
+            }
+            updatePlaceholderText();
+        }
+
+        function updatePlaceholderText() {
+            const isBurmese = document.body.classList.contains('lang-burmese');
+            const messageInput = document.getElementById('formMessage');
+            if (messageInput) {
+                messageInput.placeholder = isBurmese 
+                    ? "မပေးပို့မီ သင်၏ စာလွှာ သို့မဟုတ် အကြောင်းအရာကို ရေးသားပါ..." 
+                    : "Write down your transmission notes before submitting...";
+            }
+        }
+
+        // --- SIDEBAR SIZE CONTROLLER ---
+        function toggleSidebarSize() {
+            const body = document.body;
+            const icon = document.getElementById('toggleIcon');
+            body.classList.toggle('sidebar-collapsed');
+            icon.className = body.classList.contains('sidebar-collapsed') ? "fas fa-arrow-right" : "fas fa-bars";
+        }
+
+        // --- PROFILE CONTROL & DATA SYNCHRONIZATION ---
+        let currentLoggedUser = null;
+
+        function syncUserSessionProfile() {
+            const activeStudentData = sessionStorage.getItem('activeStudent');
+            if (activeStudentData) {
+                currentLoggedUser = JSON.parse(activeStudentData);
+                document.querySelectorAll('.user-name-badge').forEach(el => el.innerText = currentLoggedUser.name);
+                document.querySelectorAll('.user-roll-badge').forEach(el => el.innerText = currentLoggedUser.roll);
+                document.querySelectorAll('.dropdown-full-name').forEach(el => el.innerText = currentLoggedUser.name);
+                document.querySelectorAll('.dropdown-email').forEach(el => el.innerText = currentLoggedUser.email);
+                document.querySelectorAll('.dropdown-year-major').forEach(el => el.innerText = `${currentLoggedUser.year} (${currentLoggedUser.major})`);
+                
+                const savedPhoto = localStorage.getItem('profilePhoto_' + currentLoggedUser.roll);
+                if (savedPhoto) {
+                    document.querySelectorAll('.user-avatar-badge').forEach(el => el.src = savedPhoto);
+                    document.querySelectorAll('.dropdown-avatar-img').forEach(el => el.src = savedPhoto);
+                }
+            } else {
+                document.querySelectorAll('.user-name-badge').forEach(el => el.innerText = "Guest Student");
+            }
+        }
+
+        // --- PROFILE PHOTO UPLOAD HANDLER ---
+        function uploadProfilePhoto(event) {
+            const file = event.target.files[0];
+            const isBurmese = document.body.classList.contains('lang-burmese');
+
+            if (!file) return;
+
+            if (file.size > 2 * 1024 * 1024) {
+                alert(isBurmese ? "ပုံပမာဏ 2MB ထက် မကျော်ရပါ၊၊" : "Image size must be less than 2MB.");
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const base64Image = e.target.result;
+                
+                document.querySelectorAll('.user-avatar-badge').forEach(el => el.src = base64Image);
+                document.querySelectorAll('.dropdown-avatar-img').forEach(el => el.src = base64Image);
+
+                const userRoll = currentLoggedUser ? currentLoggedUser.roll : "guest";
+                localStorage.setItem('profilePhoto_' + userRoll, base64Image);
+
+                alert(isBurmese ? "ပရိုဖိုင်ဓာတ်ပုံ အောင်မြင်စွာ ပြောင်းလဲပြီးပါပြီ။" : "Profile photo updated successfully!");
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function toggleProfileDropdown(event) {
+            event.stopPropagation();
+            const card = document.getElementById('dropdownCardNode');
+            if (card.classList.contains('show-card')) {
+                closeProfileDropdown();
+            } else {
+                card.style.display = 'flex';
+                setTimeout(() => card.classList.add('show-card'), 10);
+            }
+        }
+
+        function closeProfileDropdown() {
+            const card = document.getElementById('dropdownCardNode');
+            if(card) {
+                card.classList.remove('show-card');
+                setTimeout(() => { card.style.display = 'none'; }, 200);
+            }
+        }
+
+        function handleLogout() {
+            const isBurmese = document.body.classList.contains('lang-burmese');
+            const confirmMsg = isBurmese ? "အကောင့်မှ ထွက်ခွာရန် သေချာပါသလား။" : "Are you sure you want to log out?";
+            if (confirm(confirmMsg)) {
+                sessionStorage.removeItem('activeStudent');
+                window.location.href = "index.html";
+            }
+        }
+
+        // --- CORE SIGNAL TRANSMISSION FUNCTION ---
+        function sendSignal() {
+            const message = document.getElementById('formMessage').value.trim();
+            const isBurmese = document.body.classList.contains('lang-burmese');
+
+            if(!message) {
+                const emptyAlert = isBurmese ? "မပေးပို့မီ သင်၏ စာလွှာကို ရေးသားပါ။" : "Please write down your transmission notes before submitting.";
+                alert(emptyAlert);
+                return;
+            }
+            
+            const senderName = currentLoggedUser ? currentLoggedUser.name : (isBurmese ? "ဧည့်သည် ကျောင်းသား" : "Guest Student");
+            const senderRoll = currentLoggedUser ? currentLoggedUser.roll : "N/A";
+            const yearMajor = currentLoggedUser ? `${currentLoggedUser.year} (${currentLoggedUser.major})` : "N/A";
+            const userPhoto = currentLoggedUser ? localStorage.getItem('profilePhoto_' + currentLoggedUser.roll) : null;
+
+            const newTransmission = {
+                id: Date.now(),
+                senderName: senderName,
+                roll: senderRoll,
+                yearMajor: yearMajor,
+                photo: userPhoto,
+                message: message,
+                timestamp: new Date().toLocaleString()
+            };
+
+            const existingTransmissions = JSON.parse(localStorage.getItem('userTransmissions')) || [];
+            existingTransmissions.unshift(newTransmission);
+            localStorage.setItem('userTransmissions', JSON.stringify(existingTransmissions));
+
+            const successAlert = isBurmese 
+                ? `${senderName} ထံမှ စာလွှာ အောင်မြင်စွာ ပေးပို့ပြီးပါပြီ။` 
+                : `Signal successfully transmitted from ${senderName}!`;
+                
+            alert(successAlert);
+            document.getElementById('formMessage').value = '';
+        }
+
+        // --- REALTIME BAR TICKING CLOCK ---
+        function executeScheduleTelemetry() {
+            const now = new Date();
+            let hours = now.getHours(), minutes = now.getMinutes(), seconds = now.getSeconds();
+            let ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12 || 12;
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            seconds = seconds < 10 ? '0' + seconds : seconds;
+            document.getElementById('live-time-display').textContent = `${hours}:${minutes}:${seconds} ${ampm}`;
+        }
+        setInterval(executeScheduleTelemetry, 1000);
+
+        window.addEventListener('DOMContentLoaded', () => {
+            applySavedLanguage();
+            syncUserSessionProfile();
+            executeScheduleTelemetry();
+        });
+        window.onclick = function() { closeProfileDropdown(); }
+    </script>
+</body>
+</html>

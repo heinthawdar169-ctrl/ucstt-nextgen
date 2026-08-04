@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery | UCSTT Portal</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Padauk:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        /* --- Root Brand Variables --- */
+        :root {
+            --primary: #A51C30;       /* Thaton Crimson */
+            --oxford-blue: #002147;   /* Oxford Blue */
+            --deep-navy: #001c3d;      /* Deep Dark Profile Header Navy */
+            --accent: #C49619;        /* Ivy League Gold */
+            --light-bg: #f8fafc;      /* Heritage Surface Off-White */
+            --white: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+            --sidebar-width: 280px;
+            --topbar-height: 70px;
+        }
+
+        body.sidebar-collapsed {
+            --sidebar-width: 85px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', 'Padauk', sans-serif;
+        }
+
+        body {
+            background-color: #fafbfc;
+            color: var(--oxford-blue);
+            line-height: 1.7;
+            display: flex;
+            min-height: 100vh;
+            transition: var(--transition);
+        }
+
+        /* --- Language Switcher Engine Rules --- */
+        .lang-mm { display: none; }
+        body.lang-burmese .lang-en { display: none; }
+        body.lang-burmese .lang-mm { display: inline-block; }
+        body.lang-burmese div.lang-mm, 
+        body.lang-burmese p.lang-mm, 
+        body.lang-burmese span.lang-mm, 
+        body.lang-burmese a.lang-mm,
+        body.lang-burmese h1.lang-mm, 
+        body.lang-burmese h2.lang-mm, 
+        body.lang-burmese h3.lang-mm { display: inline-block; }
+
+        /* --- 1. LEFT SIDE NAVIGATION MENU --- */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: var(--sidebar-width);
+            height: 100vh;
+            background: linear-gradient(180deg, var(--oxford-blue) 0%, #001229 100%);
+            border-right: 4px solid var(--accent);
+            display: flex;
+            flex-direction: column;
+            padding: 30px 20px;
+            z-index: 1000;
+            box-shadow: 4px 0 25px rgba(0,0,0,0.15);
+            transition: var(--transition);
+            overflow-x: hidden;
+        }
+
+        body.sidebar-collapsed nav {
+            padding: 30px 10px;
+        }
+
+        .nav-brand-area {
+            text-align: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .nav-logo {
+            height: 85px;
+            width: auto;
+            transition: var(--transition);
+            filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.2));
+        }
+        .nav-logo:hover { transform: scale(1.05); }
+
+        body.sidebar-collapsed .nav-logo { height: 45px; }
+        body.sidebar-collapsed .nav-brand-area h2 { display: none !important; }
+
+        .nav-links { width: 100%; flex-grow: 1; overflow-y: auto; }
+        .nav-links ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+
+        .nav-links a {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 500;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+            padding: 12px 18px;
+            border-radius: 8px;
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+
+        body.sidebar-collapsed .nav-links a { justify-content: center; padding: 12px 0; }
+        body.sidebar-collapsed .nav-links span { display: none; }
+
+        .nav-links a i {
+            font-size: 1.1rem;
+            width: 32px;
+            height: 32px;
+            line-height: 32px;
+            text-align: center;
+            color: var(--accent);
+            background: rgba(255,255,255,0.05);
+            border-radius: 6px;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover i {
+            color: var(--white);
+            background: var(--primary);
+            transform: scale(1.15) rotate(15deg);
+            box-shadow: 0 4px 10px rgba(165, 28, 48, 0.3);
+        }
+
+        .nav-links a:hover, .nav-links li.active a {
+            color: var(--white);
+            background: rgba(255, 255, 255, 0.08);
+            border-left: 4px solid var(--primary);
+            padding-left: 22px;
+        }
+
+        body.sidebar-collapsed .nav-links a:hover, 
+        body.sidebar-collapsed .nav-links li.active a {
+            padding-left: 0;
+            border-left: none;
+            background: rgba(255, 255, 255, 0.15);
+            color: var(--accent);
+        }
+
+        /* --- 2. TOP TELEMETRY BAR --- */
+        .top-telemetry-bar {
+            position: fixed;
+            top: 0;
+            left: var(--sidebar-width);
+            width: calc(100% - var(--sidebar-width));
+            height: var(--topbar-height);
+            background: var(--white);
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            z-index: 999;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+            transition: var(--transition);
+        }
+
+        .topbar-left-zone {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .sidebar-toggle-btn {
+            background: var(--oxford-blue);
+            color: var(--white);
+            border: 2px solid var(--accent);
+            width: 42px;
+            height: 42px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            transition: var(--transition);
+        }
+        .sidebar-toggle-btn:hover { background: var(--primary); }
+
+        .lang-switch-btn {
+            background: #f1f5f9;
+            color: var(--oxford-blue);
+            border: 1px solid #cbd5e1;
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+        }
+        .lang-switch-btn:hover {
+            background: var(--primary);
+            color: var(--white);
+            border-color: var(--primary);
+        }
+
+        .live-clock-widget {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #f1f5f9;
+            padding: 8px 16px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #002147;
+            border: 1px solid #e2e8f0;
+            border-radius: 50px;
+        }
+        .live-clock-widget i { color: #ef4444; }
+
+        .topbar-center-hub {
+            display: flex;
+            align-items: center;
+            background: #fffdf5; 
+            border: 1px solid #e2d199;
+            border-left: 5px solid var(--accent); 
+            border-radius: 8px;
+            padding: 6px;
+            width: 100%;
+            max-width: 480px;
+            height: 52px;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.02);
+            overflow: hidden;
+        }
+
+        .node-badge {
+            background: var(--primary);
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.65rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            line-height: 1.2;
+            text-align: left;
+            height: 100%;
+            z-index: 5;
+            flex-shrink: 0;
+        }
+
+        .status-scroll-text {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #002147;
+            margin-left: 12px;
+            white-space: nowrap;
+            display: inline-block;
+            animation: trainAnimateAnnouncement 12s linear infinite;
+        }
+
+        @keyframes trainAnimateAnnouncement {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        .topbar-right-zone {
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .profile-trigger {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            padding: 6px 18px 6px 8px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 50px; 
+            transition: var(--transition);
+            height: 48px;
+        }
+        .profile-trigger:hover { background: #f1f5f9; border-color: #cbd5e1; }
+
+        .avatar-frame-container { 
+            position: relative; 
+            width: 34px; 
+            height: 34px; 
+            flex-shrink: 0;
+        }
+
+        .user-avatar-img { 
+            width: 100%; 
+            height: 100%; 
+            border-radius: 50%; 
+            object-fit: cover; 
+            border: 2px solid var(--accent); 
+            background: #f1f5f9;
+        }
+
+        .status-online-dot { 
+            position: absolute; 
+            bottom: -1px; 
+            right: -1px; 
+            width: 9px; 
+            height: 9px; 
+            background-color: #10b981; 
+            border: 2px solid var(--white); 
+            border-radius: 50%; 
+            z-index: 2;
+        }
+
+        .profile-trigger-info { display: flex; flex-direction: column; text-align: left; justify-content: center; }
+        .profile-trigger-info .user-name { font-size: 0.88rem; font-weight: 700; color: #002147; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 115px; line-height: 1.2; }
+        .profile-trigger-info .user-id-badge { font-size: 0.72rem; color: #64748b; font-weight: 500; margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 115px; line-height: 1.1; }
+
+        .profile-dropdown-card {
+            position: absolute; top: calc(100% + 12px); right: 0; width: 300px;
+            background: var(--white); border-radius: 4px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15); display: none; flex-direction: column;
+            z-index: 10000; overflow: hidden; opacity: 0; transform: translateY(-10px);
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+        
+        .profile-dropdown-card.show-card { display: flex; opacity: 1; transform: translateY(0); }
+
+        .dropdown-header { background: var(--deep-navy); padding: 24px 16px; text-align: center; color: var(--white); }
+        .dropdown-avatar-container { position: relative; width: 80px; height: 80px; margin: 0 auto 12px auto; cursor: pointer; border-radius: 50%; }
+        .dropdown-avatar-container img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 2px solid var(--white); }
+        
+        .avatar-edit-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 50%;
+            background: rgba(0, 0, 0, 0.5); display: flex; justify-content: center;
+            align-items: center; color: var(--white); font-size: 0.8rem; opacity: 0; transition: var(--transition);
+        }
+        .dropdown-avatar-container:hover .avatar-edit-overlay { opacity: 1; }
+
+        .dropdown-full-name { font-size: 1.15rem; font-weight: 700; color: var(--white); letter-spacing: 0.3px; }
+        .dropdown-email { font-size: 0.82rem; color: #a0aec0; margin-top: 4px; font-weight: 400; }
+
+        .dropdown-body { padding: 18px 20px; display: flex; flex-direction: column; gap: 16px; background: #fdfdfd; }
+        .db-item { display: flex; align-items: center; font-size: 0.88rem; color: #1e293b; padding-bottom: 4px; }
+        .db-item i { color: var(--primary); font-size: 1rem; width: 30px; text-align: left; }
+        .db-item strong { font-weight: 700; margin-right: 6px; color: #1e293b; }
+        .db-item span { color: #64748b; margin-left: auto; font-weight: 500; }
+
+        .dropdown-footer { display: flex; padding: 0 20px 20px 20px; gap: 12px; background: #fdfdfd; }
+        .logout-btn, .close-profile-btn { flex: 1; padding: 10px; border: none; font-size: 0.85rem; font-weight: 700; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; transition: var(--transition); }
+        
+        .close-profile-btn { background: #f1f5f9; color: #1e293b; border: 1px solid #e2e8f0; }
+        .close-profile-btn:hover { background: #e2e8f0; }
+        .logout-btn { background: #fff5f5; color: #ef4444; border: 1px solid #fecaca; }
+        .logout-btn:hover { background: #ef4444; color: var(--white); border-color: #ef4444; }
+
+        /* --- 3. MAIN WORKSPACE AREA --- */
+        .main-workspace {
+            margin-left: var(--sidebar-width);
+            margin-top: var(--topbar-height);
+            width: calc(100% - var(--sidebar-width));
+            min-height: calc(100vh - var(--topbar-height));
+            transition: var(--transition);
+        }
+
+        /* --- 4. CLEAN HEADER SECTION --- */
+        .gallery-header-section {
+            padding: 55px 20px 30px 20px;
+            text-align: center;
+            background: #ffffff;
+            border-bottom: 1px solid #edf2f7;
+        }
+
+        .gallery-header-section h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: var(--oxford-blue);
+            margin-bottom: 25px;
+            letter-spacing: -0.5px;
+        }
+
+        /* Pill Filter Controls Bar */
+        .gallery-filter-bar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: #ffffff;
+            color: var(--oxford-blue);
+            border: 2px solid var(--oxford-blue);
+            padding: 8px 24px;
+            border-radius: 50px;
+            font-size: 0.82rem;
+            font-weight: 800;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: var(--transition);
+            outline: none;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--oxford-blue);
+            color: var(--white);
+            border-color: var(--oxford-blue);
+            box-shadow: 0 4px 12px rgba(0, 33, 71, 0.18);
+        }
+
+        /* --- 5. CLEAN GRID GALLERY --- */
+        .gallery-container {
+            padding: 40px 60px 80px 60px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .gallery-card {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            background: var(--white);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+            cursor: pointer;
+            height: 280px;
+        }
+
+        .gallery-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        /* Hover Crimson Overlay with Plus Icon */
+        .gallery-card-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(165, 28, 48, 0.85); /* Thaton Crimson Glass */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .zoom-icon-circle {
+            width: 48px;
+            height: 48px;
+            background: var(--white);
+            color: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transform: scale(0.8);
+            transition: var(--transition);
+        }
+
+        .gallery-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .gallery-card:hover img {
+            transform: scale(1.06);
+        }
+
+        .gallery-card:hover .gallery-card-overlay {
+            opacity: 1;
+        }
+
+        .gallery-card:hover .zoom-icon-circle {
+            transform: scale(1);
+        }
+
+        /* --- 6. LIGHTBOX MODAL (PHOTO ONLY) --- */
+        .lightbox-modal {
+            position: fixed; 
+            inset: 0; 
+            background: rgba(0, 18, 41, 0.92); 
+            -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(12px);
+            display: none; 
+            justify-content: center; 
+            align-items: center; 
+            z-index: 10000; 
+            padding: 30px;
+            opacity: 0; 
+            transition: opacity 0.3s ease;
+        }
+        .lightbox-modal.active { display: flex; opacity: 1; }
+
+        .lightbox-content {
+            background: transparent; 
+            border-radius: 12px; 
+            max-width: 90vw; 
+            max-height: 85vh;
+            width: auto;
+            overflow: hidden; 
+            box-shadow: 0 25px 50px rgba(0,0,0,0.8); 
+            border: none;
+            display: flex; 
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .lightbox-img-wrapper { 
+            background: transparent; 
+            width: 100%;
+            height: 100%;
+            max-height: 85vh;
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+        }
+        .lightbox-img-wrapper img { 
+            max-width: 100%; 
+            max-height: 85vh; 
+            object-fit: contain; 
+            border-radius: 12px;
+        }
+
+        /* Text section completely hidden */
+        .lightbox-details { 
+            display: none !important; 
+        }
+
+        .close-lightbox {
+            position: absolute; 
+            top: 15px; 
+            right: 15px; 
+            width: 40px; 
+            height: 40px; 
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 50%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            cursor: pointer;
+            color: #ffffff; 
+            font-weight: 700; 
+            transition: var(--transition); 
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            z-index: 10;
+        }
+        .close-lightbox:hover { background: var(--primary); color: var(--white); border-color: var(--primary); }
+
+        .footer { background: var(--oxford-blue); color: var(--white); padding: 30px 10px; border-top: 5px solid var(--primary); text-align: center; font-size: 0.9rem; margin-top: 40px; }
+
+        /* --- RESPONSIVE ENGINE --- */
+        @media (max-width: 1024px) {
+            body { flex-direction: column; }
+            nav { width: 100%; height: auto; position: relative; border-right: none; border-bottom: 4px solid var(--accent); padding: 15px; }
+            .nav-brand-area { display: flex; flex-direction: column; align-items: center; justify-content: center; padding-bottom: 10px; margin-bottom: 10px; }
+            .nav-logo { height: 55px; }
+            .nav-links ul { flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 8px; }
+            .nav-links a { padding: 8px 14px; font-size: 0.8rem; }
+            
+            .top-telemetry-bar { position: relative; left: 0; width: 100%; display: flex; flex-direction: column; padding: 15px; gap: 10px; height: auto; }
+            .topbar-left-zone { width: 100%; justify-content: space-between; }
+            .topbar-center-hub { width: 100%; justify-content: center; padding: 0; flex-wrap: wrap; }
+            .topbar-right-zone { width: 100%; justify-content: center; margin-top: 5px; }
+            
+            .sidebar-toggle-btn { display: none; }
+            .main-workspace { margin-left: 0; margin-top: 0; width: 100%; }
+            .gallery-header-section h1 { font-size: 2.2rem; }
+            .photo-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 650px) {
+            .photo-grid { grid-template-columns: 1fr; }
+            .gallery-container { padding: 30px 20px; }
+            .filter-btn { padding: 6px 18px; font-size: 0.75rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav id="sidebarNode">
+        <div class="nav-brand-area">
+            <a href="fifthYearHomePage.html"><img src="logo.png" alt="UCSTT Logo" class="nav-logo"></a>
+            <h2 style="color: var(--white); font-size: 0.95rem; font-weight: 800; margin-top: 10px; letter-spacing: 1px;">NextGen UCSTT</h2>
+        </div>
+        
+        <div class="nav-links">
+            <ul>
+                <li><a href="fifthYearHomePage.html"><i class="fas fa-home"></i> <span class="lang-en">HOME</span><span class="lang-mm">ပင်မစာမျက်နှာ</span></a></li>
+                <li><a href="fifthYearAbout.html"><i class="fas fa-info-circle"></i> <span class="lang-en">ABOUT</span><span class="lang-mm">ကျောင်းအကြောင်း</span></a></li>
+                <li class="active"><a href="fifthYearGallery.html"><i class="fas fa-images"></i> <span class="lang-en">GALLERY</span><span class="lang-mm">ဓာတ်ပုံများ</span></a></li>
+                <li><a href="fifthYearFeedBack.html"><i class="fas fa-comment-alt"></i> <span class="lang-en">FEEDBACK</span><span class="lang-mm">အကြံပြုချက်</span></a></li>
+                <li><a href="fifthYearContact.html"><i class="fas fa-envelope"></i> <span class="lang-en">CONTACT</span><span class="lang-mm">ဆက်သွယ်ရန်</span></a></li>
+                <li><a href="fifthYearAskChat.html"><i class="fas fa-headset"></i> <span class="lang-en">ASK CHAT</span><span class="lang-mm">မေးမြန်းရန်</span></a></li>
+                <li><a href="learnFifth.html"><i class="fas fa-graduation-cap"></i> <span class="lang-en">LEARNING</span><span class="lang-mm">လေ့လာရန်</span></a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="top-telemetry-bar">
+        <div class="topbar-left-zone">
+            <button class="sidebar-toggle-btn" onclick="toggleSidebarSize()">
+                <i class="fas fa-bars" id="toggleIcon"></i>
+            </button>
+
+            <!-- Language Switch Button -->
+            <button class="lang-switch-btn" onclick="toggleLanguageChoice()">
+                <i class="fas fa-globe"></i>
+                <span class="lang-en">🇲🇲 မြန်မာ</span>
+                <span class="lang-mm">🇬🇧 English</span>
+            </button>
+
+            <div class="live-clock-widget">
+                <i class="far fa-clock"></i>
+                <span id="live-time-display">00:00:00 AM</span>
+            </div>
+        </div>
+
+        <div class="topbar-center-hub">
+            <div class="node-badge">
+                <i class="fas fa-images"></i>
+                <div>
+                    <span class="lang-en">Institutional<br>Node</span>
+                    <span class="lang-mm">တက္ကသိုလ်<br>စနစ်</span>
+                </div>
+            </div>
+            <div class="status-scroll-text" id="campus-hours-text">
+                <span class="lang-en">🚀 UCSTT Digital Visual Archive Online. Campus Photo Showcase Active.</span>
+                <span class="lang-mm">🚀 ကွန်ပျူတာတက္ကသိုလ် (သထုံ) ၏ ဓာတ်ပုံမှတ်တမ်းများကို ကြည့်ရှုနိုင်ပါသည်။</span>
+            </div>
+        </div>
+        
+        <div class="topbar-right-zone">
+            <div class="user-profile-hub" id="userProfileHub">
+                <div class="profile-trigger" onclick="toggleProfileDropdown(event)">
+                    <div class="avatar-frame-container">
+                        <img src="photo_2025-11-08_11-17-04.jpg" alt="Student Pic" class="user-avatar-badge user-avatar-img">
+                        <div class="status-online-dot"></div>
+                    </div>
+                    <div class="profile-trigger-info">
+                        <span class="user-name-badge user-name">Loading...</span>
+                        <span class="user-roll-badge user-id-badge">UCSTT(24-25)-000</span>
+                    </div>
+                    <i class="fas fa-chevron-down" style="font-size: 0.7rem; color: #64748b; margin-left: 6px;"></i>
+                </div>
+                
+                <div class="profile-dropdown-card dropdownCardNode" id="dropdownCardNode" onclick="event.stopPropagation()">
+                    <div class="dropdown-header">
+                        <div class="dropdown-avatar-container" onclick="triggerPhotoUpload()">
+                            <img src="photo_2025-11-08_11-17-04.jpg" alt="Student Pic" class="dropdown-avatar-img">
+                            <div class="avatar-edit-overlay">
+                                <i class="fas fa-camera"></i>
+                            </div>
+                        </div>
+                        <input type="file" id="hiddenAvatarInput" accept="image/*" style="display: none;" onchange="handlePhotoUpdate(event)">
+                        
+                        <h4 class="dropdown-full-name">Name</h4>
+                        <p class="dropdown-email">student@ucstt.edu.mm</p>
+                    </div>
+                    <div class="dropdown-body">
+                        <div class="db-item">
+                            <i class="fas fa-graduation-cap"></i> 
+                            <div>
+                                <strong class="lang-en">Year/Major:</strong>
+                                <strong class="lang-mm">သင်တန်းနှစ်/မေဂျာ:</strong>
+                            </div> 
+                            <span class="dropdown-year-major">First Year (CST)</span>
+                        </div>
+                        <div class="db-item">
+                            <i class="fas fa-history"></i> 
+                            <div>
+                                <strong class="lang-en">Last Login:</strong>
+                                <strong class="lang-mm">နောက်ဆုံးဝင်ရောက်ချိန်:</strong>
+                            </div> 
+                            <span class="dropdown-last-login">Just Now</span>
+                        </div>
+                    </div>
+                    <div class="dropdown-footer">
+                        <button class="close-profile-btn" onclick="closeProfileDropdown()">
+                            <span class="lang-en">Cancel</span>
+                            <span class="lang-mm">မလုပ်တော့ပါ</span>
+                        </button>
+                        <button class="logout-btn" onclick="handleLogout()">
+                            <i class="fas fa-sign-out-alt"></i> 
+                            <span class="lang-en">Log Out</span>
+                            <span class="lang-mm">ထွက်မည်</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-workspace">
+        
+        <!-- Header Section -->
+        <section class="gallery-header-section">
+            <h1 class="lang-en">Campus Life Gallery</h1>
+            <h1 class="lang-mm">ကျောင်းဝင်းအတွင်း လှုပ်ရှားမှု ဓာတ်ပုံများ</h1>
+            
+            <div class="gallery-filter-bar">
+                <button class="filter-btn active" onclick="filterGallery('all', this)">
+                    <span class="lang-en">ALL PHOTOS</span>
+                    <span class="lang-mm">ဓာတ်ပုံအားလုံး</span>
+                </button>
+                <button class="filter-btn" onclick="filterGallery('campus', this)">
+                    <span class="lang-en">CAMPUS</span>
+                    <span class="lang-mm">ကျောင်းဝင်း</span>
+                </button>
+                <button class="filter-btn" onclick="filterGallery('events', this)">
+                    <span class="lang-en">EVENTS</span>
+                    <span class="lang-mm">အခမ်းအနားများ</span>
+                </button>
+                <button class="filter-btn" onclick="filterGallery('students', this)">
+                    <span class="lang-en">STUDENTS</span>
+                    <span class="lang-mm">ကျောင်းသား/သူများ</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Gallery Grid Layout -->
+        <main class="gallery-container">
+            <div class="photo-grid" id="galleryGrid">
+                
+                <div class="gallery-card" data-category="campus" onclick="openLightbox('gate.jpg')">
+                    <img src="gate.jpg" alt="Campus Gate" onerror="this.src='https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?w=800'">
+                    <div class="gallery-card-overlay">
+                    
+                        <div class="zoom-icon-circle"><i class="fas fa-search-plus"></i></div>
+                    </div>
+                </div>
+
+                <div class="gallery-card" data-category="campus" onclick="openLightbox('unimainbuilding.jpg')">
+                    <img src="unimainbuilding.jpg" alt="Main Building" onerror="this.src='https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800'">
+                    <div class="gallery-card-overlay">
+                        <div class="zoom-icon-circle"><i class="fas fa-search-plus"></i></div>
+                    </div>
+                </div>
+
+                <div class="gallery-card" data-category="campus" onclick="openLightbox('hostel.jpg')">
+                    <img src="hostel.jpg" alt="Assembly Building" onerror="this.src='https://images.unsplash.com/photo-1562774053-701939374585?w=800'">
+                    <div class="gallery-card-overlay">
+                        <div class="zoom-icon-circle"><i class="fas fa-search-plus"></i></div>
+                    </div>
+                </div>
+                <div class="gallery-card" data-category="campus" onclick="openLightbox('cuthaton.jpg')">
+                    <img src="cuthaton.jpg" alt="Assembly Building" onerror="this.src='https://images.unsplash.com/photo-1562774053-701939374585?w=800'">
+                    <div class="gallery-card-overlay">
+                        <div class="zoom-icon-circle"><i class="fas fa-search-plus"></i></div>
+                    </div>
+                </div>
+                <div class="gallery-card" data-category="campus" onclick="openLightbox('flower.jpg')">
+                    <img src="flower.jpg" alt="Assembly Building" onerror="this.src='https://images.unsplash.com/photo-1562774053-701939374585?w=800'">
+                    <div class="gallery-card-overlay">
+                        <div class="zoom-icon-circle"><i class="fas fa-search-plus"></i></div>
+                    </div>
+                </div>
+                <div class="gallery-card" data-category="campus" onclick="openLightbox('sun_point.jpg')">
+                    <img src="sun_point.jpg" alt="Assembly Building" onerror="this.src='https://images.unsplash.com/photo-1562774053-701939374585?w=800'">
+                    <div class="gallery-card-overlay">
+                        <div class="zoom-icon-circle"><i class="fas fa-search-plus"></i></div>
+                    </div>
+                </div>
+                <div class="gallery-card" data-category="campus" onclick="openLightbox('uni_view_evening.jpg')">
+                    <img src="uni_view_evening.jpg" alt="Assembly Building" onerror="this.src='https://images.unsplash.com/photo-1562774053-701939374585?w=800'">
+                    <div class="gallery-card-overlay">
+                        <div class="zoom-icon-circle"><i class="fas fa-search-plus"></i></div>
+                    </div>
+                </div>
+                
+
+                <div class="gallery-card" data-category="events" onclick="openLightbox('fresher_welcome.jpg')">
+                    <img src="fresher_welcome.jpg" alt="Project Show" onerror="this.src='https://images.unsplash.com/photo-1515187029135-18ee286d815b?w=800'">
+                    <div class="gallery-card-overlay">
+                        <div class="zoom-icon-circle"><i class="fas fa-search-plus"></i></div>
+                    </div>
+                </div>
+                <div class="gallery-card" data-category="events" onclick="openLightbox('java_tchal.jpg')">
+                    <img src="java_tchal.jpg" alt="Project Show" onerror="this.src='https://images.unsplash.com/photo-1515187029135-18ee286d815b?w=800'">
+                    <div class="gallery-card-overlay">
+                        <div class="zoom-icon-circle"><i class="fas fa-search-plus"></i></div>
+                    </div>
+                </div>
+                <div class="gallery-card" data-category="events" onclick="openLightbox('fresher_opening_song.jpg')">
+                    <img src="fresher_opening_song.jpg" alt="Project Show" onerror="this.src='https://images.unsplash.com/photo-1515187029135-18ee286d815b?w=800'">
+                    <div class="gallery-card-overlay">
+                        <div class="zoom-icon-circle"><i class="fas fa-search-plus"></i></div>
+                    </div>
+                </div>
+                <div class="gallery-card" data-category="events" onclick="openLightbox('fresher_mon.jpg')">
+                    <img src="fresher_mon.jpg" alt="Project Show" onerror="this.src='https://images.unsplash.com/photo-1515187029135-18ee286d815b?w=800'">
+                    <div class="gallery-card-overlay">
+                        <div class="zoom-icon-circle"><i class="fas fa-search-plus"></i></div>
+                    </div>
+                </div>
+
+                <div class="gallery-card" data-category="students" onclick="openLightbox('computerlab.jpg')">
+                    <img src="computerlab.jpg" alt="Computer Lab" onerror="this.src='https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800'">
+                    <div class="gallery-card-overlay">
+                        <div class="zoom-icon-circle"><i class="fas fa-search-plus"></i></div>
+                    </div>
+                </div>
+                 <div class="gallery-card" data-category="students" onclick="openLightbox('student.jpg')">
+                    <img src="student.jpg" alt="Computer Lab" onerror="this.src='https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800'">
+                    <div class="gallery-card-overlay">
+                        <div class="zoom-icon-circle"><i class="fas fa-search-plus"></i></div>
+                    </div>
+                </div>
+                <div class="gallery-card" data-category="students" onclick="openLightbox('our_group.jpg')">
+                    <img src="our_group.jpg" alt="Our Group" onerror="this.src='https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800'">
+                    <div class="gallery-card-overlay">
+                        <div class="zoom-icon-circle"><i class="fas fa-search-plus"></i></div>
+                    </div>
+                </div>
+
+                
+
+            </div>
+        </main>
+           
+        <footer class="footer">
+            <p class="lang-en">&copy; 2026 NextGen UCSTT. All Rights Reserved.</p>
+            <p class="lang-mm">&copy; 2026 NextGen UCSTT. မူပိုင်ခွင့်များအားလုံး လက်ဝယ်ထားရှိပြီးဖြစ်သည်။</p>
+        </footer>
+    </div>
+
+    <!-- Lightbox Modal (PHOTO ONLY) -->
+    <div class="lightbox-modal" id="lightboxModal" onclick="closeLightbox()">
+        <div class="lightbox-content" onclick="event.stopPropagation()">
+            <div class="close-lightbox" onclick="closeLightbox()"><i class="fas fa-times"></i></div>
+            <div class="lightbox-img-wrapper">
+                <img id="lightboxImg" src="" alt="Lightbox Target">
+            </div>
+            <div class="lightbox-details"></div>
+        </div>
+    </div>
+
+    <script>
+        // --- LANGUAGE SWITCHER ENGINE ---
+        function toggleLanguageChoice() {
+            document.body.classList.toggle('lang-burmese');
+            const isBurmese = document.body.classList.contains('lang-burmese');
+            localStorage.setItem('preferredLang', isBurmese ? 'my' : 'en');
+        }
+
+        function applySavedLanguage() {
+            const savedLang = localStorage.getItem('preferredLang');
+            if (savedLang === 'my') {
+                document.body.classList.add('lang-burmese');
+            }
+        }
+
+        function toggleSidebarSize() {
+            const body = document.body;
+            const icon = document.getElementById('toggleIcon');
+            body.classList.toggle('sidebar-collapsed');
+            icon.className = body.classList.contains('sidebar-collapsed') ? "fas fa-arrow-right" : "fas fa-bars";
+        }
+
+        let currentLoggedUser = null;
+
+        function syncUserSessionProfile() {
+            const activeStudentData = sessionStorage.getItem('activeStudent');
+            if (!activeStudentData) {
+                alert("Unauthorized Access! Please Sign In from index page first.");
+                window.location.href = "index.html";
+                return;
+            }
+            
+            currentLoggedUser = JSON.parse(activeStudentData);
+
+            document.querySelectorAll('.user-name-badge').forEach(el => el.innerText = currentLoggedUser.name || "Student User");
+            document.querySelectorAll('.user-roll-badge').forEach(el => el.innerText = currentLoggedUser.roll || "UCSTT(24-25)-000");
+            document.querySelectorAll('.dropdown-full-name').forEach(el => el.innerText = currentLoggedUser.name || "Student User");
+            document.querySelectorAll('.dropdown-email').forEach(el => el.innerText = currentLoggedUser.email || "student@ucstt.edu.mm");
+            document.querySelectorAll('.dropdown-year-major').forEach(el => el.innerText = `${currentLoggedUser.year || "First Year"} (${currentLoggedUser.major || "CST"})`);
+            document.querySelectorAll('.dropdown-last-login').forEach(el => el.innerText = currentLoggedUser.lastLoginTime || "Just Now");
+
+            const savedPhotoKey = 'profilePhoto_' + currentLoggedUser.roll;
+            const savedPhoto = localStorage.getItem(savedPhotoKey) || localStorage.getItem('userCustomAvatar');
+            if (savedPhoto) {
+                document.querySelectorAll('.user-avatar-badge').forEach(el => el.src = savedPhoto);
+                document.querySelectorAll('.dropdown-avatar-img').forEach(el => el.src = savedPhoto);
+            }
+        }
+
+        function toggleProfileDropdown(event) {
+            event.stopPropagation();
+            const card = document.getElementById('dropdownCardNode');
+            if (card.classList.contains('show-card')) {
+                closeProfileDropdown();
+            } else {
+                card.style.display = 'flex';
+                setTimeout(() => card.classList.add('show-card'), 10);
+            }
+        }
+
+        function closeProfileDropdown() {
+            const card = document.getElementById('dropdownCardNode');
+            if(card) {
+                card.classList.remove('show-card');
+                setTimeout(() => { card.style.display = 'none'; }, 200);
+            }
+        }
+
+        function triggerPhotoUpload() {
+            document.getElementById('hiddenAvatarInput').click();
+        }
+
+        function handlePhotoUpdate(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const base64Image = e.target.result;
+                    document.querySelectorAll('.user-avatar-badge').forEach(el => el.src = base64Image);
+                    document.querySelectorAll('.dropdown-avatar-img').forEach(el => el.src = base64Image);
+                    
+                    localStorage.setItem('userCustomAvatar', base64Image);
+                    if (currentLoggedUser) {
+                        const savedPhotoKey = 'profilePhoto_' + currentLoggedUser.roll;
+                        localStorage.setItem(savedPhotoKey, base64Image);
+                    }
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function handleLogout() {
+            const isBurmese = document.body.classList.contains('lang-burmese');
+            const confirmMsg = isBurmese ? "အကောင့်မှ ထွက်ခွာရန် သေချာပါသလား။" : "Are you sure you want to log out from NextGen UCSTT Node?";
+            if (confirm(confirmMsg)) {
+                sessionStorage.removeItem('activeStudent');
+                window.location.href = "index.html";
+            }
+        }
+
+        function executeScheduleTelemetry() {
+            const now = new Date();
+            let hours = now.getHours(), minutes = now.getMinutes(), seconds = now.getSeconds();
+            let ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12 || 12;
+            minutes = minutes < 10 ? '0'+minutes : minutes;
+            seconds = seconds < 10 ? '0'+seconds : seconds;
+            document.getElementById('live-time-display').textContent = `${hours}:${minutes}:${seconds} ${ampm}`;
+        }
+        setInterval(executeScheduleTelemetry, 1000);
+
+        /* Interactive Filter Mechanism */
+        function filterGallery(category, button) {
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+
+            const items = document.querySelectorAll('.gallery-card');
+            items.forEach(item => {
+                if (category === 'all' || item.getAttribute('data-category') === category) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        /* Lightbox Mechanics - Photo Only */
+        function openLightbox(imgSrc) {
+            document.getElementById('lightboxImg').src = imgSrc;
+
+            const modal = document.getElementById('lightboxModal');
+            modal.style.display = 'flex';
+            setTimeout(() => modal.classList.add('active'), 10);
+        }
+
+        function closeLightbox() {
+            const modal = document.getElementById('lightboxModal');
+            modal.classList.remove('active');
+            setTimeout(() => modal.style.display = 'none', 300);
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            applySavedLanguage();
+            syncUserSessionProfile();
+            executeScheduleTelemetry();
+        });
+
+        window.onclick = function() { closeProfileDropdown(); }
+    </script>
+</body>
+</html>
