@@ -225,7 +225,7 @@
         </div>
 
         <div class="logo-area">
-            <img src="imageForProject/UCSTT Logo(true).png" alt="UCSTT Logo" onerror="this.src='https://via.placeholder.com/70'">
+            <img src="logo.png" alt="UCSTT Logo" onerror="this.src='https://via.placeholder.com/70'">
             <h2>NextGen UCSTT</h2>
             <p class="lang-en">Cryptic Security Node</p>
             <p class="lang-mm">လုံခြုံရေး စနစ်ဂိတ်</p>
@@ -246,6 +246,14 @@
                 <span class="lang-en">Instant Scan Access QR</span>
                 <span class="lang-mm">QR စကင်ဖတ်၍ ဝင်ရောက်မည်</span>
             </button>
+
+            <!-- Gallery မှ QR ပုံရွေးချယ်ရန် ခလုတ်အသစ် -->
+            <button class="action-btn btn-success-soft" onclick="document.getElementById('qr-file-input').click()" style="margin-top: 5px;">
+                <i class="fas fa-image"></i> 
+                <span class="lang-en">Choose QR from Gallery</span>
+                <span class="lang-mm">Gallery မှ QR ပုံရွေးချယ်မည်</span>
+            </button>
+            <input type="file" id="qr-file-input" accept="image/*" style="display: none;" onchange="scanQRFromFile(event)">
 
             <div class="camera-box" id="login-cam-box">
                 <div id="qr-reader"></div>
@@ -546,7 +554,6 @@
         function startOutlookVerification(event) {
             event.preventDefault();
             
-            // Error စာသားများကို အစတွင် ခဏ ဖျောက်ထားမည်
             const errEmail = document.getElementById('err-email');
             const errRoll = document.getElementById('err-roll');
             const errPass = document.getElementById('err-pass');
@@ -564,7 +571,6 @@
 
             let hasError = false;
 
-            // 🛑 1. Outlook Email Format Validation (name@ucstt.edu.mm)
             const expectedNameSlug = name.toLowerCase().replace(/\s+/g, '');
             const expectedEmail = `${expectedNameSlug}@ucstt.edu.mm`;
 
@@ -573,7 +579,6 @@
                 hasError = true;
             }
 
-            // 🛑 2. Roll Format Validation
             let expectedFormat = "24-25";
             if (year === "First Year") expectedFormat = "25-26";
             else if (year === "Third Year") expectedFormat = "23-24";
@@ -586,18 +591,15 @@
                 hasError = true;
             }
 
-            // 🛑 3. Password Structure Validation
             if(!PASSWORD_REGEX.test(password)) {
                 errPass.style.display = 'block';
                 hasError = true;
             }
 
-            // အမှားတစ်ခုခုရှိနေပါက တစ်ပြိုင်နက်တည်း Error ပြပြီး ရှေ့ဆက်မသွားစေရန် တားဆီးမည်
             if (hasError) {
-                return; // STOP EXECUTION IMMEDIATELY
+                return; 
             }
 
-            // Database Duplicate Filter
             fetch(`${FIREBASE_BASE_URL}.json`)
                 .then(r => r.json())
                 .then(db => {
@@ -607,14 +609,12 @@
                         users.forEach(u => { if(u.roll === roll || u.email === email) isDuplicate = true; });
                         if(isDuplicate) {
                             alert("Access Denied: Record duplicate found inside database.");
-                            return; // STOP EXECUTION
+                            return; 
                         }
                     }
 
-                    // Generate Random 6-Digit Code
                     generatedOtpCode = Math.floor(100000 + Math.random() * 900000).toString();
 
-                    // Temporarily store data until verification is complete
                     temporaryRegisterPayload = { 
                         name, email, year, major, roll, password, photo: uploadedPhotoBase64 
                     };
@@ -677,7 +677,6 @@
                 })
                 .then(res => res.json())
                 .then(() => {
-                    // Save Session & Local Storage Photo for All Pages Sync
                     sessionStorage.setItem('activeStudent', JSON.stringify(finalPayload));
                     if (payload.photo) {
                         localStorage.setItem('profilePhoto_' + payload.roll, payload.photo);
@@ -702,7 +701,7 @@
             executeRoute(pendingYearRedirect);
         }
 
-        // 📸 REAL-TIME INSTANT QR DECODER ENGINE (Updated to use back camera / environment camera)
+        // 📸 REAL-TIME INSTANT QR DECODER ENGINE
         function startQRLoginScanner() {
             killCamera();
             document.getElementById('login-cam-box').style.display = 'block';
@@ -714,13 +713,37 @@
             const config = { fps: 30, qrbox: { width: 160, height: 160 }, aspectRatio: 1.0 };
 
             html5QrcodeScanner.start(
-                { facingMode: "environment" }, config,
+                { facingMode: "user" }, config,
                 (decodedText) => {
                     document.getElementById('login-status').innerText = "Token Intercepted! Validating...";
                     killCamera(); processQRAuthentication(decodedText);
                 },
                 () => { document.getElementById('login-status').innerText = "Place QR Token inside green square frame..."; }
             ).catch(() => { alert("Camera Access Error."); killCamera(); });
+        }
+
+        // 🖼️ GALLERY မှ QR ပုံရွေးချယ်ပြီး Login ဝင်မည့် Function
+        function scanQRFromFile(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            document.getElementById('login-status').style.display = 'block';
+            document.getElementById('login-status').innerText = "Scanning QR from Gallery...";
+
+            const html5QrCode = new Html5Qrcode("qr-reader");
+
+            html5QrCode.scanFile(file, true)
+                .then(decodedText => {
+                    document.getElementById('login-status').innerText = "QR Token Verified! Logging in...";
+                    html5QrCode.clear();
+                    processQRAuthentication(decodedText);
+                })
+                .catch(err => {
+                    console.error("Error scanning file: ", err);
+                    document.getElementById('login-status').innerText = "Failed to read QR code from image.";
+                    alert("QR Code ကို ဖတ်၍ မရပါ။ ပုံမှန် QR ပုံစံ ဟုတ်မဟုတ် စစ်ဆေးပါ။");
+                    html5QrCode.clear();
+                });
         }
 
         function processQRAuthentication(token) {
