@@ -701,8 +701,7 @@
             executeRoute(pendingYearRedirect);
         }
 
-        // 📸 REAL-TIME INSTANT QR DECODER ENGINE
-        function startQRLoginScanner() {
+       function startQRLoginScanner() {
             killCamera();
             document.getElementById('login-cam-box').style.display = 'block';
             document.getElementById('login-status').style.display = 'block';
@@ -713,7 +712,7 @@
             const config = { fps: 30, qrbox: { width: 160, height: 160 }, aspectRatio: 1.0 };
 
             html5QrcodeScanner.start(
-                { facingMode: "user" }, config,
+                { facingMode: "environment" }, config,
                 (decodedText) => {
                     document.getElementById('login-status').innerText = "Token Intercepted! Validating...";
                     killCamera(); processQRAuthentication(decodedText);
