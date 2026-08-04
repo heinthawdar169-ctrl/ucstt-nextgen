@@ -225,7 +225,7 @@
         </div>
 
         <div class="logo-area">
-            <img src="logo.png" alt="UCSTT Logo" onerror="this.src='https://via.placeholder.com/70'">
+            <img src="imageForProject/UCSTT Logo(true).png" alt="UCSTT Logo" onerror="this.src='https://via.placeholder.com/70'">
             <h2>NextGen UCSTT</h2>
             <p class="lang-en">Cryptic Security Node</p>
             <p class="lang-mm">လုံခြုံရေး စနစ်ဂိတ်</p>
@@ -702,7 +702,7 @@
             executeRoute(pendingYearRedirect);
         }
 
-        // 📸 REAL-TIME INSTANT QR DECODER ENGINE
+        // 📸 REAL-TIME INSTANT QR DECODER ENGINE (Updated to use back camera / environment camera)
         function startQRLoginScanner() {
             killCamera();
             document.getElementById('login-cam-box').style.display = 'block';
@@ -714,7 +714,7 @@
             const config = { fps: 30, qrbox: { width: 160, height: 160 }, aspectRatio: 1.0 };
 
             html5QrcodeScanner.start(
-                { facingMode: "user" }, config,
+                { facingMode: "environment" }, config,
                 (decodedText) => {
                     document.getElementById('login-status').innerText = "Token Intercepted! Validating...";
                     killCamera(); processQRAuthentication(decodedText);
