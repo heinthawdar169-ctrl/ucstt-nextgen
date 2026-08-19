@@ -35,7 +35,7 @@
             --shadow: 0 30px 90px rgba(0,0,0,.55);
         }
 
-        * { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins','Padauk',sans-serif; }
+        * { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins','Padauk','Myanmar Text',sans-serif; }
 
         html { min-height:100%; }
 
@@ -347,6 +347,360 @@
             display:none;
         }
 
+        .login-no-scan-badge {
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            gap:7px;
+            margin:0 0 14px;
+            padding:7px 10px;
+            border-radius:9px;
+            color:#94a3b8;
+            background:rgba(255,255,255,.025);
+            border:1px solid rgba(255,255,255,.07);
+            font-size:.61rem;
+        }
+        .login-no-scan-badge i { color:#64748b; }
+        .auth-hero {
+            display:flex;
+            align-items:center;
+            gap:12px;
+            text-align:left;
+            padding:13px 14px;
+            margin-bottom:10px;
+            border:1px solid rgba(255,255,255,.08);
+            border-radius:17px;
+            background:linear-gradient(135deg,rgba(255,255,255,.055),rgba(255,255,255,.018));
+        }
+        .auth-hero-icon {
+            flex:0 0 42px;
+            width:42px;
+            height:42px;
+            display:grid;
+            place-items:center;
+            border-radius:13px;
+            color:#f4d16b;
+            background:linear-gradient(145deg,rgba(139,16,38,.9),rgba(82,8,23,.8));
+            border:1px solid rgba(215,173,63,.35);
+        }
+        .auth-hero h3 { font-size:.98rem; line-height:1.3; color:#f8fafc; }
+        .auth-hero p { margin-top:3px; font-size:.66rem; color:#8493a8; }
+        .login-program-badge {
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            gap:7px;
+            margin:-3px 0 12px;
+            padding:7px 10px;
+            border-radius:9px;
+            color:#a7f3d0;
+            background:rgba(16,185,129,.055);
+            border:1px solid rgba(52,211,153,.13);
+            font-size:.63rem;
+            font-weight:700;
+            letter-spacing:.02em;
+        }
+        .login-program-badge i { color:#34d399; }
+        #logRoll { text-transform:uppercase; }
+
+        .auth-mode-note {
+            display:flex;
+            align-items:center;
+            gap:7px;
+            padding:7px 10px;
+            margin:0 0 16px;
+            border-radius:9px;
+            font-size:.64rem;
+            line-height:1.4;
+            text-align:left;
+        }
+        .login-note {
+            color:#94a3b8;
+            background:rgba(255,255,255,.025);
+            border:1px solid rgba(255,255,255,.07);
+        }
+        .login-note i { color:#94a3b8; }
+        .register-note {
+            color:#f0d889;
+            background:rgba(215,173,63,.045);
+            border:1px solid rgba(215,173,63,.13);
+        }
+        .register-note i { color:#d7ad3f; }
+
+        .register-identity-preview {
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:8px;
+            margin:8px 0 12px;
+        }
+        .identity-chip {
+            padding:8px 10px;
+            border-radius:10px;
+            background:rgba(255,255,255,.025);
+            border:1px solid rgba(255,255,255,.07);
+            text-align:left;
+        }
+        .identity-chip small {
+            display:block;
+            color:#64748b;
+            font-size:.58rem;
+            margin-bottom:3px;
+        }
+        .identity-chip strong {
+            display:block;
+            color:#dbe7f3;
+            font-size:.68rem;
+            overflow:hidden;
+            text-overflow:ellipsis;
+            white-space:nowrap;
+        }
+        .register-qr-status.error {
+            color:#fda4af;
+            background:rgba(251,113,133,.045);
+            border:1px solid rgba(251,113,133,.13);
+            padding:7px 9px;
+            border-radius:9px;
+        }
+        .register-qr-status.success {
+            color:#6ee7b7;
+            background:rgba(52,211,153,.045);
+            border:1px solid rgba(52,211,153,.13);
+            padding:7px 9px;
+            border-radius:9px;
+        }
+        @media (max-width:480px) {
+            .register-identity-preview { grid-template-columns:1fr; }
+        }
+
+        .id-scan-card {
+            padding:14px;
+            margin:2px 0 12px;
+            border:1px solid rgba(215,173,63,.18);
+            border-radius:17px;
+            background:linear-gradient(145deg,rgba(215,173,63,.045),rgba(255,255,255,.018));
+        }
+        .id-scan-top { display:flex; align-items:center; gap:10px; text-align:left; }
+        .id-scan-icon {
+            width:38px; height:38px; flex:0 0 38px;
+            display:grid; place-items:center;
+            border-radius:11px;
+            color:#f0d06d;
+            background:rgba(215,173,63,.10);
+            border:1px solid rgba(215,173,63,.18);
+        }
+        .id-scan-top strong { display:block; font-size:.76rem; color:#e8edf5; }
+        .id-scan-top small { display:block; margin-top:3px; font-size:.61rem; line-height:1.45; color:#77869a; }
+        .scan-register-btn {
+            width:100%;
+            margin-top:11px;
+            padding:10px 12px;
+            border:1px solid rgba(215,173,63,.34);
+            border-radius:11px;
+            background:linear-gradient(135deg,rgba(139,16,38,.95),rgba(92,10,26,.95));
+            color:#fff;
+            font-size:.72rem;
+            font-weight:700;
+            cursor:pointer;
+            transition:.22s ease;
+        }
+        .scan-register-btn:hover { transform:translateY(-1px); box-shadow:0 9px 22px rgba(0,0,0,.25); }
+        .scan-register-btn i { color:#f0d06d; margin-right:6px; }
+        .register-qr-status {
+            display:flex;
+            align-items:center;
+            gap:6px;
+            margin-top:8px;
+            color:#718096;
+            font-size:.61rem;
+            line-height:1.4;
+            text-align:left;
+        }
+        .register-qr-status.success { color:#6ee7b7; }
+        .register-scanner-card { position:relative; max-width:390px; }
+        .scanner-close {
+            position:absolute; top:13px; right:13px; z-index:5;
+            width:31px; height:31px; border-radius:50%;
+            border:1px solid rgba(255,255,255,.12);
+            background:rgba(0,0,0,.28);
+            color:#cbd5e1; cursor:pointer;
+        }
+        .register-camera-box {
+            position:relative;
+            width:100%;
+            aspect-ratio:1/1;
+            margin:15px auto 11px;
+            overflow:hidden;
+            border-radius:18px;
+            background:#000;
+            border:1px solid rgba(215,173,63,.35);
+        }
+        #register-qr-video { width:100%; height:100%; object-fit:cover; }
+        .scan-frame {
+            position:absolute; inset:16%;
+            border:2px solid rgba(215,173,63,.9);
+            border-radius:18px;
+            box-shadow:0 0 0 999px rgba(0,0,0,.24);
+        }
+        .scan-frame span {
+            position:absolute; width:25px; height:25px;
+            border-color:#fff; border-style:solid;
+        }
+        .scan-frame span:nth-child(1){left:-2px;top:-2px;border-width:3px 0 0 3px;border-radius:8px 0 0 0}
+        .scan-frame span:nth-child(2){right:-2px;top:-2px;border-width:3px 3px 0 0;border-radius:0 8px 0 0}
+        .scan-frame span:nth-child(3){left:-2px;bottom:-2px;border-width:0 0 3px 3px;border-radius:0 0 0 8px}
+        .scan-frame span:nth-child(4){right:-2px;bottom:-2px;border-width:0 3px 3px 0;border-radius:0 0 8px 0}
+        .register-scan-message {
+            min-height:32px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            gap:7px;
+            color:#94a3b8;
+            font-size:.67rem;
+            margin-bottom:8px;
+        }
+
+        .register-heading {
+            display:flex;
+            align-items:center;
+            gap:13px;
+            text-align:left;
+            padding:14px;
+            margin:0 0 12px;
+            border:1px solid rgba(255,255,255,.08);
+            border-radius:17px;
+            background:linear-gradient(135deg,rgba(255,255,255,.055),rgba(255,255,255,.018));
+        }
+        .register-icon {
+            flex:0 0 42px;
+            width:42px;
+            height:42px;
+            display:grid;
+            place-items:center;
+            border-radius:13px;
+            color:#f4d16b;
+            background:linear-gradient(145deg,rgba(139,16,38,.9),rgba(82,8,23,.8));
+            border:1px solid rgba(215,173,63,.35);
+            box-shadow:0 8px 22px rgba(0,0,0,.22);
+        }
+        .register-heading-copy h3 {
+            font-size:.96rem;
+            line-height:1.35;
+            color:#f8fafc;
+            font-weight:700;
+        }
+        .register-heading-copy p {
+            color:#8493a8;
+            font-size:.67rem;
+            line-height:1.55;
+            margin-top:3px;
+        }
+        .register-steps {
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            gap:8px;
+            margin:0 0 19px;
+            color:#536278;
+            font-size:.61rem;
+            font-weight:600;
+        }
+        .register-steps .step {
+            display:flex;
+            align-items:center;
+            gap:5px;
+            white-space:nowrap;
+        }
+        .register-steps .step b {
+            width:20px;
+            height:20px;
+            display:grid;
+            place-items:center;
+            border-radius:50%;
+            border:1px solid rgba(255,255,255,.10);
+            background:rgba(255,255,255,.035);
+            color:#718096;
+            font-size:.6rem;
+        }
+        .register-steps .step.active { color:#dce5f0; }
+        .register-steps .step.active b {
+            color:#08111d;
+            background:var(--accent);
+            border-color:var(--accent);
+            box-shadow:0 0 0 4px rgba(215,173,63,.08);
+        }
+        .register-steps > i { font-size:.5rem; color:#344257; }
+
+        /* Make the auto-filled name look intentional and read-only. */
+        #regName {
+            color:#e8fff5;
+            background:rgba(52,211,153,.045);
+        }
+        #regName[readonly] { cursor:default; }
+
+        @media (max-width:560px) {
+            .register-heading { padding:12px; }
+            .register-heading-copy p { font-size:.62rem; }
+            .register-steps { gap:5px; }
+        }
+
+        .roll-lookup-status {
+            display:none;
+            align-items:center;
+            gap:7px;
+            margin:6px 2px 0;
+            padding:7px 9px;
+            border-radius:9px;
+            font-size:.66rem;
+            line-height:1.4;
+            text-align:left;
+            color:#94a3b8;
+            background:rgba(255,255,255,.025);
+            border:1px solid rgba(255,255,255,.07);
+        }
+        .roll-lookup-status i { font-size:.72rem; }
+        .roll-lookup-status.success {
+            color:#6ee7b7;
+            background:rgba(52,211,153,.055);
+            border-color:rgba(52,211,153,.16);
+        }
+        .roll-lookup-status.error {
+            color:#fda4af;
+            background:rgba(251,113,133,.055);
+            border-color:rgba(251,113,133,.16);
+        }
+
+        .password-strength {
+            margin:7px 2px 0;
+            text-align:left;
+            display:none;
+        }
+        .strength-track {
+            height:5px;
+            width:100%;
+            border-radius:999px;
+            overflow:hidden;
+            background:rgba(255,255,255,.08);
+        }
+        #strength-fill {
+            display:block;
+            width:0;
+            height:100%;
+            border-radius:inherit;
+            transition:width .25s ease, background .25s ease;
+            background:#64748b;
+        }
+        .strength-row {
+            display:flex;
+            justify-content:space-between;
+            gap:10px;
+            margin-top:5px;
+            font-size:.65rem;
+            color:#748399;
+        }
+        #strength-text { font-weight:600; }
+        #strength-count { color:#64748b; }
+
         .camera-box {
             position:relative;
             width:min(100%,260px);
@@ -521,6 +875,36 @@
             </div>
 
             <form onsubmit="handlePasswordLogin(event)">
+                <div class="id-scan-card">
+                    <div class="id-scan-top">
+                        <div class="id-scan-icon"><i class="fas fa-qrcode"></i></div>
+                        <div>
+                            <strong>
+                                <span class="lang-en">Student ID Card</span>
+                                <span class="lang-mm">ကျောင်းသား ID Card</span>
+                            </strong>
+                            <small>
+                                <span class="lang-en">Scan your Student ID Card — Roll Number and Name will auto-fill.</span>
+                                <span class="lang-mm">Student ID Card ကို Scan ဖတ်ပါ — ခုံနံပါတ်နဲ့ အမည် အလိုအလျောက်ဖြည့်ပေးပါမည်။</span>
+                            </small>
+                        </div>
+                    </div>
+                    <button type="button" class="scan-register-btn" id="register-qr-btn" onclick="startRegisterQR()">
+                        <i class="fas fa-camera"></i>
+                        <span class="lang-en">Scan Student ID Card</span>
+                        <span class="lang-mm">Student ID Card Scan ဖတ်မည်</span>
+                    </button>
+                    <div id="register-qr-status" class="register-qr-status">
+                        <i class="fas fa-circle-info"></i>
+                        <span class="lang-en">QR → Roll Number → Student Name (automatic)</span>
+                        <span class="lang-mm">QR → ခုံနံပါတ် → ကျောင်းသားအမည် (အလိုအလျောက်)</span>
+                    </div>
+                </div>
+                <div class="or-divider">
+                    <span class="lang-en">SCAN IS REQUIRED FOR REGISTRATION</span>
+                    <span class="lang-mm">REGISTER အတွက် ID Card Scan လိုအပ်ပါသည်</span>
+                </div>
+
                 <div class="input-group">
                     <label>
                         <span class="lang-en">Roll Number</span>
@@ -535,19 +919,44 @@
                     </label>
                     <div class="wrapper">
                         <i class="fas fa-lock left-icon"></i>
-                        <input type="password" id="logPass" required placeholder="e.g. yourname$6char#">
+                        <input type="password" id="logPass" required placeholder="Enter 6-digit password" maxlength="6" inputmode="text" autocomplete="current-password">
                         <i class="fas fa-eye toggle-eye" onclick="togglePasswordVisibility('logPass', this)"></i>
                     </div>
                 </div>
                 <button type="submit" class="action-btn btn-secondary">
                     <i class="fas fa-sign-in-alt"></i> 
                     <span class="lang-en">Sign In with Password</span>
-                    <span class="lang-mm">စကားဝှက်ဖြင့် ဝင်ရောက်မည်</span>
+                    <span class="lang-mm">လုံခြုံစွာ Login ဝင်မည်</span>
                 </button>
             </form>
         </div>
 
         <div id="register-view" class="form-view">
+            <div class="register-heading">
+                <div class="register-icon"><i class="fas fa-user-plus"></i></div>
+                <div class="register-heading-copy">
+                    <h3>
+                        <span class="lang-en">Create Student Account</span>
+                        <span class="lang-mm">ကျောင်းသားအကောင့် ဖန်တီးမည်</span>
+                    </h3>
+                    <p>
+                        <span class="lang-en">Enter your Roll Number — your name will be filled automatically.</span>
+                        <span class="lang-mm">ခုံနံပါတ်ထည့်လိုက်ပါ — အမည်ကို အလိုအလျောက် ဖြည့်ပေးပါမည်။</span>
+                    </p>
+                </div>
+            </div>
+            <div class="auth-mode-note register-note">
+                <i class="fas fa-id-card"></i>
+                <span class="lang-en">New students must verify their Student ID Card.</span>
+                <span class="lang-mm">အသစ်စာရင်းသွင်းသူများသည် Student ID Card ကို အတည်ပြုရပါမည်။</span>
+            </div>
+            <div class="register-steps">
+                <span class="step active"><b>1</b> <span class="lang-en">Details</span><span class="lang-mm">အချက်အလက်</span></span>
+                <i class="fas fa-chevron-right"></i>
+                <span class="step"><b>2</b> <span class="lang-en">Verify</span><span class="lang-mm">အတည်ပြု</span></span>
+                <i class="fas fa-chevron-right"></i>
+                <span class="step"><b>3</b> <span class="lang-en">Complete</span><span class="lang-mm">ပြီးစီး</span></span>
+            </div>
             <form onsubmit="startOutlookVerification(event)">
                 
                 <!-- Profile Photo Upload Section -->
@@ -564,65 +973,85 @@
                     <input type="file" id="regPhotoInput" accept="image/*" onchange="previewProfilePhoto(event)">
                 </div>
 
-                <div class="input-group">
-                    <label>
-                        <span class="lang-en">Full Name</span>
-                        <span class="lang-mm">အမည်</span>
-                    </label>
-                    <div class="wrapper"><i class="fas fa-user left-icon"></i><input type="text" id="regName" required placeholder="Mg Mg"></div>
-                </div>
+                
 
-                <div class="input-group">
+                
+                <div class="id-scan-card">
+                    <div class="id-scan-top">
+                        <div class="id-scan-icon"><i class="fas fa-qrcode"></i></div>
+                        <div>
+                            <strong>
+                                <span class="lang-en">Student ID Card</span>
+                                <span class="lang-mm">ကျောင်းသား ID Card</span>
+                            </strong>
+                            <small>
+                                <span class="lang-en">Scan your ID card to auto-fill Roll Number and Name.</span>
+                                <span class="lang-mm">ID Card Scan ဖတ်ပြီး ခုံနံပါတ်နဲ့ အမည်ကို အလိုအလျောက်ဖြည့်ပါမည်။</span>
+                            </small>
+                        </div>
+                    </div>
+                    <button type="button" class="scan-register-btn" id="register-qr-btn" onclick="startRegisterQR()">
+                        <i class="fas fa-camera"></i>
+                        <span class="lang-en">Scan Student ID Card</span>
+                        <span class="lang-mm">Student ID Card Scan ဖတ်မည်</span>
+                    </button>
+                    <div id="register-qr-status" class="register-qr-status">
+                        <i class="fas fa-circle-info"></i>
+                        <span class="lang-en">Required for registration.</span>
+                        <span class="lang-mm">Register လုပ်ရန် Scan ဖတ်ရပါမည်။</span>
+                    </div>
+                </div>
+<div class="input-group">
                     <label>
-                        <span class="lang-en">Outlook Email</span>
-                        <span class="lang-mm">Outlook အီးမေးလ်</span>
+                        <span class="lang-en">Email Address</span>
+                        <span class="lang-mm">အီးမေးလ်လိပ်စာ</span>
                     </label>
-                    <div class="wrapper"><i class="fas fa-envelope left-icon"></i><input type="email" id="regEmail" required placeholder="mgmg@ucstt.edu.mm"></div>
+                    <div class="wrapper"><i class="fas fa-envelope left-icon"></i><input type="email" id="regEmail" required placeholder="name@gmail.com or name@ucstt.edu.mm"></div>
                     <div class="error-hint" id="err-email">
-                        <span class="lang-en">Error: Email must strictly match format (name@ucstt.edu.mm)!</span>
-                        <span class="lang-mm">မှားယွင်းနေပါသည်: အီးမေးလ်သည် (name@ucstt.edu.mm) ပုံစံအတိအကျ ဖြစ်ရပါမည်။</span>
+                        <span class="lang-en">Please use a Gmail or UCSTT education email.</span>
+                        <span class="lang-mm">Gmail သို့မဟုတ် UCSTT education email ကို အသုံးပြုပါ။</span>
                     </div>
                 </div>
 
-                <div class="two-column-grid">
-                    <div class="input-group">
-                        <label>
-                            <span class="lang-en">Academic Year</span>
-                            <span class="lang-mm">တက်ရောက်နေသည့်နှစ်</span>
-                        </label>
-                        <div class="wrapper"><i class="fas fa-calendar-alt left-icon"></i>
-                            <select id="regYear" onchange="handleYearChange()">
-                                <option value="First Year">1st Year</option>
-                                <option value="Second Year" selected>2nd Year</option>
-                                <option value="Third Year">3rd Year</option>
-                                <option value="Fourth Year">4th Year</option>
-                                <option value="Fifth Year">5th Year</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="input-group">
-                        <label>
-                            <span class="lang-en">Major</span>
-                            <span class="lang-mm">မေဂျာ</span>
-                        </label>
-                        <div class="wrapper"><i class="fas fa-laptop-code left-icon"></i>
-                            <select id="regMajor">
-                                <option value="CS">CS</option>
-                                <option value="CT">CT</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
 
                 <div class="input-group">
                     <label>
                         <span class="lang-en">Roll Number</span>
                         <span class="lang-mm">ခုံနံပါတ်</span>
                     </label>
-                    <div class="wrapper"><i class="fas fa-id-card left-icon"></i><input type="text" id="regRoll" required placeholder="UCSTT(24-25)-001"></div>
+                    <div class="wrapper"><i class="fas fa-id-card left-icon"></i><input type="text" id="regRoll" required placeholder="Scan Student ID Card" autocomplete="off" readonly></div>
+                    <div id="roll-lookup-status" class="roll-lookup-status">
+                        <i class="fas fa-circle-info"></i><span>ခုံနံပါတ်ထည့်ပါ — အမည်အလိုအလျောက် ပေါ်လာပါမည်</span>
+                    </div>
+                    <div id="register-identity-preview" class="register-identity-preview">
+                        <div class="identity-chip">
+                            <small>ROLL NUMBER</small>
+                            <strong id="preview-roll">—</strong>
+                        </div>
+                        <div class="identity-chip">
+                            <small>STUDENT NAME</small>
+                            <strong id="preview-name">—</strong>
+                        </div>
+                    </div>
                     <div class="error-hint" id="err-roll">
                         <span class="lang-en">Error: Roll format mismatch!</span>
                         <span class="lang-mm">မှားယွင်းနေပါသည်: ခုံနံပါတ် ပုံစံ မမှန်ပါ။</span>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>
+                        <span class="lang-en">Student Name <small style="color:#6ee7b7;font-weight:500;">(Auto)</small></span>
+                        <span class="lang-mm">ကျောင်းသားအမည် <small style="color:#6ee7b7;font-weight:500;">(အလိုအလျောက်)</small></span>
+                    </label>
+                    <div class="wrapper">
+                        <i class="fas fa-user left-icon"></i>
+                        <input type="text" id="regName" required placeholder="Student ID Scan လုပ်ပါ" autocomplete="name" maxlength="60" readonly>
+                        <i class="fas fa-lock" style="position:absolute;right:14px;color:#34d399;font-size:.75rem;"></i>
+                    </div>
+                    <div class="error-hint" id="err-name">
+                        <span class="lang-en">Please enter a valid Roll Number first.</span>
+                        <span class="lang-mm">အရင်ဆုံး မှန်ကန်သော ခုံနံပါတ်ကို ထည့်ပေးပါ။</span>
                     </div>
                 </div>
 
@@ -633,12 +1062,19 @@
                     </label>
                     <div class="wrapper">
                         <i class="fas fa-key left-icon"></i>
-                        <input type="password" id="regPass" required placeholder="Pattern: Username$6chars#">
+                        <input type="password" id="regPass" required placeholder="6 letters/numbers" maxlength="6" inputmode="text" pattern="[A-Za-z0-9]{6}" autocomplete="new-password" oninput="this.value=this.value.replace(/[^A-Za-z0-9]/g,\x27\x27).slice(0,6);updatePasswordStrength(this.value)">
                         <i class="fas fa-eye toggle-eye" onclick="togglePasswordVisibility('regPass', this)"></i>
                     </div>
                     <div class="error-hint" id="err-pass">
-                        <span class="lang-en">Error: Password pattern must be (Username + $ + 6 characters + #)</span>
-                        <span class="lang-mm">စကားဝှက် ပုံစံ မှားယွင်းနေပါသည်: (Username + $ + စာလုံး၆လုံး + #) ဖြစ်ရမည်။</span>
+                        <span class="lang-en">Password must contain exactly 6 letters or numbers.</span>
+                        <span class="lang-mm">စကားဝှက်သည် ကိန်းဂဏန်း ၆ လုံး အတိအကျ ဖြစ်ရပါမည်။</span>
+                    </div>
+                    <div id="password-strength" class="password-strength" aria-live="polite">
+                        <div class="strength-track"><span id="strength-fill"></span></div>
+                        <div class="strength-row">
+                            <span id="strength-text">Enter 6 letters/numbers</span>
+                            <span id="strength-count">0 / 6</span>
+                        </div>
                     </div>
                 </div>
 
@@ -691,12 +1127,74 @@
     </div>
 
     <script>
+        // 📋 PDF-based student directory: Roll Number → Myanmar Name
+        const PDF_STUDENT_DIRECTORY = {'UCSTT(24-25)-039': 'စိုးပြည့်အောင်', 'UCSTT(24-25)-009': 'နေသက်အောင်', 'UCSTT(24-25)-022': 'ကောင်းစည်အောင်', 'UCSTT(24-25)-034': 'ရွှေရည်ဝင်း', 'UCSTT(22-23)J-062': 'ရွှေဝင်းထွန်း', 'UCSTT(24-25)-061': 'စိုးသူဇာဟန်', 'UCSTT(24-25)-104': 'သီရိသွန်း', 'UCSTT(24-25)-021': 'ဝတီလှိုင်', 'UCSTT(24-25)-065': 'သက်ကိုလင်းဝင်း', 'UCSTT(24-25)-057': 'စံပြတိုးဦး', 'UCSTT(24-25)-046': 'ဆုမြတ်နိုး', 'UCSTT(24-25)-037': 'ထွန်းထွန်းအေး', 'UCSTT(24-25)-015': 'သော်တာခင်', 'UCSTT(24-25)-050': 'ဟန်စိုးဂျင်း', 'UCSTT(24-25)-092': 'ဖြူစင်မေ', 'UCSTT(24-25)-043': 'စိမ့်မွန်နွယ်', 'UCSTT(24-25)-085': 'စံပြနွယ်', 'UCSTT(24-25)-060': 'သက်ထားစိုး', 'UCSTT(24-25)-038': 'ဆန်းမင်းလှိုင်', 'UCSTT(24-25)-051': 'မြူးသွယ်ဝင်း', 'UCSTT(24-25)-023': 'နေဝင်းပြည့်ဝန်း', 'UCSTT(24-25)-064': 'သန်းပြည့်ကျော်', 'UCSTT(24-25)-081': 'သော်တာမင်း', 'UCSTT(24-25)-062': 'ယုဝတီစိုး', 'UCSTT(24-25)-016': 'ယုသက်အိမ်', 'UCSTT(24-25)-027': 'သဲဖြူဇင်', 'UCSTT(24-25)-080': 'ရွှေရည်ထွန်း', 'UCSTT(24-25)-040': 'ခင်မြတ်ထွန်း', 'UCSTT(24-25)-006': 'နန်းနီသွင်', 'UCSTT(24-25)-101': 'ခင်နွယ်ဖြိုး', 'UCSTT(24-25)-005': 'ဇွဲထက်အောင်', 'UCSTT(24-25)-074': 'နေသက်ထူး', 'UCSTT(24-25)-096': 'သိင်္ဂီထွေး', 'UCSTT(24-25)-103': 'ယွန်းနဒီအောင်', 'UCSTT(24-25)-094': 'အိသဉ္ဇာမြင့်', 'UCSTT(24-25)-090': 'ကျော်ဝင်းထွန်း', 'UCSTT(24-25)-082': 'ရှင်လဲ့သော်တာ', 'UCSTT(24-25)-002': 'ရတနာအောင်', 'UCSTT(24-25)-100': 'အိသွယ်ခင်အောင်', 'UCSTT(24-25)-019': 'စိုးမင်းအောင်နွယ်', 'UCSTT(24-25)-018': 'အေးမြဖြူအောင်', 'UCSTT(24-25)-024': 'လျှမ်းထက်ပိုင်', 'UCSTT(24-25)-041': 'ဟန်နီမြတ်ထွက်', 'UCSTT(24-25)-030': 'ပြည့်ဖြိုးအောင်', 'UCSTT(24-25)-086': 'ရဲလင်းအောင်', 'UCSTT(24-25)-093': 'စွမ်းထက်အောင်', 'UCSTT(24-25)-054': 'ဖူးပွင့်မြင့်', 'UCSTT(24-25)-026': 'ပန်းသီရိ', 'UCSTT(24-25)-077': 'စန်းနိုး', 'UCSTT(24-25)-066': 'သဇင်ဦး', 'UCSTT(24-25)-075': 'ချယ်ရီထွန်း', 'UCSTT(24-25)-052': 'အိသွယ်ဖြိုး', 'UCSTT(24-25)-105': 'ခင်ဖြူဖြူဝင်း', 'UCSTT(24-25)-017': 'သဉ္ဇာထွေး', 'UCSTT(24-25)-083': 'အိအိဖြိုး', 'UCSTT(24-25)-013': 'ရဲရင့်သိန်းအောင်', 'UCSTT(24-25)-073': 'တင်ဝင်းမောင်', 'UCSTT(24-25)-098': 'စိုးပြည့်ပြည့်ဝင်း', 'UCSTT(24-25)-003': 'နေခြည်သသူ', 'UCSTT(24-25)-078': 'သက်မင်းမိုး'};
+
+        function normalizeRollNumber(value) {
+            return (value || '').toUpperCase().replace(/\s+/g, '').trim();
+        }
+
+        function lookupStudentFromRoll() {
+            const rollInput = document.getElementById('regRoll');
+            const nameInput = document.getElementById('regName');
+            const status = document.getElementById('roll-lookup-status');
+            if (!rollInput || !nameInput) return;
+
+            const roll = normalizeRollNumber(rollInput.value);
+            rollInput.value = roll;
+
+            if (!roll) {
+                nameInput.value = '';
+                nameInput.placeholder = 'Student ID Scan လုပ်ပါ';
+                registerIdentityVerified = false;
+                const pr = document.getElementById('preview-roll');
+                const pn = document.getElementById('preview-name');
+                if (pr) pr.textContent = '—';
+                if (pn) pn.textContent = '—';
+                nameInput.removeAttribute('readonly');
+                if (status) {
+                    status.style.display = 'none';
+                    status.className = 'roll-lookup-status';
+                }
+                return;
+            }
+
+            const foundName = PDF_STUDENT_DIRECTORY[roll];
+
+            if (foundName) {
+                nameInput.value = foundName;
+                nameInput.setAttribute('readonly', 'readonly');
+                const pr = document.getElementById('preview-roll');
+                const pn = document.getElementById('preview-name');
+                if (pr) pr.textContent = roll;
+                if (pn) pn.textContent = foundName;
+                nameInput.style.borderColor = 'rgba(52,211,153,.55)';
+
+                if (status) {
+                    status.style.display = 'flex';
+                    status.className = 'roll-lookup-status success';
+                    status.innerHTML = '<i class="fas fa-circle-check"></i><span>ကျောင်းသားအမည် တွေ့ရှိပါသည် — ' + foundName + '</span>';
+                }
+            } else {
+                nameInput.value = '';
+                nameInput.placeholder = 'PDF စာရင်းထဲတွင် ခုံနံပါတ်မတွေ့ပါ';
+                nameInput.setAttribute('readonly', 'readonly');
+                nameInput.style.borderColor = 'rgba(251,113,133,.55)';
+
+                if (status) {
+                    status.style.display = 'flex';
+                    status.className = 'roll-lookup-status error';
+                    status.innerHTML = '<i class="fas fa-circle-exclamation"></i><span>ဤခုံနံပါတ်ကို စာရင်းတွင် မတွေ့ပါ။</span>';
+                }
+            }
+        }
+
         const FIREBASE_BASE_URL = "https://nextgen-ucstt-default-rtdb.firebaseio.com/students";
         let html5QrcodeScanner = null;
         let pendingYearRedirect = "Second Year"; 
         
-        // 🔒 PASSWORD PATTERN REGEX: Username(First name or user wish) + $ + 6 characters + #
-        const PASSWORD_REGEX = /^.+?\$[\s\S]{6}#$/;
+        // 🔒 PASSWORD RULE: exactly 6 numeric digits
+        const PASSWORD_REGEX = /^[A-Za-z0-9]{6}$/;
 
         // OTP Dynamic Variables
         let generatedOtpCode = "";
@@ -735,28 +1233,180 @@
             reader.readAsDataURL(file);
         }
 
-        function handleYearChange() {
-            const yearSelect = document.getElementById('regYear');
-            const majorSelect = document.getElementById('regMajor');
-            const rollInput = document.getElementById('regRoll');
-            let expectedFormat = "24-25"; 
+        let registerIdentityVerified = false;
+        let registerQrStream = null;
+        let registerQrDetector = null;
+        let registerQrTimer = null;
 
-            if (yearSelect.value === "First Year") {
-                majorSelect.innerHTML = '<option value="CST" selected>CST</option>';
-                expectedFormat = "25-26";
-            } else {
-                majorSelect.innerHTML = '<option value="CS" selected>CS</option><option value="CT">CT</option>';
-                if (yearSelect.value === "Second Year") expectedFormat = "24-25";
-                else if (yearSelect.value === "Third Year") expectedFormat = "23-24";
-                else if (yearSelect.value === "Fourth Year") expectedFormat = "22-23";
-                else if (yearSelect.value === "Fifth Year") expectedFormat = "21-22";
+        async function startRegisterQR() {
+            const overlay = document.getElementById('register-qr-overlay');
+            const video = document.getElementById('register-qr-video');
+            const message = document.getElementById('register-scan-message');
+
+            if (!overlay || !video) return;
+            overlay.style.display = 'flex';
+
+            if (!('BarcodeDetector' in window)) {
+                message.innerHTML = '<i class="fas fa-triangle-exclamation"></i><span>ဒီ Browser မှာ QR Camera Scanner မထောက်ပံ့သေးပါ။ Roll Number ကို ကိုယ်တိုင်ထည့်နိုင်ပါတယ်။</span>';
+                return;
             }
-            rollInput.placeholder = `UCSTT(${expectedFormat})-001`;
+
+            try {
+                const supported = await BarcodeDetector.getSupportedFormats();
+                if (!supported.includes('qr_code')) {
+                    throw new Error('QR format unsupported');
+                }
+
+                registerQrDetector = new BarcodeDetector({formats: ['qr_code']});
+                registerQrStream = await navigator.mediaDevices.getUserMedia({
+                    video: {facingMode: {ideal: 'environment'}},
+                    audio: false
+                });
+
+                video.srcObject = registerQrStream;
+                await video.play();
+
+                message.innerHTML = '<i class="fas fa-spinner fa-spin"></i><span>QR Code ကို ရှာဖွေနေပါသည်...</span>';
+                scanRegisterQR();
+            } catch (error) {
+                console.error('Register QR scanner error:', error);
+                message.innerHTML = '<i class="fas fa-camera-slash"></i><span>Camera အသုံးပြုခွင့် မရပါ။ Browser permission ကို Allow လုပ်ပါ။</span>';
+            }
         }
 
-        window.addEventListener('DOMContentLoaded', () => { 
+        async function scanRegisterQR() {
+            const video = document.getElementById('register-qr-video');
+            if (!video || !registerQrDetector || !registerQrStream) return;
+
+            try {
+                const codes = await registerQrDetector.detect(video);
+                if (codes && codes.length) {
+                    const raw = (codes[0].rawValue || '').trim();
+                    const rollMatch = raw.match(/UCSTT\s*\(\s*\d{2}-\d{2}\s*\)[A-Z0-9-]+/i);
+
+                    if (rollMatch) {
+                        const roll = normalizeRollNumber(rollMatch[0]);
+                        const foundName = PDF_STUDENT_DIRECTORY[roll];
+
+                        if (foundName) {
+                            document.getElementById('regRoll').value = roll;
+                            document.getElementById('regName').value = foundName;
+                            document.getElementById('regRoll').style.borderColor = 'rgba(52,211,153,.55)';
+                            document.getElementById('regName').style.borderColor = 'rgba(52,211,153,.55)';
+                            registerIdentityVerified = true;
+
+                            const status = document.getElementById('register-qr-status');
+                            if (status) {
+                                status.className = 'register-qr-status success';
+                                status.innerHTML =
+                                    '<i class="fas fa-circle-check"></i>' +
+                                    '<span>Verified — ' + roll + ' · ' + foundName + '</span>';
+                            }
+
+                            stopRegisterQR();
+                            return;
+                        } else {
+                            const status = document.getElementById('register-qr-status');
+                            if (status) {
+                                status.className = 'register-qr-status error';
+                                status.innerHTML = '<i class="fas fa-circle-exclamation"></i><span>ခုံနံပါတ်ကို PDF Student List ထဲမှာ မတွေ့ပါ။</span>';
+                            }
+                        }
+                    }
+
+                    const message = document.getElementById('register-scan-message');
+                    if (message) {
+                        message.innerHTML = '<i class="fas fa-circle-exclamation"></i><span>QR ဖတ်ပြီးပါပြီ၊ သို့သော် Roll Number မတွေ့ပါ။</span>';
+                    }
+                }
+            } catch (error) {
+                // Camera frames can occasionally fail during detection; continue scanning.
+            }
+
+            registerQrTimer = requestAnimationFrame(scanRegisterQR);
+        }
+
+        function stopRegisterQR() {
+            const overlay = document.getElementById('register-qr-overlay');
+            if (registerQrTimer) cancelAnimationFrame(registerQrTimer);
+            registerQrTimer = null;
+
+            if (registerQrStream) {
+                registerQrStream.getTracks().forEach(track => track.stop());
+            }
+            registerQrStream = null;
+            registerQrDetector = null;
+
+            const video = document.getElementById('register-qr-video');
+            if (video) video.srcObject = null;
+            if (overlay) overlay.style.display = 'none';
+        }
+
+        function sanitizeName(input) {
+            // Allow letters from Latin/Myanmar scripts and spaces only.
+            input.value = input.value.replace(/[^A-Za-zÀ-ÿ\u1000-\u109F\s]/g, '');
+            input.value = input.value.replace(/\s{2,}/g, ' ');
+        }
+
+        function updatePasswordStrength(value) {
+            const meter = document.getElementById('password-strength');
+            const fill = document.getElementById('strength-fill');
+            const text = document.getElementById('strength-text');
+            const count = document.getElementById('strength-count');
+            if (!meter || !fill || !text || !count) return;
+
+            const digits = value.replace(/[^A-Za-z0-9]/g, '').slice(0, 6);
+            const pass = document.getElementById('regPass');
+            if (pass && pass.value !== digits) pass.value = digits;
+
+            meter.style.display = digits.length ? 'block' : 'none';
+            count.textContent = `${digits.length} / 6`;
+
+            if (!digits.length) {
+                fill.style.width = '0%';
+                text.textContent = 'Enter 6 letters/numbers';
+                return;
+            }
+
+            if (digits.length < 6) {
+                fill.style.width = `${(digits.length / 6) * 55}%`;
+                fill.style.background = '#f59e0b';
+                text.textContent = 'Weak password';
+                text.style.color = '#fbbf24';
+                return;
+            }
+
+            // Exactly six digits: accepted.
+            fill.style.width = '100%';
+            fill.style.background = '#34d399';
+            text.textContent = '✓ Password OK';
+            text.style.color = '#6ee7b7';
+        }
+
+        function inferAcademicYearFromRoll(roll) {
+            const r = normalizeRollNumber(roll);
+            if (r.includes('(25-26)')) return 'First Year';
+            if (r.includes('(24-25)')) return 'Second Year';
+            if (r.includes('(23-24)')) return 'Third Year';
+            if (r.includes('(22-23)')) return 'Fourth Year';
+            if (r.includes('(21-22)')) return 'Fifth Year';
+            return 'Second Year';
+        }
+
+        function handleYearChange() {
+            const rollInput = document.getElementById('regRoll');
+            if (rollInput && rollInput.value) lookupStudentFromRoll();
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
             applySavedLanguage();
-            handleYearChange(); 
+            handleYearChange();
+
+            const nameInput = document.getElementById('regName');
+            const passInput = document.getElementById('regPass');
+
+            if (nameInput) nameInput.addEventListener('input', () => sanitizeName(nameInput));
+            if (passInput) passInput.addEventListener('input', () => updatePasswordStrength(passInput.value));
         });
 
         function togglePasswordVisibility(inputId, eyeIcon) {
@@ -782,7 +1432,7 @@
             } else {
                 document.querySelectorAll('.tab-btn')[1].classList.add('active');
                 document.getElementById('register-view').classList.add('active');
-                handleYearChange();
+                if (document.getElementById('regRoll')?.value) lookupStudentFromRoll();
             }
         }
 
@@ -819,19 +1469,42 @@
 
             const name = document.getElementById('regName').value.trim();
             const email = document.getElementById('regEmail').value.trim().toLowerCase();
-            const year = document.getElementById('regYear').value;
-            const major = document.getElementById('regMajor').value;
             const roll = document.getElementById('regRoll').value.toUpperCase().trim();
+            const year = inferAcademicYearFromRoll(roll);
+            const major = "CS"; // kept internally for existing portal compatibility
             const password = document.getElementById('regPass').value;
+
+            // Always resolve the student's name from the PDF directory by roll number.
+            const pdfRoll = normalizeRollNumber(roll);
+            const pdfName = PDF_STUDENT_DIRECTORY[pdfRoll];
+            if (pdfName) {
+                document.getElementById('regName').value = pdfName;
+            }
 
             let hasError = false;
 
-            const expectedNameSlug = name.toLowerCase().replace(/\s+/g, '');
-            const expectedEmail = `${expectedNameSlug}@ucstt.edu.mm`;
+            if (!registerIdentityVerified) {
+                const status = document.getElementById('register-qr-status');
+                if (status) {
+                    status.className = 'register-qr-status error';
+                    status.innerHTML = '<i class="fas fa-triangle-exclamation"></i><span>Register မလုပ်မီ Student ID Card QR ကို Scan ဖတ်ပြီး အတည်ပြုပါ။</span>';
+                }
+                hasError = true;
+            }
 
-            if (!email.endsWith("@ucstt.edu.mm") || (expectedNameSlug.length > 0 && email !== expectedEmail)) {
+            const emailRegex = /^[^\s@]+@(gmail\.com|ucstt\.edu\.mm)$/i;
+
+            if (!emailRegex.test(email)) {
                 errEmail.style.display = 'block';
                 hasError = true;
+            }
+
+            // Name must come from the supplied PDF student list.
+            if (!pdfName) {
+                document.getElementById('regName').style.borderColor = 'var(--error)';
+                hasError = true;
+            } else {
+                document.getElementById('regName').style.borderColor = 'rgba(52,211,153,.55)';
             }
 
             let expectedFormat = "24-25";
@@ -1033,7 +1706,7 @@
             const inputPass = document.getElementById('logPass').value;
 
             if(!PASSWORD_REGEX.test(inputPass)) { 
-                alert("Invalid Password Format! Format must be (Username + $ + 6 characters + #). E.g. MgMg$123456#"); 
+                alert("Password must contain exactly 6 letters or numbers."); 
                 return; 
             }
 
@@ -1062,5 +1735,37 @@
                 });
         }
     </script>
-</body>
+<datalist id="student-roll-list"><option value="UCSTT(24-25)-039">စိုးပြည့်အောင်</option><option value="UCSTT(24-25)-009">နေသက်အောင်</option><option value="UCSTT(24-25)-022">ကောင်းစည်အောင်</option><option value="UCSTT(24-25)-034">ရွှေရည်ဝင်း</option><option value="UCSTT(22-23)J-062">ရွှေဝင်းထွန်း</option><option value="UCSTT(24-25)-061">စိုးသူဇာဟန်</option><option value="UCSTT(24-25)-104">သီရိသွန်း</option><option value="UCSTT(24-25)-021">ဝတီလှိုင်</option><option value="UCSTT(24-25)-065">သက်ကိုလင်းဝင်း</option><option value="UCSTT(24-25)-057">စံပြတိုးဦး</option><option value="UCSTT(24-25)-046">ဆုမြတ်နိုး</option><option value="UCSTT(24-25)-037">ထွန်းထွန်းအေး</option><option value="UCSTT(24-25)-015">သော်တာခင်</option><option value="UCSTT(24-25)-050">ဟန်စိုးဂျင်း</option><option value="UCSTT(24-25)-092">ဖြူစင်မေ</option><option value="UCSTT(24-25)-043">စိမ့်မွန်နွယ်</option><option value="UCSTT(24-25)-085">စံပြနွယ်</option><option value="UCSTT(24-25)-060">သက်ထားစိုး</option><option value="UCSTT(24-25)-038">ဆန်းမင်းလှိုင်</option><option value="UCSTT(24-25)-051">မြူးသွယ်ဝင်း</option><option value="UCSTT(24-25)-023">နေဝင်းပြည့်ဝန်း</option><option value="UCSTT(24-25)-064">သန်းပြည့်ကျော်</option><option value="UCSTT(24-25)-081">သော်တာမင်း</option><option value="UCSTT(24-25)-062">ယုဝတီစိုး</option><option value="UCSTT(24-25)-016">ယုသက်အိမ်</option><option value="UCSTT(24-25)-027">သဲဖြူဇင်</option><option value="UCSTT(24-25)-080">ရွှေရည်ထွန်း</option><option value="UCSTT(24-25)-040">ခင်မြတ်ထွန်း</option><option value="UCSTT(24-25)-006">နန်းနီသွင်</option><option value="UCSTT(24-25)-101">ခင်နွယ်ဖြိုး</option><option value="UCSTT(24-25)-005">ဇွဲထက်အောင်</option><option value="UCSTT(24-25)-074">နေသက်ထူး</option><option value="UCSTT(24-25)-096">သိင်္ဂီထွေး</option><option value="UCSTT(24-25)-103">ယွန်းနဒီအောင်</option><option value="UCSTT(24-25)-094">အိသဉ္ဇာမြင့်</option><option value="UCSTT(24-25)-090">ကျော်ဝင်းထွန်း</option><option value="UCSTT(24-25)-082">ရှင်လဲ့သော်တာ</option><option value="UCSTT(24-25)-002">ရတနာအောင်</option><option value="UCSTT(24-25)-100">အိသွယ်ခင်အောင်</option><option value="UCSTT(24-25)-019">စိုးမင်းအောင်နွယ်</option><option value="UCSTT(24-25)-018">အေးမြဖြူအောင်</option><option value="UCSTT(24-25)-024">လျှမ်းထက်ပိုင်</option><option value="UCSTT(24-25)-041">ဟန်နီမြတ်ထွက်</option><option value="UCSTT(24-25)-030">ပြည့်ဖြိုးအောင်</option><option value="UCSTT(24-25)-086">ရဲလင်းအောင်</option><option value="UCSTT(24-25)-093">စွမ်းထက်အောင်</option><option value="UCSTT(24-25)-054">ဖူးပွင့်မြင့်</option><option value="UCSTT(24-25)-026">ပန်းသီရိ</option><option value="UCSTT(24-25)-077">စန်းနိုး</option><option value="UCSTT(24-25)-066">သဇင်ဦး</option><option value="UCSTT(24-25)-075">ချယ်ရီထွန်း</option><option value="UCSTT(24-25)-052">အိသွယ်ဖြိုး</option><option value="UCSTT(24-25)-105">ခင်ဖြူဖြူဝင်း</option><option value="UCSTT(24-25)-017">သဉ္ဇာထွေး</option><option value="UCSTT(24-25)-083">အိအိဖြိုး</option><option value="UCSTT(24-25)-013">ရဲရင့်သိန်းအောင်</option><option value="UCSTT(24-25)-073">တင်ဝင်းမောင်</option><option value="UCSTT(24-25)-098">စိုးပြည့်ပြည့်ဝင်း</option><option value="UCSTT(24-25)-003">နေခြည်သသူ</option><option value="UCSTT(24-25)-078">သက်မင်းမိုး</option></datalist>
+    
+        <div class="popup-overlay" id="register-qr-overlay">
+            <div class="popup-card register-scanner-card">
+                <button type="button" class="scanner-close" onclick="stopRegisterQR()">
+                    <i class="fas fa-xmark"></i>
+                </button>
+                <div class="auth-hero scanner-heading">
+                    <div class="auth-hero-icon"><i class="fas fa-qrcode"></i></div>
+                    <div>
+                        <h3><span class="lang-en">Scan Student ID</span><span class="lang-mm">Student ID Scan ဖတ်ပါ</span></h3>
+                        <p><span class="lang-en">Place the QR code inside the frame</span><span class="lang-mm">QR Code ကို ဘောင်အတွင်း ထည့်ပါ</span></p>
+                    </div>
+                </div>
+                <div class="register-camera-box">
+                    <video id="register-qr-video" autoplay playsinline></video>
+                    <div class="scan-frame">
+                        <span></span><span></span><span></span><span></span>
+                    </div>
+                </div>
+                <div id="register-scan-message" class="register-scan-message">
+                    <i class="fas fa-camera"></i>
+                    <span class="lang-en">Waiting for QR code...</span>
+                    <span class="lang-mm">QR Code ရှာဖွေနေပါသည်...</span>
+                </div>
+                <button type="button" class="action-btn btn-secondary" onclick="stopRegisterQR()">
+                    <i class="fas fa-arrow-left"></i>
+                    <span class="lang-en">Cancel</span><span class="lang-mm">ပြန်သွားမည်</span>
+                </button>
+            </div>
+        </div>
+
+    </body>
 </html>
