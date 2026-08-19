@@ -1,1990 +1,664 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>
-        UCSTT | Student Portal
-    </title>
-
-    <!-- Fonts -->
-    <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Padauk:wght@400;500;600;700&display=swap"
-        rel="stylesheet"
-    >
-
-    <!-- Font Awesome -->
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-    >
-
-
-    <style>
-
-        /* =====================================================
-           ROOT
-        ===================================================== */
-
-        :root {
-
-            --navy:
-                #06111f;
-
-            --navy-2:
-                #091a2d;
-
-            --navy-3:
-                #0d2238;
-
-            --red:
-                #8b1026;
-
-            --red-light:
-                #b91c3c;
-
-            --gold:
-                #d7ad3f;
-
-            --gold-light:
-                #f3d889;
-
-            --white:
-                #ffffff;
-
-            --text:
-                #e8eef6;
-
-            --muted:
-                #8190a4;
-
-            --muted-2:
-                #526176;
-
-            --success:
-                #34d399;
-
-            --warning:
-                #f59e0b;
-
-            --danger:
-                #fb7185;
-
-            --line:
-                rgba(255,255,255,.09);
-
-            --glass:
-                rgba(255,255,255,.035);
-
-        }
-
-
-        /* =====================================================
-           RESET
-        ===================================================== */
-
-        * {
-            box-sizing:
-                border-box;
-
-            margin:
-                0;
-
-            padding:
-                0;
-
-            font-family:
-                'Poppins',
-                'Padauk',
-                'Myanmar Text',
-                sans-serif;
-        }
-
-
-        html {
-            min-height:
-                100%;
-        }
-
-
-        body {
-
-            min-height:
-                100vh;
-
-            color:
-                var(--white);
-
-            display:
-                flex;
-
-            align-items:
-                center;
-
-            justify-content:
-                center;
-
-            padding:
-                20px;
-
-            overflow-x:
-                hidden;
-
-            background:
-
-                radial-gradient(
-                    circle at 10% 10%,
-                    rgba(139,16,38,.22),
-                    transparent 28%
-                ),
-
-                radial-gradient(
-                    circle at 90% 85%,
-                    rgba(215,173,63,.12),
-                    transparent 28%
-                ),
-
-                linear-gradient(
-                    135deg,
-                    #020812,
-                    #061526 50%,
-                    #001a35
-                );
-
-            position:
-                relative;
-        }
-
-
-        body::before {
-
-            content:
-                "";
-
-            position:
-                fixed;
-
-            width:
-                360px;
-
-            height:
-                360px;
-
-            top:
-                -200px;
-
-            right:
-                -150px;
-
-            border:
-                1px solid
-                rgba(215,173,63,.08);
-
-            border-radius:
-                50%;
-
-            pointer-events:
-                none;
-        }
-
-
-        body::after {
-
-            content:
-                "";
-
-            position:
-                fixed;
-
-            width:
-                300px;
-
-            height:
-                300px;
-
-            bottom:
-                -180px;
-
-            left:
-                -130px;
-
-            border:
-                1px solid
-                rgba(139,16,38,.12);
-
-            border-radius:
-                50%;
-
-            pointer-events:
-                none;
-        }
-
-
-        /* =====================================================
-           LANGUAGE
-        ===================================================== */
-
-        .lang-mm {
-            display:
-                none;
-        }
-
-        body.lang-burmese .lang-en {
-            display:
-                none;
-        }
-
-        body.lang-burmese .lang-mm {
-            display:
-                inline;
-        }
-
-
-        /* =====================================================
-           APP
-        ===================================================== */
-
-        .auth-shell {
-
-            width:
-                min(460px,100%);
-
-            position:
-                relative;
-
-            z-index:
-                2;
-        }
-
-
-        /* =====================================================
-           BRAND
-        ===================================================== */
-
-        .brand {
-
-            display:
-                flex;
-
-            justify-content:
-                center;
-
-            align-items:
-                center;
-
-            gap:
-                10px;
-
-            margin-bottom:
-                16px;
-        }
-
-
-        .brand-logo {
-
-            width:
-                42px;
-
-            height:
-                42px;
-
-            display:
-                grid;
-
-            place-items:
-                center;
-
-            border-radius:
-                13px;
-
-            color:
-                var(--gold-light);
-
-            background:
-
-                linear-gradient(
-                    145deg,
-                    rgba(215,173,63,.15),
-                    rgba(139,16,38,.16)
-                );
-
-            border:
-                1px solid
-                rgba(215,173,63,.2);
-
-            box-shadow:
-                0 8px 25px
-                rgba(0,0,0,.2);
-        }
-
-
-        .brand-logo i {
-            font-size:
-                18px;
-        }
-
-
-        .brand-name {
-
-            color:
-                var(--white);
-
-            font-size:
-                .82rem;
-
-            font-weight:
-                800;
-
-            letter-spacing:
-                .12em;
-        }
-
-
-        .brand-sub {
-
-            margin-top:
-                2px;
-
-            color:
-                #64748b;
-
-            font-size:
-                .44rem;
-
-            font-weight:
-                700;
-
-            letter-spacing:
-                .13em;
-        }
-
-
-        /* =====================================================
-           CARD
-        ===================================================== */
-
-        .auth-card {
-
-            overflow:
-                hidden;
-
-            border:
-                1px solid
-                rgba(255,255,255,.08);
-
-            border-radius:
-                24px;
-
-            background:
-
-                linear-gradient(
-                    145deg,
-                    rgba(13,34,56,.92),
-                    rgba(7,18,31,.96)
-                );
-
-            box-shadow:
-
-                0 35px 100px
-                rgba(0,0,0,.48);
-
-            backdrop-filter:
-                blur(22px);
-        }
-
-
-        /* =====================================================
-           TOP TABS
-        ===================================================== */
-
-        .tabs {
-
-            display:
-                grid;
-
-            grid-template-columns:
-                1fr 1fr;
-
-            padding:
-                6px;
-
-            margin:
-                12px 12px 0;
-
-            border-radius:
-                13px;
-
-            background:
-                rgba(0,0,0,.22);
-        }
-
-
-        .tab {
-
-            height:
-                38px;
-
-            border:
-                none;
-
-            border-radius:
-                9px;
-
-            color:
-                #64748b;
-
-            background:
-                transparent;
-
-            cursor:
-                pointer;
-
-            font-size:
-                .62rem;
-
-            font-weight:
-                750;
-
-            transition:
-                .2s;
-        }
-
-
-        .tab.active {
-
-            color:
-                #fff;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    rgba(139,16,38,.95),
-                    rgba(108,13,31,.95)
-                );
-
-            box-shadow:
-                0 5px 15px
-                rgba(139,16,38,.22);
-        }
-
-
-        /* =====================================================
-           VIEW
-        ===================================================== */
-
-        .view {
-
-            display:
-                none;
-
-            padding:
-                25px 27px 22px;
-
-            animation:
-                fadeIn .25s ease;
-        }
-
-
-        .view.active {
-            display:
-                block;
-        }
-
-
-        @keyframes fadeIn {
-
-            from {
-                opacity:
-                    0;
-
-                transform:
-                    translateY(5px);
-            }
-
-            to {
-                opacity:
-                    1;
-
-                transform:
-                    translateY(0);
-            }
-        }
-
-
-        /* =====================================================
-           HEADER
-        ===================================================== */
-
-        .view-head {
-
-            display:
-                flex;
-
-            gap:
-                12px;
-
-            align-items:
-                center;
-
-            margin-bottom:
-                22px;
-        }
-
-
-        .view-icon {
-
-            width:
-                44px;
-
-            height:
-                44px;
-
-            flex-shrink:
-                0;
-
-            display:
-                grid;
-
-            place-items:
-                center;
-
-            border-radius:
-                13px;
-
-            color:
-                var(--gold-light);
-
-            background:
-                rgba(215,173,63,.08);
-
-            border:
-                1px solid
-                rgba(215,173,63,.15);
-        }
-
-
-        .view-icon i {
-            font-size:
-                15px;
-        }
-
-
-        .eyebrow {
-
-            display:
-                block;
-
-            color:
-                var(--gold);
-
-            font-size:
-                .48rem;
-
-            font-weight:
-                800;
-
-            letter-spacing:
-                .12em;
-        }
-
-
-        .view-head h1 {
-
-            margin:
-                4px 0;
-
-            color:
-                #f8fafc;
-
-            font-size:
-                1.18rem;
-
-            line-height:
-                1.2;
-        }
-
-
-        .view-head p {
-
-            color:
-                #77869a;
-
-            font-size:
-                .58rem;
-
-            line-height:
-                1.5;
-        }
-
-
-        /* =====================================================
-           FORM
-        ===================================================== */
-
-        .field {
-
-            margin-bottom:
-                15px;
-        }
-
-
-        .field label {
-
-            display:
-                block;
-
-            margin-bottom:
-                6px;
-
-            color:
-                #aeb9c8;
-
-            font-size:
-                .61rem;
-
-            font-weight:
-                700;
-        }
-
-
-        .input-wrap {
-
-            position:
-                relative;
-        }
-
-
-        .input-wrap .icon {
-
-            position:
-                absolute;
-
-            left:
-                13px;
-
-            top:
-                50%;
-
-            transform:
-                translateY(-50%);
-
-            color:
-                #596a80;
-
-            font-size:
-                .70rem;
-
-            pointer-events:
-                none;
-
-            z-index:
-                2;
-        }
-
-
-        .input-wrap input {
-
-            width:
-                100%;
-
-            height:
-                45px;
-
-            padding:
-                0 42px 0 37px;
-
-            border:
-                1px solid
-                var(--line);
-
-            border-radius:
-                11px;
-
-            outline:
-                none;
-
-            color:
-                #f8fafc;
-
-            background:
-                rgba(2,10,22,.42);
-
-            font-size:
-                .66rem;
-
-            transition:
-                .2s;
-        }
-
-
-        .input-wrap input::placeholder {
-            color:
-                #4d5d72;
-        }
-
-
-        .input-wrap input:focus {
-
-            border-color:
-                rgba(215,173,63,.55);
-
-            box-shadow:
-                0 0 0 3px
-                rgba(215,173,63,.07);
-
-            background:
-                rgba(255,255,255,.035);
-        }
-
-
-        .input-wrap input[readonly] {
-
-            color:
-                #cbd5e1;
-
-            background:
-                rgba(255,255,255,.018);
-        }
-
-
-        .eye {
-
-            position:
-                absolute;
-
-            right:
-                5px;
-
-            top:
-                5px;
-
-            width:
-                35px;
-
-            height:
-                35px;
-
-            border:
-                none;
-
-            border-radius:
-                8px;
-
-            background:
-                transparent;
-
-            color:
-                #596a80;
-
-            cursor:
-                pointer;
-        }
-
-
-        .eye:hover {
-            color:
-                var(--gold-light);
-
-            background:
-                rgba(255,255,255,.035);
-        }
-
-
-        .hint {
-
-            margin-top:
-                5px;
-
-            color:
-                #526176;
-
-            font-size:
-                .49rem;
-        }
-
-
-        .hint i {
-            color:
-                var(--gold);
-
-            margin-right:
-                3px;
-        }
-
-
-        /* =====================================================
-           SCAN CARD
-        ===================================================== */
-
-        .scan-card {
-
-            margin-bottom:
-                16px;
-
-            padding:
-                14px;
-
-            border:
-                1px solid
-                rgba(215,173,63,.16);
-
-            border-radius:
-                15px;
-
-            background:
-
-                linear-gradient(
-                    145deg,
-                    rgba(215,173,63,.055),
-                    rgba(139,16,38,.035)
-                );
-        }
-
-
-        .scan-info {
-
-            display:
-                flex;
-
-            align-items:
-                center;
-
-            gap:
-                10px;
-
-            margin-bottom:
-                11px;
-        }
-
-
-        .scan-icon {
-
-            width:
-                38px;
-
-            height:
-                38px;
-
-            flex-shrink:
-                0;
-
-            display:
-                grid;
-
-            place-items:
-                center;
-
-            border-radius:
-                10px;
-
-            color:
-                var(--gold-light);
-
-            background:
-                rgba(215,173,63,.08);
-
-            border:
-                1px solid
-                rgba(215,173,63,.14);
-        }
-
-
-        .scan-title {
-
-            display:
-                block;
-
-            color:
-                #e2e8f0;
-
-            font-size:
-                .64rem;
-
-            font-weight:
-                750;
-        }
-
-
-        .scan-desc {
-
-            display:
-                block;
-
-            margin-top:
-                3px;
-
-            color:
-                #748399;
-
-            font-size:
-                .51rem;
-
-            line-height:
-                1.5;
-        }
-
-
-        .scan-button {
-
-            width:
-                100%;
-
-            height:
-                40px;
-
-            border:
-                1px solid
-                rgba(215,173,63,.24);
-
-            border-radius:
-                10px;
-
-            color:
-                var(--gold-light);
-
-            background:
-                rgba(215,173,63,.07);
-
-            cursor:
-                pointer;
-
-            font-size:
-                .59rem;
-
-            font-weight:
-                800;
-
-            transition:
-                .2s;
-        }
-
-
-        .scan-button:hover {
-
-            background:
-                rgba(215,173,63,.13);
-
-            transform:
-                translateY(-1px);
-        }
-
-
-        .scan-status {
-
-            display:
-                flex;
-
-            align-items:
-                center;
-
-            gap:
-                5px;
-
-            margin-top:
-                7px;
-
-            color:
-                #68778b;
-
-            font-size:
-                .49rem;
-        }
-
-
-        .scan-status.success {
-            color:
-                var(--success);
-        }
-
-
-        .scan-status.error {
-            color:
-                var(--danger);
-        }
-
-
-        /* =====================================================
-           STUDENT VERIFIED
-        ===================================================== */
-
-        .student-grid {
-
-            display:
-                grid;
-
-            grid-template-columns:
-                1fr 1fr;
-
-            gap:
-                10px;
-        }
-
-
-        .verified {
-
-            display:
-                flex;
-
-            align-items:
-                center;
-
-            gap:
-                7px;
-
-            margin:
-                -1px 0 14px;
-
-            padding:
-                9px 10px;
-
-            border:
-                1px solid
-                rgba(255,255,255,.06);
-
-            border-radius:
-                10px;
-
-            color:
-                #68778b;
-
-            background:
-                rgba(255,255,255,.018);
-
-            font-size:
-                .51rem;
-        }
-
-
-        .verified i {
-            color:
-                #59697e;
-        }
-
-
-        .verified.success {
-
-            color:
-                #6ee7b7;
-
-            border-color:
-                rgba(52,211,153,.16);
-
-            background:
-                rgba(52,211,153,.035);
-        }
-
-
-        .verified.success i {
-            color:
-                var(--success);
-        }
-
-
-        /* =====================================================
-           PASSWORD STRENGTH
-        ===================================================== */
-
-        .strength {
-
-            margin-top:
-                6px;
-        }
-
-
-        .strength-track {
-
-            width:
-                100%;
-
-            height:
-                3px;
-
-            overflow:
-                hidden;
-
-            border-radius:
-                99px;
-
-            background:
-                rgba(255,255,255,.07);
-        }
-
-
-        .strength-fill {
-
-            width:
-                0;
-
-            height:
-                100%;
-
-            border-radius:
-                99px;
-
-            background:
-                var(--warning);
-
-            transition:
-                .2s;
-        }
-
-
-        .strength-row {
-
-            display:
-                flex;
-
-            align-items:
-                center;
-
-            justify-content:
-                space-between;
-
-            margin-top:
-                5px;
-
-            color:
-                #64748b;
-
-            font-size:
-                .49rem;
-        }
-
-
-        /* =====================================================
-           PRIMARY BUTTON
-        ===================================================== */
-
-        .primary {
-
-            width:
-                100%;
-
-            height:
-                45px;
-
-            margin-top:
-                5px;
-
-            border:
-                1px solid
-                rgba(215,173,63,.22);
-
-            border-radius:
-                11px;
-
-            color:
-                #fff;
-
-            background:
-
-                linear-gradient(
-                    135deg,
-                    var(--red-light),
-                    var(--red)
-                );
-
-            box-shadow:
-                0 10px 25px
-                rgba(139,16,38,.22);
-
-            cursor:
-                pointer;
-
-            font-size:
-                .63rem;
-
-            font-weight:
-                800;
-
-            transition:
-                .2s;
-        }
-
-
-        .primary:hover {
-
-            transform:
-                translateY(-1px);
-
-            filter:
-                brightness(1.07);
-
-            box-shadow:
-                0 14px 30px
-                rgba(139,16,38,.3);
-        }
-
-
-        .primary i {
-            margin-right:
-                6px;
-        }
-
-
-        /* =====================================================
-           SWITCH
-        ===================================================== */
-
-        .switch {
-
-            display:
-                flex;
-
-            justify-content:
-                center;
-
-            align-items:
-                center;
-
-            gap:
-                5px;
-
-            padding:
-                16px 0 2px;
-
-            color:
-                #68778b;
-
-            font-size:
-                .53rem;
-        }
-
-
-        .switch button {
-
-            border:
-                none;
-
-            background:
-                transparent;
-
-            color:
-                var(--gold-light);
-
-            cursor:
-                pointer;
-
-            font-size:
-                .53rem;
-
-            font-weight:
-                800;
-        }
-
-
-        /* =====================================================
-           SCANNER MODAL
-        ===================================================== */
-
-        .scanner-overlay {
-
-            position:
-                fixed;
-
-            inset:
-                0;
-
-            z-index:
-                1000;
-
-            display:
-                none;
-
-            align-items:
-                center;
-
-            justify-content:
-                center;
-
-            padding:
-                18px;
-
-            background:
-                rgba(1,7,15,.86);
-
-            backdrop-filter:
-                blur(10px);
-        }
-
-
-        .scanner {
-
-            width:
-                min(420px,100%);
-
-            overflow:
-                hidden;
-
-            border:
-                1px solid
-                rgba(215,173,63,.2);
-
-            border-radius:
-                20px;
-
-            background:
-                #091827;
-
-            box-shadow:
-                0 35px 90px
-                rgba(0,0,0,.6);
-        }
-
-
-        .scanner-head {
-
-            display:
-                flex;
-
-            justify-content:
-                space-between;
-
-            align-items:
-                center;
-
-            padding:
-                17px;
-
-            border-bottom:
-                1px solid
-                rgba(255,255,255,.07);
-        }
-
-
-        .scanner-head h3 {
-
-            color:
-                #f8fafc;
-
-            font-size:
-                .78rem;
-        }
-
-
-        .scanner-head p {
-
-            margin-top:
-                3px;
-
-            color:
-                #68778b;
-
-            font-size:
-                .51rem;
-        }
-
-
-        .scanner-close {
-
-            width:
-                32px;
-
-            height:
-                32px;
-
-            border:
-                none;
-
-            border-radius:
-                8px;
-
-            color:
-                #94a3b8;
-
-            background:
-                rgba(255,255,255,.05);
-
-            cursor:
-                pointer;
-        }
-
-
-        .camera-wrap {
-
-            position:
-                relative;
-
-            margin:
-                15px;
-
-            overflow:
-                hidden;
-
-            border-radius:
-                15px;
-
-            background:
-                #000;
-
-            aspect-ratio:
-                1 / 1;
-        }
-
-
-        #qr-video {
-
-            width:
-                100%;
-
-            height:
-                100%;
-
-            object-fit:
-                cover;
-        }
-
-
-        .scan-frame {
-
-            position:
-                absolute;
-
-            width:
-                62%;
-
-            aspect-ratio:
-                1;
-
-            left:
-                19%;
-
-            top:
-                19%;
-
-            border:
-                2px solid
-                var(--gold);
-
-            border-radius:
-                16px;
-
-            box-shadow:
-                0 0 0 999px
-                rgba(0,0,0,.25);
-        }
-
-
-        .scan-line {
-
-            position:
-                absolute;
-
-            left:
-                5%;
-
-            width:
-                90%;
-
-            height:
-                2px;
-
-            top:
-                20%;
-
-            background:
-                var(--gold);
-
-            box-shadow:
-                0 0 12px
-                var(--gold);
-
-            animation:
-                scanMove 2s
-                infinite ease-in-out;
-        }
-
-
-        @keyframes scanMove {
-
-            0% {
-                top:
-                    20%;
-            }
-
-            50% {
-                top:
-                    78%;
-            }
-
-            100% {
-                top:
-                    20%;
-            }
-        }
-
-
-        .scanner-message {
-
-            padding:
-                0 17px 17px;
-
-            text-align:
-                center;
-
-            color:
-                #7c899b;
-
-            font-size:
-                .55rem;
-
-            line-height:
-                1.5;
-        }
-
-
-        /* =====================================================
-           SUCCESS MODAL
-        ===================================================== */
-
-        .success-overlay {
-
-            position:
-                fixed;
-
-            inset:
-                0;
-
-            z-index:
-                2000;
-
-            display:
-                none;
-
-            align-items:
-                center;
-
-            justify-content:
-                center;
-
-            padding:
-                20px;
-
-            background:
-                rgba(1,7,15,.84);
-
-            backdrop-filter:
-                blur(12px);
-        }
-
-
-        .success-overlay.show {
-            display:
-                flex;
-        }
-
-
-        .success-card {
-
-            width:
-                min(390px,100%);
-
-            padding:
-                30px 25px;
-
-            text-align:
-                center;
-
-            border:
-                1px solid
-                rgba(52,211,153,.16);
-
-            border-radius:
-                22px;
-
-            background:
-                linear-gradient(
-                    145deg,
-                    #101d2d,
-                    #081421
-                );
-
-            box-shadow:
-                0 35px 100px
-                rgba(0,0,0,.6);
-
-            animation:
-                pop .3s ease;
-        }
-
-
-        @keyframes pop {
-
-            from {
-                opacity:
-                    0;
-
-                transform:
-                    scale(.94);
-            }
-
-            to {
-                opacity:
-                    1;
-
-                transform:
-                    scale(1);
-            }
-        }
-
-
-        .success-icon {
-
-            width:
-                60px;
-
-            height:
-                60px;
-
-            display:
-                grid;
-
-            place-items:
-                center;
-
-            margin:
-                0 auto 15px;
-
-            border-radius:
-                50%;
-
-            color:
-                var(--success);
-
-            background:
-                rgba(52,211,153,.08);
-
-            border:
-                1px solid
-                rgba(52,211,153,.2);
-
-            font-size:
-                21px;
-        }
-
-
-        .success-card h2 {
-
-            margin:
-                7px 0 6px;
-
-            color:
-                #f8fafc;
-
-            font-size:
-                1.1rem;
-        }
-
-
-        .success-card p {
-
-            margin-bottom:
-                18px;
-
-            color:
-                #7d8ba0;
-
-            font-size:
-                .57rem;
-
-            line-height:
-                1.6;
-        }
-
-
-        .success-info {
-
-            display:
-                grid;
-
-            gap:
-                8px;
-
-            margin-bottom:
-                18px;
-        }
-
-
-        .success-item {
-
-            display:
-                flex;
-
-            justify-content:
-                space-between;
-
-            align-items:
-                center;
-
-            padding:
-                10px 12px;
-
-            border:
-                1px solid
-                rgba(255,255,255,.06);
-
-            border-radius:
-                10px;
-
-            background:
-                rgba(255,255,255,.02);
-        }
-
-
-        .success-item small {
-
-            color:
-                #64748b;
-
-            font-size:
-                .45rem;
-
-            font-weight:
-                800;
-        }
-
-
-        .success-item strong {
-
-            color:
-                #e2e8f0;
-
-            font-size:
-                .57rem;
-        }
-
-
-        /* =====================================================
-           FOOTER
-        ===================================================== */
-
-        .footer {
-
-            text-align:
-                center;
-
-            margin-top:
-                12px;
-
-            color:
-                #334155;
-
-            font-size:
-                .44rem;
-
-            letter-spacing:
-                .09em;
-        }
-
-
-        /* =====================================================
-           MOBILE
-        ===================================================== */
-
-        @media(max-width:520px) {
-
-            body {
-                padding:
-                    12px;
-            }
-
-            .view {
-                padding:
-                    22px 18px 19px;
-            }
-
-            .student-grid {
-                grid-template-columns:
-                    1fr;
-            }
-
-            .view-head h1 {
-                font-size:
-                    1.06rem;
-            }
-
-        }
-
-    </style>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>UCSTT Student Portal</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Padauk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<style>
+:root{
+    --bg:#030b15;
+    --card:#0b1929;
+    --card2:#0e2135;
+    --primary:#8b1026;
+    --primary2:#b51d3d;
+    --gold:#d7ad3f;
+    --gold2:#f3d889;
+    --text:#f8fafc;
+    --muted:#8290a3;
+    --line:rgba(255,255,255,.08);
+    --green:#34d399;
+    --red:#fb7185;
+    --orange:#f59e0b;
+}
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Poppins,Padauk,"Myanmar Text",sans-serif;
+}
+
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:18px;
+    color:var(--text);
+    background:
+        radial-gradient(circle at 5% 10%,rgba(139,16,38,.25),transparent 28%),
+        radial-gradient(circle at 95% 90%,rgba(215,173,63,.12),transparent 28%),
+        linear-gradient(135deg,#020711,#07182a,#021323);
+}
+
+.auth-shell{
+    width:min(470px,100%);
+}
+
+.brand{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:10px;
+    margin-bottom:15px;
+}
+
+.brand-logo{
+    width:43px;
+    height:43px;
+    display:grid;
+    place-items:center;
+    border-radius:13px;
+    color:var(--gold2);
+    background:rgba(215,173,63,.08);
+    border:1px solid rgba(215,173,63,.2);
+}
+
+.brand-name{
+    font-size:.85rem;
+    font-weight:800;
+    letter-spacing:.13em;
+}
+
+.brand-sub{
+    color:#64748b;
+    font-size:.43rem;
+    font-weight:700;
+    letter-spacing:.13em;
+}
+
+.card{
+    overflow:hidden;
+    border:1px solid var(--line);
+    border-radius:24px;
+    background:linear-gradient(145deg,rgba(14,33,53,.96),rgba(5,15,27,.98));
+    box-shadow:0 35px 100px rgba(0,0,0,.5);
+}
+
+.tabs{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:5px;
+    padding:6px;
+    margin:12px 12px 0;
+    border-radius:13px;
+    background:rgba(0,0,0,.25);
+}
+
+.tab{
+    height:39px;
+    border:0;
+    border-radius:9px;
+    color:#65758a;
+    background:transparent;
+    cursor:pointer;
+    font-size:.63rem;
+    font-weight:800;
+}
+
+.tab.active{
+    color:#fff;
+    background:linear-gradient(135deg,var(--primary2),var(--primary));
+    box-shadow:0 7px 20px rgba(139,16,38,.25);
+}
+
+.view{
+    display:none;
+    padding:25px 27px 22px;
+}
+
+.view.active{
+    display:block;
+    animation:fade .25s ease;
+}
+
+@keyframes fade{
+    from{opacity:0;transform:translateY(5px)}
+    to{opacity:1;transform:none}
+}
+
+.header{
+    display:flex;
+    gap:12px;
+    align-items:center;
+    margin-bottom:21px;
+}
+
+.header-icon{
+    width:45px;
+    height:45px;
+    flex-shrink:0;
+    display:grid;
+    place-items:center;
+    border-radius:13px;
+    color:var(--gold2);
+    background:rgba(215,173,63,.08);
+    border:1px solid rgba(215,173,63,.15);
+}
+
+.eyebrow{
+    display:block;
+    color:var(--gold);
+    font-size:.47rem;
+    font-weight:800;
+    letter-spacing:.1em;
+}
+
+h1{
+    margin:4px 0;
+    font-size:1.16rem;
+    line-height:1.2;
+}
+
+.header p{
+    color:#77869a;
+    font-size:.56rem;
+    line-height:1.5;
+}
+
+.field{
+    margin-bottom:15px;
+}
+
+label{
+    display:block;
+    margin-bottom:6px;
+    color:#b0bccb;
+    font-size:.61rem;
+    font-weight:700;
+}
+
+.input-wrap{
+    position:relative;
+}
+
+.input-wrap>i{
+    position:absolute;
+    left:13px;
+    top:50%;
+    transform:translateY(-50%);
+    color:#5c6d82;
+    font-size:.7rem;
+}
+
+input{
+    width:100%;
+    height:45px;
+    padding:0 42px 0 37px;
+    border:1px solid var(--line);
+    border-radius:11px;
+    outline:none;
+    color:#fff;
+    background:rgba(1,9,19,.5);
+    font-size:.65rem;
+}
+
+input:focus{
+    border-color:rgba(215,173,63,.55);
+    box-shadow:0 0 0 3px rgba(215,173,63,.06);
+}
+
+input[readonly]{
+    color:#cbd5e1;
+    background:rgba(255,255,255,.02);
+}
+
+input::placeholder{
+    color:#4d5d72;
+}
+
+.eye{
+    position:absolute;
+    right:5px;
+    top:5px;
+    width:35px;
+    height:35px;
+    border:0;
+    border-radius:8px;
+    color:#607086;
+    background:transparent;
+    cursor:pointer;
+}
+
+.eye:hover{
+    color:var(--gold2);
+    background:rgba(255,255,255,.04);
+}
+
+.hint{
+    margin-top:5px;
+    color:#526176;
+    font-size:.48rem;
+}
+
+/* SCANNER */
+.scan-card{
+    padding:14px;
+    margin-bottom:16px;
+    border:1px solid rgba(215,173,63,.17);
+    border-radius:15px;
+    background:linear-gradient(145deg,rgba(215,173,63,.055),rgba(139,16,38,.035));
+}
+
+.scan-info{
+    display:flex;
+    gap:10px;
+    align-items:center;
+    margin-bottom:11px;
+}
+
+.scan-icon{
+    width:38px;
+    height:38px;
+    display:grid;
+    place-items:center;
+    flex-shrink:0;
+    border-radius:10px;
+    color:var(--gold2);
+    background:rgba(215,173,63,.08);
+}
+
+.scan-title{
+    display:block;
+    color:#e2e8f0;
+    font-size:.64rem;
+    font-weight:800;
+}
+
+.scan-desc{
+    display:block;
+    margin-top:3px;
+    color:#748399;
+    font-size:.5rem;
+    line-height:1.5;
+}
+
+.scan-button{
+    width:100%;
+    height:41px;
+    border:1px solid rgba(215,173,63,.25);
+    border-radius:10px;
+    color:var(--gold2);
+    background:rgba(215,173,63,.07);
+    cursor:pointer;
+    font-size:.59rem;
+    font-weight:800;
+}
+
+.scan-button:hover{
+    background:rgba(215,173,63,.13);
+}
+
+.scan-status{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    margin-top:8px;
+    color:#68778b;
+    font-size:.48rem;
+}
+
+.scan-status.success{color:var(--green)}
+.scan-status.error{color:var(--red)}
+
+.student-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+}
+
+.verified{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    margin:-1px 0 14px;
+    padding:9px 10px;
+    border:1px solid var(--line);
+    border-radius:10px;
+    color:#68778b;
+    background:rgba(255,255,255,.018);
+    font-size:.5rem;
+}
+
+.verified.success{
+    color:#6ee7b7;
+    border-color:rgba(52,211,153,.16);
+    background:rgba(52,211,153,.035);
+}
+
+/* PASSWORD */
+.strength{
+    margin-top:6px;
+}
+
+.strength-track{
+    height:3px;
+    overflow:hidden;
+    border-radius:99px;
+    background:rgba(255,255,255,.07);
+}
+
+.strength-fill{
+    width:0;
+    height:100%;
+    border-radius:99px;
+    background:var(--orange);
+    transition:.2s;
+}
+
+.strength-row{
+    display:flex;
+    justify-content:space-between;
+    margin-top:5px;
+    color:#64748b;
+    font-size:.48rem;
+}
+
+/* BUTTON */
+.primary{
+    width:100%;
+    height:45px;
+    border:1px solid rgba(215,173,63,.2);
+    border-radius:11px;
+    color:#fff;
+    background:linear-gradient(135deg,var(--primary2),var(--primary));
+    box-shadow:0 10px 25px rgba(139,16,38,.22);
+    cursor:pointer;
+    font-size:.63rem;
+    font-weight:800;
+    transition:.2s;
+}
+
+.primary:hover{
+    transform:translateY(-1px);
+    filter:brightness(1.07);
+}
+
+.switch{
+    display:flex;
+    justify-content:center;
+    gap:5px;
+    padding-top:16px;
+    color:#68778b;
+    font-size:.52rem;
+}
+
+.switch button{
+    border:0;
+    color:var(--gold2);
+    background:transparent;
+    cursor:pointer;
+    font-size:.52rem;
+    font-weight:800;
+}
+
+/* SCANNER MODAL */
+.scanner-overlay{
+    position:fixed;
+    inset:0;
+    z-index:1000;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:18px;
+    background:rgba(1,7,15,.88);
+    backdrop-filter:blur(10px);
+}
+
+.scanner{
+    width:min(420px,100%);
+    overflow:hidden;
+    border:1px solid rgba(215,173,63,.2);
+    border-radius:20px;
+    background:#091827;
+    box-shadow:0 35px 90px rgba(0,0,0,.6);
+}
+
+.scanner-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:17px;
+    border-bottom:1px solid var(--line);
+}
+
+.scanner-head h3{
+    font-size:.78rem;
+}
+
+.scanner-head p{
+    margin-top:3px;
+    color:#68778b;
+    font-size:.5rem;
+}
+
+.scanner-close{
+    width:32px;
+    height:32px;
+    border:0;
+    border-radius:8px;
+    color:#94a3b8;
+    background:rgba(255,255,255,.05);
+    cursor:pointer;
+}
+
+.camera{
+    position:relative;
+    margin:15px;
+    overflow:hidden;
+    border-radius:15px;
+    background:#000;
+    aspect-ratio:1;
+}
+
+#video{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.frame{
+    position:absolute;
+    width:62%;
+    aspect-ratio:1;
+    left:19%;
+    top:19%;
+    border:2px solid var(--gold);
+    border-radius:16px;
+    box-shadow:0 0 0 999px rgba(0,0,0,.28);
+}
+
+.line{
+    position:absolute;
+    left:5%;
+    width:90%;
+    height:2px;
+    top:20%;
+    background:var(--gold);
+    box-shadow:0 0 12px var(--gold);
+    animation:scan 2s infinite ease-in-out;
+}
+
+@keyframes scan{
+    0%,100%{top:20%}
+    50%{top:78%}
+}
+
+.scanner-message{
+    padding:0 17px 17px;
+    text-align:center;
+    color:#7c899b;
+    font-size:.55rem;
+}
+
+/* SUCCESS */
+.success-overlay{
+    position:fixed;
+    inset:0;
+    z-index:2000;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    background:rgba(1,7,15,.86);
+    backdrop-filter:blur(12px);
+}
+
+.success-card{
+    width:min(390px,100%);
+    padding:30px 25px;
+    text-align:center;
+    border:1px solid rgba(52,211,153,.16);
+    border-radius:22px;
+    background:linear-gradient(145deg,#101d2d,#081421);
+    box-shadow:0 35px 100px rgba(0,0,0,.6);
+}
+
+.success-icon{
+    width:60px;
+    height:60px;
+    display:grid;
+    place-items:center;
+    margin:auto;
+    border-radius:50%;
+    color:var(--green);
+    background:rgba(52,211,153,.08);
+    border:1px solid rgba(52,211,153,.2);
+}
+
+.success-card h2{
+    margin:12px 0 6px;
+    font-size:1.1rem;
+}
+
+.success-card p{
+    margin-bottom:18px;
+    color:#7d8ba0;
+    font-size:.57rem;
+    line-height:1.6;
+}
+
+.success-info{
+    display:grid;
+    gap:8px;
+    margin-bottom:18px;
+}
+
+.success-item{
+    display:flex;
+    justify-content:space-between;
+    padding:10px 12px;
+    border:1px solid var(--line);
+    border-radius:10px;
+    background:rgba(255,255,255,.02);
+}
+
+.success-item small{
+    color:#64748b;
+    font-size:.45rem;
+}
+
+.success-item strong{
+    font-size:.57rem;
+}
+
+.footer{
+    margin-top:12px;
+    text-align:center;
+    color:#334155;
+    font-size:.43rem;
+    letter-spacing:.08em;
+}
+
+@media(max-width:520px){
+    .view{padding:22px 18px 19px}
+    .student-grid{grid-template-columns:1fr}
+}
+</style>
 </head>
-
 
 <body>
 
-
 <div class="auth-shell">
 
-
-    <!-- =====================================================
-         BRAND
-    ===================================================== -->
-
     <div class="brand">
-
         <div class="brand-logo">
             <i class="fas fa-graduation-cap"></i>
         </div>
-
         <div>
-
-            <div class="brand-name">
-                UCSTT
-            </div>
-
-            <div class="brand-sub">
-                STUDENT PORTAL
-            </div>
-
+            <div class="brand-name">UCSTT</div>
+            <div class="brand-sub">STUDENT PORTAL</div>
         </div>
-
     </div>
 
-
-
-    <!-- =====================================================
-         AUTH CARD
-    ===================================================== -->
-
-    <main class="auth-card">
-
-
-        <!-- TABS -->
+    <main class="card">
 
         <div class="tabs">
-
-            <button
-                id="login-tab"
-                class="tab active"
-                onclick="showView('login')"
-            >
-
+            <button id="loginTab" class="tab active" onclick="showView('login')">
                 <i class="fas fa-right-to-bracket"></i>
-
-                <span class="lang-en">
-                    Sign In
-                </span>
-
-                <span class="lang-mm">
-                    ဝင်ရောက်ရန်
-                </span>
-
+                Sign In
             </button>
 
-
-            <button
-                id="register-tab"
-                class="tab"
-                onclick="showView('register')"
-            >
-
+            <button id="registerTab" class="tab" onclick="showView('register')">
                 <i class="fas fa-user-plus"></i>
-
-                <span class="lang-en">
-                    Register
-                </span>
-
-                <span class="lang-mm">
-                    အကောင့်ဖွင့်ရန်
-                </span>
-
+                Register
             </button>
-
         </div>
 
+        <!-- ================= LOGIN ================= -->
 
+        <section id="loginView" class="view active">
 
-        <!-- =================================================
-             LOGIN
-        ================================================== -->
+            <div class="header">
 
-        <section
-            id="login-view"
-            class="view active"
-        >
-
-            <div class="view-head">
-
-                <div class="view-icon">
+                <div class="header-icon">
                     <i class="fas fa-right-to-bracket"></i>
                 </div>
 
                 <div>
-
                     <span class="eyebrow">
                         SECOND YEAR • COMPUTER SCIENCE
                     </span>
 
-                    <h1>
-
-                        <span class="lang-en">
-                            Welcome back
-                        </span>
-
-                        <span class="lang-mm">
-                            ပြန်လည်ဝင်ရောက်ပါ
-                        </span>
-
-                    </h1>
+                    <h1>Welcome back</h1>
 
                     <p>
-
-                        <span class="lang-en">
-                            Sign in with your Roll Number and password.
-                        </span>
-
-                        <span class="lang-mm">
-                            ခုံနံပါတ်နှင့် Password ဖြင့် ဝင်ရောက်ပါ။
-                        </span>
-
+                        Roll Number နှင့် Password ဖြင့် ဝင်ရောက်ပါ။
                     </p>
-
                 </div>
 
             </div>
 
-
-
-            <form
-                onsubmit="login(event)"
-            >
-
-
-                <!-- ROLL -->
+            <form onsubmit="login(event)">
 
                 <div class="field">
 
-                    <label>
-
-                        <span class="lang-en">
-                            Roll Number
-                        </span>
-
-                        <span class="lang-mm">
-                            ခုံနံပါတ်
-                        </span>
-
-                    </label>
-
+                    <label>Roll Number</label>
 
                     <div class="input-wrap">
 
-                        <i
-                            class="fas fa-id-card icon"
-                        ></i>
+                        <i class="fas fa-id-card"></i>
 
                         <input
                             id="loginRoll"
                             type="text"
                             required
                             autocomplete="username"
-                            placeholder="UCSTT(24-25)-001"
+                            placeholder="UCSTT(24-25)-039"
                         >
 
                     </div>
@@ -1992,29 +666,13 @@
                 </div>
 
 
-
-                <!-- PASSWORD -->
-
                 <div class="field">
 
-                    <label>
-
-                        <span class="lang-en">
-                            Password
-                        </span>
-
-                        <span class="lang-mm">
-                            စကားဝှက်
-                        </span>
-
-                    </label>
-
+                    <label>Password</label>
 
                     <div class="input-wrap">
 
-                        <i
-                            class="fas fa-lock icon"
-                        ></i>
+                        <i class="fas fa-lock"></i>
 
                         <input
                             id="loginPassword"
@@ -2026,90 +684,40 @@
                             placeholder="6 characters"
                         >
 
-
                         <button
                             type="button"
                             class="eye"
-                            onclick="
-                                togglePassword(
-                                    'loginPassword',
-                                    this
-                                )
-                            "
+                            onclick="togglePassword('loginPassword',this)"
                         >
-
-                            <i
-                                class="fas fa-eye"
-                            ></i>
-
+                            <i class="fas fa-eye"></i>
                         </button>
 
                     </div>
 
-
                     <div class="hint">
-
-                        <i
-                            class="fas fa-shield-halved"
-                        ></i>
-
                         6 letters or numbers
-
                     </div>
 
                 </div>
 
 
+                <button class="primary" type="submit">
 
-                <!-- LOGIN BUTTON -->
+                    <i class="fas fa-arrow-right-to-bracket"></i>
 
-                <button
-                    class="primary"
-                    type="submit"
-                >
-
-                    <i
-                        class="fas fa-arrow-right-to-bracket"
-                    ></i>
-
-                    <span class="lang-en">
-                        Sign In
-                    </span>
-
-                    <span class="lang-mm">
-                        ဝင်ရောက်မည်
-                    </span>
+                    Sign In
 
                 </button>
-
 
             </form>
 
 
-
             <div class="switch">
 
-                <span class="lang-en">
-                    New student?
-                </span>
+                <span>New student?</span>
 
-                <span class="lang-mm">
-                    အကောင့်မရှိသေးဘူးလား?
-                </span>
-
-
-                <button
-                    onclick="showView('register')"
-                >
-
-                    <span class="lang-en">
-                        Create account
-                    </span>
-
-                    <span class="lang-mm">
-                        အကောင့်ဖွင့်မည်
-                    </span>
-
+                <button onclick="showView('register')">
+                    Create account
                 </button>
 
             </div>
@@ -2117,19 +725,13 @@
         </section>
 
 
+        <!-- ================= REGISTER ================= -->
 
-        <!-- =================================================
-             REGISTER
-        ================================================== -->
+        <section id="registerView" class="view">
 
-        <section
-            id="register-view"
-            class="view"
-        >
+            <div class="header">
 
-            <div class="view-head">
-
-                <div class="view-icon">
+                <div class="header-icon">
                     <i class="fas fa-user-plus"></i>
                 </div>
 
@@ -2139,28 +741,10 @@
                         STUDENT REGISTRATION
                     </span>
 
-                    <h1>
-
-                        <span class="lang-en">
-                            Create your account
-                        </span>
-
-                        <span class="lang-mm">
-                            အကောင့်ဖန်တီးရန်
-                        </span>
-
-                    </h1>
+                    <h1>Create your account</h1>
 
                     <p>
-
-                        <span class="lang-en">
-                            Scan your Student ID to continue.
-                        </span>
-
-                        <span class="lang-mm">
-                            Student ID ကို Scan ဖတ်ပြီး ဆက်လုပ်ပါ။
-                        </span>
-
+                        Student ID Card ကို Scan ဖတ်ပြီး Register လုပ်ပါ။
                     </p>
 
                 </div>
@@ -2168,54 +752,27 @@
             </div>
 
 
+            <form onsubmit="register(event)">
 
-            <form
-                onsubmit="register(event)"
-            >
-
-
-                <!-- =================================================
-                     SCAN
-                ================================================== -->
+                <!-- SCAN -->
 
                 <div class="scan-card">
 
                     <div class="scan-info">
 
                         <div class="scan-icon">
-
-                            <i
-                                class="fas fa-qrcode"
-                            ></i>
-
+                            <i class="fas fa-qrcode"></i>
                         </div>
-
 
                         <div>
 
                             <span class="scan-title">
-
-                                <span class="lang-en">
-                                    Student ID Verification
-                                </span>
-
-                                <span class="lang-mm">
-                                    Student ID အတည်ပြုခြင်း
-                                </span>
-
+                                Student ID Verification
                             </span>
 
-
                             <span class="scan-desc">
-
-                                <span class="lang-en">
-                                    Scan the QR code to automatically fill your Roll Number and Name.
-                                </span>
-
-                                <span class="lang-mm">
-                                    QR Code Scan ဖတ်ပြီး ခုံနံပါတ်နှင့် အမည်ကို အလိုအလျောက်ဖြည့်ပေးပါမည်။
-                                </span>
-
+                                QR Code ထဲက Roll Number ကိုဖတ်ပြီး
+                                အမည်နှင့် ခုံနံပါတ်ကို အလိုအလျောက်ဖြည့်ပေးပါမည်။
                             </span>
 
                         </div>
@@ -2226,85 +783,47 @@
                     <button
                         type="button"
                         class="scan-button"
-                        onclick="startQRScanner()"
+                        onclick="startScanner()"
                     >
 
-                        <i
-                            class="fas fa-camera"
-                        ></i>
+                        <i class="fas fa-camera"></i>
 
                         &nbsp;
 
-                        <span class="lang-en">
-                            Scan Student ID Card
-                        </span>
-
-                        <span class="lang-mm">
-                            Student ID Card Scan ဖတ်မည်
-                        </span>
+                        Scan Student ID Card
 
                     </button>
 
 
-                    <div
-                        id="scanStatus"
-                        class="scan-status"
-                    >
+                    <div id="scanStatus" class="scan-status">
 
-                        <i
-                            class="fas fa-circle-info"
-                        ></i>
+                        <i class="fas fa-circle-info"></i>
 
-                        <span class="lang-en">
-                            Scan required before registration
-                        </span>
-
-                        <span class="lang-mm">
-                            Register မလုပ်မီ Student ID Scan ဖတ်ပါ
-                        </span>
+                        Student ID ကို Scan ဖတ်ပါ။
 
                     </div>
 
                 </div>
 
 
-
-                <!-- =================================================
-                     STUDENT DETAILS
-                ================================================== -->
+                <!-- STUDENT -->
 
                 <div class="student-grid">
 
-
-                    <!-- ROLL -->
-
                     <div class="field">
 
-                        <label>
-
-                            <span class="lang-en">
-                                Roll Number
-                            </span>
-
-                            <span class="lang-mm">
-                                ခုံနံပါတ်
-                            </span>
-
-                        </label>
-
+                        <label>Roll Number</label>
 
                         <div class="input-wrap">
 
-                            <i
-                                class="fas fa-id-card icon"
-                            ></i>
+                            <i class="fas fa-id-card"></i>
 
                             <input
                                 id="registerRoll"
                                 type="text"
                                 readonly
                                 required
-                                placeholder="Scan Student ID"
+                                placeholder="Scan ID"
                             >
 
                         </div>
@@ -2312,29 +831,13 @@
                     </div>
 
 
-
-                    <!-- NAME -->
-
                     <div class="field">
 
-                        <label>
-
-                            <span class="lang-en">
-                                Student Name
-                            </span>
-
-                            <span class="lang-mm">
-                                ကျောင်းသားအမည်
-                            </span>
-
-                        </label>
-
+                        <label>Student Name</label>
 
                         <div class="input-wrap">
 
-                            <i
-                                class="fas fa-user icon"
-                            ></i>
+                            <i class="fas fa-user"></i>
 
                             <input
                                 id="registerName"
@@ -2351,60 +854,26 @@
                 </div>
 
 
+                <div id="verified" class="verified">
 
-                <!-- VERIFIED -->
+                    <i class="fas fa-shield-halved"></i>
 
-                <div
-                    id="verified"
-                    class="verified"
-                >
-
-                    <i
-                        class="fas fa-shield-halved"
-                    ></i>
-
-                    <span
-                        id="verifiedText"
-                    >
-
-                        <span class="lang-en">
-                            Student ID not verified yet
-                        </span>
-
-                        <span class="lang-mm">
-                            Student ID အတည်မပြုရသေးပါ
-                        </span>
-
+                    <span id="verifiedText">
+                        Student ID not verified
                     </span>
 
                 </div>
 
 
-
-                <!-- =================================================
-                     PASSWORD
-                ================================================== -->
+                <!-- PASSWORD -->
 
                 <div class="field">
 
-                    <label>
-
-                        <span class="lang-en">
-                            Create Password
-                        </span>
-
-                        <span class="lang-mm">
-                            Password သတ်မှတ်ပါ
-                        </span>
-
-                    </label>
-
+                    <label>Create Password</label>
 
                     <div class="input-wrap">
 
-                        <i
-                            class="fas fa-lock icon"
-                        ></i>
+                        <i class="fas fa-lock"></i>
 
                         <input
                             id="registerPassword"
@@ -2412,33 +881,20 @@
                             maxlength="6"
                             pattern="[A-Za-z0-9]{6}"
                             required
-                            placeholder="6 letters or numbers"
                             autocomplete="new-password"
-                            oninput="passwordStrength(this.value)"
+                            placeholder="6 letters or numbers"
                         >
-
 
                         <button
                             type="button"
                             class="eye"
-                            onclick="
-                                togglePassword(
-                                    'registerPassword',
-                                    this
-                                )
-                            "
+                            onclick="togglePassword('registerPassword',this)"
                         >
-
-                            <i
-                                class="fas fa-eye"
-                            ></i>
-
+                            <i class="fas fa-eye"></i>
                         </button>
 
                     </div>
 
-
-                    <!-- STRENGTH -->
 
                     <div class="strength">
 
@@ -2454,15 +910,11 @@
 
                         <div class="strength-row">
 
-                            <span
-                                id="strengthText"
-                            >
+                            <span id="strengthText">
                                 Enter 6 letters or numbers
                             </span>
 
-                            <span
-                                id="strengthCount"
-                            >
+                            <span id="strengthCount">
                                 0 / 6
                             </span>
 
@@ -2473,56 +925,26 @@
                 </div>
 
 
-
-                <!-- REGISTER -->
-
                 <button
-                    type="submit"
                     class="primary"
+                    type="submit"
                 >
 
-                    <i
-                        class="fas fa-user-plus"
-                    ></i>
+                    <i class="fas fa-user-plus"></i>
 
-                    <span class="lang-en">
-                        Create Account
-                    </span>
-
-                    <span class="lang-mm">
-                        အကောင့်ဖန်တီးမည်
-                    </span>
+                    Create Account
 
                 </button>
-
 
             </form>
 
 
-
             <div class="switch">
 
-                <span class="lang-en">
-                    Already registered?
-                </span>
+                <span>Already registered?</span>
 
-                <span class="lang-mm">
-                    အကောင့်ရှိပြီးသားလား?
-                </span>
-
-
-                <button
-                    onclick="showView('login')"
-                >
-
-                    <span class="lang-en">
-                        Sign In
-                    </span>
-
-                    <span class="lang-mm">
-                        Sign In
-                    </span>
-
+                <button onclick="showView('login')">
+                    Sign In
                 </button>
 
             </div>
@@ -2532,92 +954,60 @@
     </main>
 
 
-
     <div class="footer">
-
         UCSTT • SECOND YEAR COMPUTER SCIENCE
-
     </div>
 
 </div>
 
 
+<!-- ================= SCANNER ================= -->
 
-<!-- =========================================================
-     QR SCANNER
-========================================================= -->
-
-<div
-    id="scannerOverlay"
-    class="scanner-overlay"
->
+<div id="scannerOverlay" class="scanner-overlay">
 
     <div class="scanner">
-
 
         <div class="scanner-head">
 
             <div>
-
                 <h3>
-                    <i
-                        class="fas fa-qrcode"
-                    ></i>
-
+                    <i class="fas fa-qrcode"></i>
                     Scan Student ID
                 </h3>
 
                 <p>
                     QR Code ထဲက Roll Number ကို ဖတ်နေပါသည်
                 </p>
-
             </div>
-
 
             <button
                 class="scanner-close"
-                onclick="stopQRScanner()"
+                onclick="stopScanner()"
             >
-
-                <i
-                    class="fas fa-xmark"
-                ></i>
-
+                <i class="fas fa-xmark"></i>
             </button>
 
         </div>
 
 
-        <div class="camera-wrap">
+        <div class="camera">
 
             <video
-                id="qrVideo"
+                id="video"
                 autoplay
                 muted
                 playsinline
             ></video>
 
+            <div class="frame"></div>
 
-            <div
-                class="scan-frame"
-            ></div>
-
-
-            <div
-                class="scan-line"
-            ></div>
+            <div class="line"></div>
 
         </div>
 
 
-        <div
-            id="scannerMessage"
-            class="scanner-message"
-        >
-
-            QR Code ကို
-            frame အတွင်းထည့်ပါ...
-
+        <div id="scannerMessage" class="scanner-message">
+            QR Code ကို frame အတွင်းထည့်ပါ...
         </div>
 
     </div>
@@ -2625,90 +1015,45 @@
 </div>
 
 
+<!-- ================= SUCCESS ================= -->
 
-<!-- =========================================================
-     SUCCESS
-========================================================= -->
-
-<div
-    id="successOverlay"
-    class="success-overlay"
->
+<div id="successOverlay" class="success-overlay">
 
     <div class="success-card">
 
-
         <div class="success-icon">
-
-            <i
-                class="fas fa-check"
-            ></i>
-
+            <i class="fas fa-check"></i>
         </div>
 
-
-        <span
-            class="eyebrow"
-        >
+        <span class="eyebrow">
             REGISTRATION COMPLETE
         </span>
 
-
         <h2>
-
-            <span class="lang-en">
-                Account Created
-            </span>
-
-            <span class="lang-mm">
-                အကောင့်ဖန်တီးပြီးပါပြီ
-            </span>
-
+            အကောင့်ဖန်တီးပြီးပါပြီ
         </h2>
 
-
         <p>
-
-            <span class="lang-en">
-                Your student account has been created successfully.
-            </span>
-
-            <span class="lang-mm">
-                သင့်ကျောင်းသားအကောင့်ကို အောင်မြင်စွာ ဖန်တီးပြီးပါပြီ။
-            </span>
-
+            သင့်ကျောင်းသားအကောင့်ကို အောင်မြင်စွာ ဖန်တီးပြီးပါပြီ။
         </p>
 
 
         <div class="success-info">
 
-
             <div class="success-item">
 
-                <small>
-                    STUDENT NAME
-                </small>
+                <small>STUDENT NAME</small>
 
-                <strong
-                    id="successName"
-                >
-                    —
-                </strong>
+                <strong id="successName">—</strong>
 
             </div>
 
 
             <div class="success-item">
 
-                <small>
-                    ROLL NUMBER
-                </small>
+                <small>ROLL NUMBER</small>
 
-                <strong
-                    id="successRoll"
-                >
-                    —
-                </strong>
+                <strong id="successRoll">—</strong>
 
             </div>
 
@@ -2720,17 +1065,9 @@
             onclick="goHome()"
         >
 
-            <span class="lang-en">
-                Continue to Home
-            </span>
+            Continue to Home
 
-            <span class="lang-mm">
-                Home သို့ ဝင်မည်
-            </span>
-
-            <i
-                class="fas fa-arrow-right"
-            ></i>
+            <i class="fas fa-arrow-right"></i>
 
         </button>
 
@@ -2739,36 +1076,85 @@
 </div>
 
 
-
 <script>
 
 /* =========================================================
-   CONFIG
+   FIREBASE DATABASE
 ========================================================= */
 
 const FIREBASE_BASE_URL =
     "https://nextgen-ucstt-default-rtdb.firebaseio.com/students";
 
 
-/*
-    IMPORTANT
-
-    Paste your existing PDF_STUDENT_DIRECTORY here.
-
-    Example:
-
-    const PDF_STUDENT_DIRECTORY = {
-        "UCSTT(24-25)-001": "မောင်မောင်",
-        "UCSTT(24-25)-002": "အောင်အောင်",
-        "UCSTT(24-25)-003": "သီရိ"
-    };
-*/
+/* =========================================================
+   ALL 60 STUDENTS
+========================================================= */
 
 const PDF_STUDENT_DIRECTORY = {
 
-    /*
-        KEEP YOUR FULL EXISTING STUDENT LIST HERE.
-    */
+    const PDF_STUDENT_DIRECTORY = {
+
+    "UCSTT(24-25)-030": "ပြည့်ဖြိုးအောင်*",
+    "UCSTT(24-25)-039": "စိုးပြည့်အောင်",
+    "UCSTT(24-25)-006": "မနန်းသဇင်",
+    "UCSTT(24-25)-057": "မစုမြတ်နိုးဦး",
+    "UCSTT(24-25)-003": "မနော်အဲ့သာခု",
+    "UCSTT(24-25)-022": "မကေသီအောင်",
+    "UCSTT(24-25)-093": "စွမ်းထက်‌အောင်*",
+    "UCSTT(24-25)-060": "သက်ထားစု",
+    "UCSTT(24-25)-041": "ဟန်ခြည်ထက်",
+    "UCSTT(24-25)-046": "ဆုမြတ်နိုင်",
+    "UCSTT(24-25)-098": "ဖူးပြည့်ပြည့်ခိုင်",
+    "UCSTT(22-23)J-062": "ရွှေဇင်ထွန်း",
+    "UCSTT(24-25)-081": "သော်တာဟိန်း*",
+    "UCSTT(24-25)-082": "‌ရွှန်းလဲ့သော်တာ",
+    "UCSTT(24-25)-054": "‌ပွင့်ယမုံဇော်",
+    "UCSTT(24-25)-080": "‌ရွှေရည်ထွန်း",
+    "UCSTT(24-25)-078": "သက်မွန်ဦး",
+    "UCSTT(24-25)-083": "‌အိအိဖြိုး",
+    "UCSTT(24-25)-005": "ဇွဲထက်အောင်*",
+    "UCSTT(24-25)-086": "ရဲလင်းအောင်",
+    "UCSTT(24-25)-018": "အေးဖြူအောင်",
+    "UCSTT(24-25)-040": "ခင်မိုးထွန်း",
+    "UCSTT(24-25)-016": "ယုသန္တာထွန်း",
+    "UCSTT(24-25)-024": "လျှမ်းထက်ဟန်*",
+    "UCSTT(24-25)-027": "သဲဖြူဇင်",
+    "UCSTT(24-25)-038": "ဆန်းမီလှိုင်",
+    "UCSTT(24-25)-052": "အိသွယ်ဖြိုး",
+    "UCSTT(24-25)-026": "ပန်းအိဖြူ",
+    "UCSTT(24-25)-021": "ဝတီလှိုင်",
+    "UCSTT(24-25)-013": "ရဲရင့်သန့်အောင်*",
+    "UCSTT(24-25)-019": "စိုင်းအောင်နေသူ",
+    "UCSTT(24-25)-034": "‌ရွှေရည်ဝင်း",
+    "UCSTT(24-25)-092": "ဖြူစင်ကိုကို",
+    "UCSTT(24-25)-104": "သီရိဝဿန်",
+    "UCSTT(24-25)-103": "ယွန်းနဒီအောင်",
+    "UCSTT(24-25)-037": "ထွန်းဝင်းအေး*",
+    "UCSTT(24-25)-064": "ဘုန်းပြည့်ကျော်",
+    "UCSTT(24-25)-061": "စိုးသူဇာဟိန်း",
+    "UCSTT(24-25)-023": "နော်လပြည့်ဝန်း",
+    "UCSTT(24-25)-077": "စနိုးဦး",
+    "UCSTT(24-25)-096": "သိမ့်ထူးအိမ်",
+    "UCSTT(24-25)-065": "သက်လှိုင်ဝင်း*",
+    "UCSTT(24-25)-066": "သဇင်ဦး",
+    "UCSTT(24-25)-043": "စိမ့်စမ်းနဒီ",
+    "UCSTT(24-25)-073": "မိတင်ပပကျော်",
+    "UCSTT(24-25)-050": "မိဟန်စူးဂျင်",
+    "UCSTT(24-25)-085": "စုမြတ်နိုင်",
+    "UCSTT(24-25)-090": "ကျော်ဇင်ထွန်း*",
+    "UCSTT(24-25)-017": "သဉ္ဇာထော်",
+    "UCSTT(24-25)-051": "ဖူးသဇင်ခိုင်",
+    "UCSTT(24-25)-100": "အိသွန်းဆင့်အောင်",
+    "UCSTT(24-25)-101": "ခန့်အိန္ဒြေစိုး",
+    "UCSTT(24-25)-105": "ခိုင်မြတ်မြတ်မိုး",
+    "UCSTT(24-25)-015": "သော်တာခင်*",
+    "UCSTT(24-25)-074": "နေသစ်ထူး",
+    "UCSTT(24-25)-009": "နေသစ်အောင်",
+    "UCSTT(24-25)-075": "ချယ်ရီထွန်း",
+    "UCSTT(24-25)-094": "အိသန္တာဌေး",
+    "UCSTT(24-25)-062": "ယုဝတီစိုး"
+
+};
 
 };
 
@@ -2777,60 +1163,50 @@ const PDF_STUDENT_DIRECTORY = {
    STATE
 ========================================================= */
 
-let qrStream = null;
-
-let qrDetector = null;
-
-let qrAnimation = null;
-
-let identityVerified = false;
+let stream = null;
+let detector = null;
+let scanAnimation = null;
+let verified = false;
 
 
 /* =========================================================
-   VIEW SWITCH
+   VIEW
 ========================================================= */
 
-function showView(view) {
-
-    stopQRScanner();
-
+function showView(view){
 
     document
         .querySelectorAll(".view")
-        .forEach(v =>
-            v.classList.remove("active")
-        );
-
+        .forEach(x => x.classList.remove("active"));
 
     document
         .querySelectorAll(".tab")
-        .forEach(t =>
-            t.classList.remove("active")
-        );
+        .forEach(x => x.classList.remove("active"));
 
 
-    if (view === "login") {
+    if(view === "login"){
 
         document
-            .getElementById("login-view")
+            .getElementById("loginView")
             .classList.add("active");
 
         document
-            .getElementById("login-tab")
+            .getElementById("loginTab")
             .classList.add("active");
 
-    } else {
+    }else{
 
         document
-            .getElementById("register-view")
+            .getElementById("registerView")
             .classList.add("active");
 
         document
-            .getElementById("register-tab")
+            .getElementById("registerTab")
             .classList.add("active");
 
     }
 
+    stopScanner();
 }
 
 
@@ -2838,26 +1214,21 @@ function showView(view) {
    PASSWORD VISIBILITY
 ========================================================= */
 
-function togglePassword(id, button) {
+function togglePassword(id,button){
 
     const input =
         document.getElementById(id);
 
-    if (!input) return;
+    if(input.type === "password"){
 
-
-    if (input.type === "password") {
-
-        input.type =
-            "text";
+        input.type = "text";
 
         button.innerHTML =
             '<i class="fas fa-eye-slash"></i>';
 
-    } else {
+    }else{
 
-        input.type =
-            "password";
+        input.type = "password";
 
         button.innerHTML =
             '<i class="fas fa-eye"></i>';
@@ -2871,55 +1242,38 @@ function togglePassword(id, button) {
    PASSWORD STRENGTH
 ========================================================= */
 
-function passwordStrength(value) {
-
-    const input =
-        document.getElementById(
-            "registerPassword"
-        );
-
-
-    const clean =
-        value
-            .replace(
-                /[^A-Za-z0-9]/g,
-                ""
-            )
-            .slice(0, 6);
-
-
-    if (input && input.value !== clean) {
-        input.value = clean;
-    }
-
+function passwordStrength(value){
 
     const fill =
-        document.getElementById(
-            "strengthFill"
-        );
+        document.getElementById("strengthFill");
 
     const text =
-        document.getElementById(
-            "strengthText"
-        );
+        document.getElementById("strengthText");
 
     const count =
-        document.getElementById(
-            "strengthCount"
-        );
+        document.getElementById("strengthCount");
+
+
+    value =
+        value
+            .replace(/[^A-Za-z0-9]/g,"")
+            .slice(0,6);
+
+
+    const input =
+        document.getElementById("registerPassword");
+
+    input.value = value;
 
 
     count.textContent =
-        `${clean.length} / 6`;
+        `${value.length} / 6`;
 
 
-    if (!clean.length) {
+    if(value.length === 0){
 
-        fill.style.width =
-            "0%";
-
-        fill.style.background =
-            "#64748b";
+        fill.style.width = "0%";
+        fill.style.background = "#64748b";
 
         text.textContent =
             "Enter 6 letters or numbers";
@@ -2928,13 +1282,14 @@ function passwordStrength(value) {
             "#64748b";
 
         return;
+
     }
 
 
-    if (clean.length < 6) {
+    if(value.length < 6){
 
         fill.style.width =
-            `${(clean.length / 6) * 55}%`;
+            `${value.length / 6 * 55}%`;
 
         fill.style.background =
             "#f59e0b";
@@ -2946,14 +1301,12 @@ function passwordStrength(value) {
             "#fbbf24";
 
         return;
+
     }
 
 
-    fill.style.width =
-        "100%";
-
-    fill.style.background =
-        "#34d399";
+    fill.style.width = "100%";
+    fill.style.background = "#34d399";
 
     text.textContent =
         "✓ Password OK";
@@ -2968,15 +1321,12 @@ function passwordStrength(value) {
    NORMALIZE ROLL
 ========================================================= */
 
-function normalizeRollNumber(value) {
+function normalizeRoll(value){
 
     return String(value || "")
         .toUpperCase()
-        .replace(/\s+/g, "")
-        .replace(
-            /UCSTT\((\d{2})-(\d{2})\)-?/i,
-            "UCSTT($1-$2)-"
-        );
+        .replace(/\s+/g,"")
+        .trim();
 
 }
 
@@ -2985,131 +1335,84 @@ function normalizeRollNumber(value) {
    FIND STUDENT
 ========================================================= */
 
-function findStudent(roll) {
+function findStudent(roll){
 
-    const normalized =
-        normalizeRollNumber(roll);
-
-
-    return (
-        PDF_STUDENT_DIRECTORY[
-            normalized
-        ] || null
-    );
+    return PDF_STUDENT_DIRECTORY[
+        normalizeRoll(roll)
+    ] || null;
 
 }
 
 
 /* =========================================================
-   QR SCANNER
+   START SCANNER
 ========================================================= */
 
-async function startQRScanner() {
+async function startScanner(){
 
     const overlay =
-        document.getElementById(
-            "scannerOverlay"
-        );
+        document.getElementById("scannerOverlay");
 
     const video =
-        document.getElementById(
-            "qrVideo"
-        );
+        document.getElementById("video");
 
     const message =
-        document.getElementById(
-            "scannerMessage"
-        );
+        document.getElementById("scannerMessage");
 
 
     overlay.style.display =
         "flex";
 
 
-    /*
-       Modern browsers
-       BarcodeDetector
-    */
+    if(!("BarcodeDetector" in window)){
 
-    if (
-        !("BarcodeDetector" in window)
-    ) {
-
-        message.innerHTML = `
-            <i class="fas fa-triangle-exclamation"></i>
-            ဒီ Browser မှာ QR Scanner မထောက်ပံ့သေးပါ။
-            Chrome / Edge အသစ်ကို အသုံးပြုပါ။
-        `;
+        message.innerHTML =
+            "ဒီ Browser မှာ QR Scanner မထောက်ပံ့သေးပါ။ Chrome / Edge အသစ်သုံးပါ။";
 
         return;
+
     }
 
 
-    try {
+    try{
 
-        const formats =
-            await BarcodeDetector
-                .getSupportedFormats();
-
-
-        if (
-            !formats.includes("qr_code")
-        ) {
-
-            throw new Error(
-                "QR unsupported"
-            );
-
-        }
-
-
-        qrDetector =
+        detector =
             new BarcodeDetector({
-                formats: ["qr_code"]
+                formats:["qr_code"]
             });
 
 
-        qrStream =
+        stream =
             await navigator
                 .mediaDevices
                 .getUserMedia({
 
-                    video: {
-                        facingMode: {
-                            ideal:
-                                "environment"
+                    video:{
+                        facingMode:{
+                            ideal:"environment"
                         }
                     },
 
-                    audio: false
+                    audio:false
 
                 });
 
 
         video.srcObject =
-            qrStream;
-
+            stream;
 
         await video.play();
 
 
-        message.innerHTML = `
-            <i class="fas fa-camera"></i>
-            QR Code ကို frame အတွင်းထည့်ပါ...
-        `;
+        scanQR();
 
 
-        scanFrame();
-
-    } catch (error) {
+    }catch(error){
 
         console.error(error);
 
-        message.innerHTML = `
-            <i class="fas fa-camera-slash"></i>
-            Camera အသုံးပြုခွင့် မရပါ။
-            Browser Permission ကို Allow လုပ်ပါ။
-        `;
+        message.innerHTML =
+            "Camera Permission ကို Allow လုပ်ပါ။";
 
     }
 
@@ -3117,61 +1420,51 @@ async function startQRScanner() {
 
 
 /* =========================================================
-   SCAN FRAME
+   SCAN QR
 ========================================================= */
 
-async function scanFrame() {
+async function scanQR(){
 
-    if (
-        !qrDetector ||
-        !qrStream
-    ) {
+    if(!detector || !stream)
         return;
-    }
 
 
     const video =
-        document.getElementById(
-            "qrVideo"
-        );
+        document.getElementById("video");
 
 
-    try {
+    try{
 
         const codes =
-            await qrDetector.detect(
-                video
-            );
+            await detector.detect(video);
 
 
-        if (
-            codes &&
-            codes.length
-        ) {
+        if(codes.length){
 
             const raw =
-                (
-                    codes[0].rawValue ||
-                    ""
+                String(
+                    codes[0].rawValue || ""
                 ).trim();
 
 
             /*
-                QR expected:
+                Accept QR formats such as:
 
                 UCSTT(24-25)-039
+
+                UCSTT (24-25) - 039
             */
 
             const match =
                 raw.match(
-                    /UCSTT\s*\(\s*\d{2}-\d{2}\s*\)-?[A-Z0-9-]+/i
+                    /UCSTT\s*\(\s*\d{2}\s*-\s*\d{2}\s*\)\s*-?\s*[A-Z0-9-]+/i
                 );
 
 
-            if (match) {
+            if(match){
 
                 const roll =
-                    normalizeRollNumber(
+                    normalizeRoll(
                         match[0]
                     );
 
@@ -3180,9 +1473,9 @@ async function scanFrame() {
                     findStudent(roll);
 
 
-                if (student) {
+                if(student){
 
-                    completeStudentScan(
+                    studentVerified(
                         roll,
                         student
                     );
@@ -3194,10 +1487,10 @@ async function scanFrame() {
 
                 setScanStatus(
                     "error",
-                    "ဒီခုံနံပါတ်ကို Student List ထဲမှာ မတွေ့ပါ။"
+                    "ဒီ Roll Number ကို Student List ထဲမှာ မတွေ့ပါ။"
                 );
 
-            } else {
+            }else{
 
                 setScanStatus(
                     "error",
@@ -3208,144 +1501,105 @@ async function scanFrame() {
 
         }
 
-    } catch (error) {
+    }catch(error){
 
-        /*
-            Camera frames can occasionally
-            fail. Continue scanning.
-        */
+        console.log(error);
 
     }
 
 
-    qrAnimation =
+    scanAnimation =
         requestAnimationFrame(
-            scanFrame
+            scanQR
         );
 
 }
 
 
 /* =========================================================
-   COMPLETE SCAN
+   VERIFIED
 ========================================================= */
 
-function completeStudentScan(
+function studentVerified(
     roll,
     name
-) {
+){
 
     document
-        .getElementById(
-            "registerRoll"
-        )
+        .getElementById("registerRoll")
         .value = roll;
 
 
     document
-        .getElementById(
-            "registerName"
-        )
+        .getElementById("registerName")
         .value = name;
 
 
-    identityVerified =
-        true;
+    verified = true;
 
 
-    stopQRScanner();
+    stopScanner();
 
 
-    const status =
-        document.getElementById(
-            "scanStatus"
-        );
-
-
-    status.className =
-        "scan-status success";
-
-
-    status.innerHTML = `
-        <i class="fas fa-circle-check"></i>
-
-        <span>
-            Verified — ${escapeHtml(roll)}
-            ·
-            ${escapeHtml(name)}
-        </span>
-    `;
-
-
-    const verified =
-        document.getElementById(
-            "verified"
-        );
-
-
-    verified.classList.add(
-        "success"
+    setScanStatus(
+        "success",
+        `Verified • ${roll} • ${name}`
     );
 
 
+    const box =
+        document.getElementById("verified");
+
+
+    box.classList.add("success");
+
+
     document
-        .getElementById(
-            "verifiedText"
-        )
-        .innerHTML = `
-            <span>
-                Student ID အောင်မြင်စွာ အတည်ပြုပြီးပါပြီ
-            </span>
-        `;
+        .getElementById("verifiedText")
+        .textContent =
+        "Student ID အောင်မြင်စွာ အတည်ပြုပြီးပါပြီ";
 
-
-    /*
-        Automatically move user
-        to password field.
-    */
 
     setTimeout(() => {
 
         document
-            .getElementById(
-                "registerPassword"
-            )
+            .getElementById("registerPassword")
             .focus();
 
-    }, 250);
+    },250);
 
 }
 
 
 /* =========================================================
-   SCAN STATUS
+   STATUS
 ========================================================= */
 
 function setScanStatus(
     type,
     message
-) {
+){
 
-    const status =
-        document.getElementById(
-            "scanStatus"
-        );
+    const box =
+        document.getElementById("scanStatus");
 
 
-    status.className =
+    box.className =
         `scan-status ${type}`;
 
 
-    status.innerHTML = `
+    box.innerHTML = `
+
         <i class="fas ${
             type === "error"
                 ? "fa-circle-exclamation"
-                : "fa-circle-info"
+                : "fa-circle-check"
         }"></i>
 
         <span>
-            ${escapeHtml(message)}
+            ${escapeHTML(message)}
         </span>
+
     `;
 
 }
@@ -3355,56 +1609,51 @@ function setScanStatus(
    STOP SCANNER
 ========================================================= */
 
-function stopQRScanner() {
+function stopScanner(){
 
-    if (qrAnimation) {
+    if(scanAnimation){
 
         cancelAnimationFrame(
-            qrAnimation
+            scanAnimation
         );
 
-        qrAnimation = null;
+        scanAnimation = null;
 
     }
 
 
-    if (qrStream) {
+    if(stream){
 
-        qrStream
+        stream
             .getTracks()
             .forEach(
-                track =>
-                    track.stop()
+                track => track.stop()
             );
 
-        qrStream = null;
+        stream = null;
+
     }
 
 
-    qrDetector = null;
+    detector = null;
 
 
     const video =
-        document.getElementById(
-            "qrVideo"
-        );
+        document.getElementById("video");
 
 
-    if (video) {
+    if(video){
 
-        video.srcObject =
-            null;
+        video.srcObject = null;
 
     }
 
 
     const overlay =
-        document.getElementById(
-            "scannerOverlay"
-        );
+        document.getElementById("scannerOverlay");
 
 
-    if (overlay) {
+    if(overlay){
 
         overlay.style.display =
             "none";
@@ -3418,16 +1667,12 @@ function stopQRScanner() {
    REGISTER
 ========================================================= */
 
-async function register(event) {
+async function register(event){
 
     event.preventDefault();
 
 
-    /*
-       MUST SCAN FIRST
-    */
-
-    if (!identityVerified) {
+    if(!verified){
 
         setScanStatus(
             "error",
@@ -3440,79 +1685,47 @@ async function register(event) {
 
 
     const roll =
-        document
-            .getElementById(
-                "registerRoll"
-            )
-            .value
-            .trim()
-            .toUpperCase();
+        normalizeRoll(
+            document
+                .getElementById("registerRoll")
+                .value
+        );
 
 
     const name =
         document
-            .getElementById(
-                "registerName"
-            )
+            .getElementById("registerName")
             .value
             .trim();
 
 
     const password =
         document
-            .getElementById(
-                "registerPassword"
-            )
+            .getElementById("registerPassword")
             .value;
 
 
-    /*
-       PASSWORD:
-       EXACTLY 6
-       LETTERS / NUMBERS
-    */
+    if(!/^[A-Za-z0-9]{6}$/.test(password)){
 
-    const validPassword =
-        /^[A-Za-z0-9]{6}$/;
-
-
-    if (
-        !validPassword.test(
-            password
-        )
-    ) {
-
-        passwordStrength(
-            password
+        alert(
+            "Password သည် အက္ခရာနှင့် ကိန်းဂဏန်း ၆ လုံး အတိအကျ ဖြစ်ရပါမည်။"
         );
-
-        document
-            .getElementById(
-                "registerPassword"
-            )
-            .focus();
 
         return;
 
     }
 
 
-    /*
-       VERIFY STUDENT AGAIN
-    */
-
-    const student =
+    const correctName =
         findStudent(roll);
 
 
-    if (!student) {
+    if(!correctName){
 
-        identityVerified =
-            false;
+        verified = false;
 
-        setScanStatus(
-            "error",
-            "Student List ထဲမှာ ခုံနံပါတ်မတွေ့ပါ။"
+        alert(
+            "Student data မတွေ့ပါ။ Student ID ကို ပြန် Scan ဖတ်ပါ။"
         );
 
         return;
@@ -3521,34 +1734,29 @@ async function register(event) {
 
 
     /*
-       NAME MUST COME
-       FROM STUDENT LIST
+        Always use the name
+        from the 60-student list.
     */
 
-    if (name !== student) {
-
-        document
-            .getElementById(
-                "registerName"
-            )
-            .value = student;
-
-    }
+    document
+        .getElementById("registerName")
+        .value =
+        correctName;
 
 
-    try {
+    try{
 
         /*
-            Get current database
+            Check duplicate account
         */
 
-        const response =
+        const check =
             await fetch(
-                `${FIREBASE_BASE_URL}.json`
+                `${FIREBASE_BASE_URL}/${encodeURIComponent(roll)}.json`
             );
 
 
-        if (!response.ok) {
+        if(!check.ok){
 
             throw new Error(
                 "Database connection failed"
@@ -3557,123 +1765,88 @@ async function register(event) {
         }
 
 
-        const database =
-            await response.json();
+        const existing =
+            await check.json();
 
 
-        /*
-            Duplicate Roll Number
-        */
+        if(existing){
 
-        if (database) {
+            alert(
+                "ဒီခုံနံပါတ်ဖြင့် Account ရှိပြီးသားဖြစ်ပါသည်။"
+            );
 
-            const users =
-                Object.values(
-                    database
-                );
+            showView("login");
 
+            document
+                .getElementById("loginRoll")
+                .value = roll;
 
-            const exists =
-                users.some(
-                    user =>
-                        String(
-                            user.roll || ""
-                        )
-                        .toUpperCase()
-                        === roll
-                );
-
-
-            if (exists) {
-
-                alert(
-                    "ဒီခုံနံပါတ်ဖြင့် Account ရှိပြီးသားဖြစ်ပါသည်။"
-                );
-
-                showView(
-                    "login"
-                );
-
-                return;
-
-            }
+            return;
 
         }
 
 
         /*
-            SAVE USER
-
-            No Email
-            No OTP
-            No Academic Year
-            No Major
+            Account data
         */
 
-        const userData = {
+        const user = {
 
-            roll:
-                roll,
+            roll:roll,
 
-            name:
-                student,
+            name:correctName,
 
-            password:
-                password,
+            password:password,
 
-            department:
-                "Computer Science",
+            department:"Computer Science",
 
-            year:
-                "Second Year",
+            year:"Second Year",
 
             createdAt:
-                new Date()
-                    .toISOString()
+                new Date().toISOString()
 
         };
 
+
+        /*
+            Save Firebase
+        */
 
         const save =
             await fetch(
                 `${FIREBASE_BASE_URL}/${encodeURIComponent(roll)}.json`,
                 {
 
-                    method:
-                        "PUT",
+                    method:"PUT",
 
-                    headers: {
+                    headers:{
                         "Content-Type":
                             "application/json"
                     },
 
                     body:
-                        JSON.stringify(
-                            userData
-                        )
+                        JSON.stringify(user)
 
                 }
             );
 
 
-        if (!save.ok) {
+        if(!save.ok){
 
             throw new Error(
-                "Could not save account"
+                "Save failed"
             );
 
         }
 
 
         /*
-            Store session
+            Save session
         */
 
         localStorage.setItem(
             "ucsttUser",
-            JSON.stringify(
-                userData
-            )
+            JSON.stringify(user)
         );
 
 
@@ -3682,36 +1855,29 @@ async function register(event) {
         */
 
         document
-            .getElementById(
-                "successName"
-            )
+            .getElementById("successName")
             .textContent =
-            student;
+            correctName;
 
 
         document
-            .getElementById(
-                "successRoll"
-            )
+            .getElementById("successRoll")
             .textContent =
             roll;
 
 
         document
-            .getElementById(
-                "successOverlay"
-            )
-            .classList.add(
-                "show"
-            );
+            .getElementById("successOverlay")
+            .style.display =
+            "flex";
 
 
-    } catch (error) {
+    }catch(error){
 
         console.error(error);
 
         alert(
-            "Registration မအောင်မြင်ပါ။ Internet connection ကို စစ်ပြီး ပြန်ကြိုးစားပါ။"
+            "Registration မအောင်မြင်ပါ။ Internet connection ကို စစ်ပါ။"
         );
 
     }
@@ -3723,42 +1889,29 @@ async function register(event) {
    LOGIN
 ========================================================= */
 
-async function login(event) {
+async function login(event){
 
     event.preventDefault();
 
 
     const roll =
-        document
-            .getElementById(
-                "loginRoll"
-            )
-            .value
-            .trim()
-            .toUpperCase();
+        normalizeRoll(
+            document
+                .getElementById("loginRoll")
+                .value
+        );
 
 
     const password =
         document
-            .getElementById(
-                "loginPassword"
-            )
+            .getElementById("loginPassword")
             .value;
 
 
-    /*
-       LOGIN PASSWORD
-       EXACTLY 6
-    */
-
-    if (
-        !/^[A-Za-z0-9]{6}$/.test(
-            password
-        )
-    ) {
+    if(!/^[A-Za-z0-9]{6}$/.test(password)){
 
         alert(
-            "Password သည် အက္ခရာ/ကိန်းဂဏန်း ၆ လုံး အတိအကျ ဖြစ်ရပါမည်။"
+            "Password သည် ၆ လုံး အတိအကျ ဖြစ်ရပါမည်။"
         );
 
         return;
@@ -3766,7 +1919,7 @@ async function login(event) {
     }
 
 
-    try {
+    try{
 
         const response =
             await fetch(
@@ -3774,7 +1927,7 @@ async function login(event) {
             );
 
 
-        if (!response.ok) {
+        if(!response.ok){
 
             throw new Error(
                 "Database error"
@@ -3787,11 +1940,7 @@ async function login(event) {
             await response.json();
 
 
-        /*
-            No user
-        */
-
-        if (!user) {
+        if(!user){
 
             alert(
                 "ဤခုံနံပါတ်ဖြင့် Account မတွေ့ပါ။"
@@ -3802,15 +1951,11 @@ async function login(event) {
         }
 
 
-        /*
-            Password check
-        */
-
-        if (
+        if(
             String(user.password)
             !==
             password
-        ) {
+        ){
 
             alert(
                 "Password မှားယွင်းနေပါသည်။"
@@ -3822,27 +1967,38 @@ async function login(event) {
 
 
         /*
-            Save session
+            Only Second Year CS
         */
+
+        if(
+            user.year !== "Second Year" ||
+            user.department !== "Computer Science"
+        ){
+
+            alert(
+                "ဤ Portal သည် Second Year Computer Science ကျောင်းသားများအတွက်သာ ဖြစ်ပါသည်။"
+            );
+
+            return;
+
+        }
+
 
         localStorage.setItem(
             "ucsttUser",
-            JSON.stringify(
-                user
-            )
+            JSON.stringify(user)
         );
 
 
         /*
-            SECOND YEAR CS
-            -> homePage.html
+            GO HOME
         */
 
         window.location.href =
             "homePage.html";
 
 
-    } catch (error) {
+    }catch(error){
 
         console.error(error);
 
@@ -3859,7 +2015,7 @@ async function login(event) {
    HOME
 ========================================================= */
 
-function goHome() {
+function goHome(){
 
     window.location.href =
         "homePage.html";
@@ -3868,135 +2024,63 @@ function goHome() {
 
 
 /* =========================================================
-   ESCAPE HTML
+   HTML ESCAPE
 ========================================================= */
 
-function escapeHtml(value) {
+function escapeHTML(value){
 
     return String(value)
-        .replace(
-            /&/g,
-            "&amp;"
-        )
-        .replace(
-            /</g,
-            "&lt;"
-        )
-        .replace(
-            />/g,
-            "&gt;"
-        )
-        .replace(
-            /"/g,
-            "&quot;"
-        )
-        .replace(
-            /'/g,
-            "&#039;"
-        );
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
 
 }
 
 
 /* =========================================================
-   LANGUAGE
+   PASSWORD INPUT
 ========================================================= */
 
-function toggleLanguage() {
+document
+    .getElementById("registerPassword")
+    .addEventListener(
+        "input",
+        function(){
 
-    document
-        .body
-        .classList
-        .toggle(
-            "lang-burmese"
-        );
+            this.value =
+                this.value
+                    .replace(
+                        /[^A-Za-z0-9]/g,
+                        ""
+                    )
+                    .slice(0,6);
 
-
-    localStorage.setItem(
-        "preferredLang",
-
-        document.body
-            .classList
-            .contains(
-                "lang-burmese"
-            )
-                ? "my"
-                : "en"
-    );
-
-}
-
-
-function loadLanguage() {
-
-    if (
-        localStorage.getItem(
-            "preferredLang"
-        )
-        ===
-        "my"
-    ) {
-
-        document
-            .body
-            .classList
-            .add(
-                "lang-burmese"
-            );
-
-    }
-
-}
-
-
-/* =========================================================
-   INIT
-========================================================= */
-
-document.addEventListener(
-    "DOMContentLoaded",
-    () => {
-
-        loadLanguage();
-
-        /*
-           Keep password clean
-        */
-
-        const pass =
-            document.getElementById(
-                "registerPassword"
-            );
-
-
-        if (pass) {
-
-            pass.addEventListener(
-                "input",
-                () => {
-
-                    pass.value =
-                        pass.value
-                            .replace(
-                                /[^A-Za-z0-9]/g,
-                                ""
-                            )
-                            .slice(
-                                0,
-                                6
-                            );
-
-                    passwordStrength(
-                        pass.value
-                    );
-
-                }
+            passwordStrength(
+                this.value
             );
 
         }
+    );
 
-    }
-);
+
+document
+    .getElementById("loginPassword")
+    .addEventListener(
+        "input",
+        function(){
+
+            this.value =
+                this.value
+                    .replace(
+                        /[^A-Za-z0-9]/g,
+                        ""
+                    )
+                    .slice(0,6);
+
+        }
+    );
 
 </script>
 
